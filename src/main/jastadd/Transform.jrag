@@ -11,6 +11,11 @@ aspect Transform {
     }
   }
 
+  protected Expr Expr.adoptToParent(Expr e) {
+    e.setParent(getParent());
+    return e;
+  }
+
 
   protected abstract TypeDecl DlBinaryExpr.getSemanticTypeDecl();
 
@@ -23,31 +28,30 @@ aspect Transform {
   }
 
   syn nta Expr DlBinaryExpr.getTransformed() {
-    Expr wrap = new ClassInstanceExpr(
-        getSemanticTypeDecl().createQualifiedAccess(), new List<Expr>(
-            wrapStringInConcept(getLeftOperand()),
-            wrapStringInConcept(getRightOperand())));
-
-    wrap.setParent(getParent());
-
-    return wrap;
+    return adoptToParent(
+      new ClassInstanceExpr(
+        getSemanticTypeDecl().createQualifiedAccess(),
+        new List<Expr>(
+          wrapStringInConcept(getLeftOperand()),
+          wrapStringInConcept(getRightOperand())
+        )
+      )
+    );
   }
 
 
   syn nta Expr DlQueryExpr.getTransformed() {
-    Expr wrap = new Dot(
+    return adoptToParent(
       new Dot(
-        lookupType("semantics", "KnowBase").createQualifiedAccess(),
-        new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
-      ),
-      new MethodAccess(
-        "query", new List<Expr>(wrapStringInConcept(getOperand()))
+        new Dot(
+          lookupType("semantics", "KnowBase").createQualifiedAccess(),
+          new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
+        ),
+        new MethodAccess(
+          "query", new List<Expr>(wrapStringInConcept(getOperand()))
+        )
       )
     );
-
-    wrap.setParent(getParent());
-
-    return wrap;
   }
 
 
