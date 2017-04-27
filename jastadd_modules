@@ -1,7 +1,9 @@
 include('extendj/jastadd_modules')
 
 module 'jastics', {
-  imports 'java8 frontend'
+  moduleName    'Jastics'
+  moduleVariant 'backend'
+  imports       'java8 backend'
 
   java {
     basedir 'src/main/java'

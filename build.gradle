@@ -37,7 +37,9 @@ jastadd {
 
 sourceSets.main {
   java {
+    srcDir  'extendj/src/backend-main'
     srcDir  'extendj/src/frontend-main'
+    exclude 'org/extendj/JastAddJTask.java'
     exclude 'org/extendj/PrettyPrintTask.java'
   }
   resources {
@@ -86,5 +88,5 @@ compileTestJava.dependsOn 'generateSyntaxTest'
 
 
 sourceCompatibility = '1.8'
-mainClassName       = 'Main'
+mainClassName       = 'org.extendj.JavaCompiler'
 run.args            = ['-classpath', 'build/classes/main', 'Sample.java']
