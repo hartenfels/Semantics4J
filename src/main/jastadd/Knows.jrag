@@ -1,0 +1,10 @@
+aspect Knows {
+  inh String Expr    .lookupKnows();
+  inh String Stmt    .lookupKnows();
+  inh String BodyDecl.lookupKnows();
+  inh String TypeDecl.lookupKnows();
+
+  eq KnowsClassDecl.getBodyDecl().lookupKnows() = getKnows().getLITERAL();
+
+  eq Program.getChild().lookupKnows() = null;
+}
