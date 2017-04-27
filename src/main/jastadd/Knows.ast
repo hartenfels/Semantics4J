@@ -1,0 +1,3 @@
+KnowsClassDecl : ClassDecl ::=
+    Modifiers <ID:String> [SuperClass:Access] Implements:Access*
+    <Knows:StringLiteral> BodyDecl*;

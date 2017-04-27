@@ -1,0 +1,4 @@
+abstract DlBinaryExpr : Binary;
+
+DlUnionExpr        : DlBinaryExpr;
+DlIntersectionExpr : DlBinaryExpr;

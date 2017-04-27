@@ -1,0 +1,90 @@
+buildscript {
+  repositories.mavenCentral()
+  dependencies {
+    classpath 'org.jastadd:jastaddgradle:1.10.4'
+  }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'jastadd'
+
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile     'com.google.code.gson:gson:2.8.0'
+  testCompile 'junit:junit:4.12'
+}
+
+
+jastadd {
+  configureModuleBuild()
+  modules 'jastadd_modules'
+
+  module        = 'jastics'
+  astPackage    = 'org.extendj.ast'
+  genDir        = 'src/gen/java'
+  buildInfoDir  = 'src/gen-res'
+
+  parser.name   = 'JavaParser'
+  parser.genDir = "$genDir/org/extendj/parser"
+}
+
+
+sourceSets.main {
+  java {
+    srcDir  'extendj/src/frontend-main'
+    exclude 'org/extendj/PrettyPrintTask.java'
+  }
+  resources {
+    srcDir 'extendj/src/res'
+    srcDir jastadd.buildInfoDir
+  }
+}
+
+
+project.task('postprocessParser', dependsOn: 'preprocessParser') {
+  doLast {
+    def file = new File("${preprocessParser.temporaryDir}/JavaParser.beaver")
+    file.write(
+        file.text
+          .replaceFirst(/(%left\s+MULT\s*,\s*DIV,\s*MOD)\s*;/, '$1, DL_INTERSECTION;')
+          .replaceFirst(/(%left\s+PLUS\s*,\s*MINUS)\s*;/,      '$1, DL_UNION;'))
+  }
+}
+
+parser.dependsOn 'postprocessParser'
+
+
+project.task('generateSyntaxTest') {
+  inputs.files(fileTree('src/test/resources/syntax'))
+  outputs.files(['src/test/java/syntax/SyntaxTest.java'])
+
+  doLast {
+    def out = outputs.files[0]
+    out.write  '// Auto-generated file, do not modify directly.\n'
+    out.append 'package syntax;\n\n'
+    out.append 'public class SyntaxTest extends SyntaxTestBase {\n'
+
+    inputs.files.grep({ it.getName().endsWith('.java') }).each {
+      def cls = it.getName().replace('.java', '')
+      out.append '  @org.junit.Test\n'
+      out.append "  public void check$cls(){\n"
+      out.append "    checkSyntax(\"$cls\");\n"
+      out.append '  }\n'
+    }
+
+    out.append '}\n'
+  }
+}
+
+compileTestJava.dependsOn 'generateSyntaxTest'
+
+
+sourceCompatibility = '1.8'
+mainClassName       = 'Main'
+run.args            = ['-classpath', 'build/classes/main', 'Sample.java']

@@ -1,0 +1,22 @@
+aspect TypeCheck {
+  DlBinaryExpr contributes each typeProblems() to CompilationUnit.problems();
+
+  syn Collection<Problem> DlBinaryExpr.typeProblems() {
+    Collection<Problem> problems   = new LinkedList<Problem>();
+    TypeDecl            conceptual = lookupType("semantics.model", "Conceptual");
+
+    if (conceptual.isUnknown()) {
+      problems.add(error("semantics.model.Conceptual not found"));
+      return problems;
+    }
+
+    for (Expr e : new Expr[]{getLeftOperand(), getRightOperand()}) {
+      TypeDecl td = e.type();
+      if (!td.isString() && !td.instanceOf(conceptual)) {
+        problems.add(errorf("'%s' is neither a concept nor a string", td.typeName()));
+      }
+    }
+
+    return problems;
+  }
+}

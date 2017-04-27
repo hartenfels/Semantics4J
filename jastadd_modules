@@ -1,0 +1,27 @@
+include('extendj/jastadd_modules')
+
+module 'jastics', {
+  imports 'java8 frontend'
+
+  java {
+    basedir 'src/main/java'
+    include '**/*.java'
+  }
+
+  jastadd {
+    basedir 'src/main/jastadd'
+    include '**/*.ast'
+    include '**/*.jadd'
+    include '**/*.jrag'
+  }
+
+  scanner {
+    basedir 'src/main/scanner'
+    include '**/*.flex'
+  }
+
+  parser {
+    basedir 'src/main/parser'
+    include '**/*.parser'
+  }
+}

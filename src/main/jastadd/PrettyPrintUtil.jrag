@@ -1,0 +1,4 @@
+aspect PrettyPrintUtil {
+  eq DlUnionExpr       .printOp() = "⊔";
+  eq DlIntersectionExpr.printOp() = "⊓";
+}

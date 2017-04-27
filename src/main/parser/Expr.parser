@@ -1,0 +1,7 @@
+Expr additive_expression =
+    additive_expression.e1 DL_UNION multiplicative_expression.e2 {: return new DlUnionExpr(e1, e2); :}
+  ;
+
+Expr multiplicative_expression =
+    multiplicative_expression.e1 DL_INTERSECTION unary_expression.e2 {: return new DlIntersectionExpr(e1, e2); :}
+  ;

@@ -1,0 +1,11 @@
+aspectgen
+build
+src/gen
+src/gen-res
+*.jar
+
+.gradle
+.gradletasknamecache
+gradle
+gradlew
+gradlew.bat
