@@ -1,4 +1,17 @@
 aspect Transform {
+  protected Expr Expr.wrapStringInConcept(Expr e) {
+    if (e.type().isString()) {
+      return new ClassInstanceExpr(
+        lookupType("semantics.model", "Concept").createQualifiedAccess(),
+        new List<Expr>(e.treeCopyNoTransform())
+      );
+    }
+    else {
+      return e.treeCopyNoTransform();
+    }
+  }
+
+
   protected abstract TypeDecl DlBinaryExpr.getSemanticTypeDecl();
 
   protected TypeDecl DlUnionExpr.getSemanticTypeDecl() {
@@ -9,35 +22,40 @@ aspect Transform {
     return lookupType("semantics.model", "Intersection");
   }
 
+  syn nta Expr DlBinaryExpr.getTransformed() {
+    Expr wrap = new ClassInstanceExpr(
+        getSemanticTypeDecl().createQualifiedAccess(), new List<Expr>(
+            wrapStringInConcept(getLeftOperand()),
+            wrapStringInConcept(getRightOperand())));
 
-  protected ClassInstanceExpr DlBinaryExpr.wrapStringInConcept(Expr e) {
-    return new ClassInstanceExpr(
-      lookupType("semantics.model", "Concept").createQualifiedAccess(),
-      new List<Expr>(e.treeCopyNoTransform())
-    );
+    wrap.setParent(getParent());
+
+    return wrap;
   }
 
-  syn nta Expr DlBinaryExpr.getTransformed() {
-    List<Expr> args = new List<Expr>();
 
-    for (Expr e : new Expr[]{getLeftOperand(), getRightOperand()}) {
-      if (e.type().isString()) {
-        args.add(wrapStringInConcept(e));
-      }
-      else {
-        args.add(e.treeCopyNoTransform());
-      }
-    }
+  syn nta Expr DlQueryExpr.getTransformed() {
+    Expr wrap = new Dot(
+      new Dot(
+        lookupType("semantics", "KnowBase").createQualifiedAccess(),
+        new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
+      ),
+      new MethodAccess(
+        "query", new List<Expr>(wrapStringInConcept(getOperand()))
+      )
+    );
 
-    Expr wrap = new ClassInstanceExpr(getSemanticTypeDecl().createQualifiedAccess(), args);
     wrap.setParent(getParent());
-    args.setParent(wrap);
 
     return wrap;
   }
 
 
   public void DlBinaryExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+
+  public void DlQueryExpr.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);
   }
 }

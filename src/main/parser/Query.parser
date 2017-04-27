@@ -1,0 +1,20 @@
+Expr postfix_expression =
+    dl_query @BOTTOM
+  ;
+
+// Ideally, we'd just call our keyword `query`, but that's such a common method
+// name that it would break huge amounts of Java code. So instead, we take
+// Java's `do` keyword out of context and turn our construct into
+// `do-query(...)`. The `do` is invalid as an expression, so it doesn't cause
+// any conflicts. The `query` is just an identifier, and we manually throw a
+// syntax error if it's not the string "query". The minus in between the two
+// could also be whitespace, but it looks more like a single term this way.
+
+Expr dl_query =
+    DO MINUS IDENTIFIER LPAREN expression.e RPAREN {:
+        if (!IDENTIFIER.value.equals("query")) {
+          report.syntaxError(IDENTIFIER);
+        }
+        return new DlQueryExpr(e);
+      :}
+  ;
