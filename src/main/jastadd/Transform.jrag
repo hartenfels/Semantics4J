@@ -29,9 +29,7 @@ aspect Transform {
       }
     }
 
-    ClassInstanceExpr wrap =
-        new ClassInstanceExpr(getSemanticTypeDecl().createQualifiedAccess(), args);
-
+    Expr wrap = new ClassInstanceExpr(getSemanticTypeDecl().createQualifiedAccess(), args);
     wrap.setParent(getParent());
     args.setParent(wrap);
 
