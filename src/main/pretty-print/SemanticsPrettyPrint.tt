@@ -3,3 +3,6 @@ $if(hasDocComment)#docComment$endif
 $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplements) implements $join(Implementss,", ")$endif knows $(Knows) {
   $join(BodyDecls,"\n\n")
 }]]
+
+
+DlQueryExpr [[do-query($Operand)]]

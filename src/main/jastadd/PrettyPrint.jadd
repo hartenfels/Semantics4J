@@ -1,4 +1,9 @@
 aspect SemanticsPrettyPrint {
+  public void DlQueryExpr.prettyPrint(PrettyPrinter out) {
+    out.print("do-query(");
+    out.print(getOperand());
+    out.print(")");
+  }
   public void KnowsClassDecl.prettyPrint(PrettyPrinter out) {
     if (hasDocComment()) {
       out.print(docComment());
