@@ -1,0 +1,41 @@
+aspect Typecase {
+  eq DlTypecaseStmt.modifiedInScope(Variable var) {
+    for (AbstractDlTypecase c : getCasesList()) {
+      if (c.modifiedInScope(var)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  syn boolean AbstractDlTypecase.modifiedInScope(Variable var) = getBlock().modifiedInScope(var);
+
+
+  syn boolean AbstractDlTypecase.isDefaultCase();
+
+  eq DlTypecase       .isDefaultCase() = false;
+  eq DlTypecaseDefault.isDefaultCase() = true;
+
+
+  DlTypecaseStmt contributes each caseProblems() to CompilationUnit.problems();
+
+  syn Collection<Problem> DlTypecaseStmt.caseProblems() {
+    Collection<Problem> problems  = new LinkedList<Problem>();
+    int                 defaults  = 0;
+
+    for (AbstractDlTypecase c : getCasesList()) {
+      if (c.isDefaultCase()) {
+        ++defaults;
+      }
+    }
+
+    if (defaults != 1) {
+      problems.add(errorf("typecase has %d defaults, should be exactly 1", defaults));
+    }
+    else if (!getCases(getNumCases() - 1).isDefaultCase()) {
+      problems.add(error("default must be the last block in typecase"));
+    }
+
+    return problems;
+  }
+}

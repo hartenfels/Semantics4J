@@ -1,0 +1,43 @@
+ConceptualType concept_type = quantifier_type;
+
+ConceptualType quantifier_type =
+    union_type @BOTTOM
+  | DL_EXISTENCE role_type.r DL_ARROW concept_type.c {: return new ExistenceType(r, c); :}
+  | DL_UNIVERSAL role_type.r DL_ARROW concept_type.c {: return new UniversalType(r, c); :}
+  ;
+
+ConceptualType union_type =
+    intersection_type @BOTTOM
+  | union_type.e1 DL_UNION intersection_type.e2 {: return new UnionType(e1, e2); :}
+  ;
+
+ConceptualType intersection_type =
+    negation_type @BOTTOM
+  | intersection_type.e1 DL_INTERSECTION negation_type.e2 {: return new IntersectionType(e1, e2); :}
+  ;
+
+ConceptualType negation_type =
+    primary_concept_type @BOTTOM
+  | DL_NEGATION negation_type.n  {: return new NegationType(n); :}
+  ;
+
+ConceptualType primary_concept_type =
+    DL_ONE.o                           {: return new OneType(o); :}
+  | DL_LITERAL.l                       {: return new ConceptType(l); :}
+  | DL_EVERYTHING                      {: return new EverythingType(); :}
+  | DL_NOTHING                         {: return new NothingType(); :}
+  | DL_LBRACK concept_type.c DL_RBRACK {: return new ParConceptualType(c); :}
+  ;
+
+
+RoleishType role_type = inversion_type;
+
+RoleishType inversion_type =
+    primary_role_type @BOTTOM
+  | inversion_type.i DL_INVERSION {: return new InversionType(i); :}
+  ;
+
+RoleishType primary_role_type =
+    DL_LITERAL.l                    {: return new RoleType(l); :}
+  | DL_LBRACK role_type.r DL_RBRACK {: return new ParRoleishType(r); :}
+  ;

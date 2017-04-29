@@ -6,3 +6,28 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 
 
 DlQueryExpr [[do-query($Operand)]]
+
+
+DlTypecaseStmt [[switch type ($Expr) {
+  $join(CasesList,"\n")
+}]]
+
+DlTypecase        [[$Type $Ident $Block]]
+DlTypecaseDefault [[default $Block]]
+
+
+ParConceptualType [[｢$Inner｣]]
+ParRoleishType    [[｢$Inner｣]]
+
+EverythingType [[⊤]]
+NothingType    [[⊥]]
+ConceptType    [[«$Iri»]]
+OneType        [[‹$Iri›]]
+
+RoleType       [[«$Iri»]]
+
+NegationType  [[¬$Operand]]
+InversionType [[$Operand⁻]]
+
+BinaryType     [[$Left #printInfix $Right]]
+QuantifierType [[#printPrefix$Role ⇒ $Concept]]

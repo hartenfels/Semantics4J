@@ -1,0 +1,8 @@
+DlTypecaseStmt : Stmt ::= Expr Cases:AbstractDlTypecase*;
+
+
+abstract AbstractDlTypecase ::= Block;
+
+DlTypecase        : AbstractDlTypecase ::= Type:ConceptualType <Ident:String> Block;
+DlTypecaseDefault : AbstractDlTypecase;
+

@@ -1,0 +1,19 @@
+%state DLLIT
+
+%{
+  short  dllit_terminal;
+  String dllit_from;
+  String dllit_until;
+  String dllit_buf;
+
+  void dllit_begin(short terminal, String until) {
+    yybegin(DLLIT);
+    dllit_terminal      = terminal;
+    dllit_from          = str();
+    dllit_until         = until;
+    dllit_buf           = "";
+    strlit_start_line   = yyline   + 1;
+    strlit_start_column = yycolumn + 1;
+    strbuf.setLength(0);
+  }
+%}

@@ -19,11 +19,29 @@ aspect TypeCheck {
     to CompilationUnit.problems();
 
 
-  DlQueryExpr contributes error("class 'knows' no data source")
+  DlQueryExpr contributes error("class 'knows' no data source for querying")
     when lookupKnows() == null
     to CompilationUnit.problems();
 
   DlQueryExpr contributes errorNotConceptOrString(getOperand())
     when !isConceptOrString(getOperand())
+    to CompilationUnit.problems();
+
+
+  protected boolean Stmt.isIndividual(Expr e) {
+    return e.type().instanceOf(lookupType("semantics.model", "Individual"));
+  }
+
+  protected Problem Stmt.errorNotIndividual(Expr e) {
+    return errorf("'%s' is not an individual", e.type().typeName());
+  }
+
+
+  DlTypecaseStmt contributes error("class 'knows' no data source for typecasing")
+    when lookupKnows() == null
+    to CompilationUnit.problems();
+
+  DlTypecaseStmt contributes errorNotIndividual(getExpr())
+    when !isIndividual(getExpr())
     to CompilationUnit.problems();
 }

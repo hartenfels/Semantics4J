@@ -1,0 +1,31 @@
+abstract SemanticType;
+abstract ConceptualType : SemanticType;
+abstract RoleishType    : SemanticType;
+
+
+ParConceptualType : ConceptualType ::= Inner:ConceptualType;
+ParRoleishType    : RoleishType    ::= Inner:RoleishType;
+
+
+EverythingType : ConceptualType;
+NothingType    : ConceptualType;
+ConceptType    : ConceptualType ::= <Iri:String>;
+OneType        : ConceptualType ::= <Iri:String>;
+
+RoleType       : RoleishType    ::= <Iri:String>;
+
+
+NegationType  : ConceptualType ::= Operand:ConceptualType;
+InversionType : RoleishType    ::= Operand:RoleishType;
+
+
+abstract BinaryType : ConceptualType ::= Left:ConceptualType Right:ConceptualType;
+
+UnionType        : BinaryType;
+IntersectionType : BinaryType;
+
+
+abstract QuantifierType : ConceptualType ::= Role:RoleishType Concept:ConceptualType;
+
+ExistenceType : QuantifierType;
+UniversalType : QuantifierType;

@@ -88,5 +88,5 @@ compileTestJava.dependsOn 'generateSyntaxTest'
 
 
 sourceCompatibility = '1.8'
-mainClassName       = 'org.extendj.JavaCompiler'
+mainClassName       = 'Main'
 run.args            = ['-classpath', 'build/classes/main', 'Sample.java']

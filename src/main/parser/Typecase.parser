@@ -1,0 +1,27 @@
+Stmt statement_without_trailing_substatement =
+    dl_typecase_statement
+  ;
+
+DlTypecaseStmt dl_typecase_statement =
+    SWITCH IDENTIFIER LPAREN expression.e RPAREN dl_typecase_block.l {:
+        if (!IDENTIFIER.value.equals("type")) {
+          report.syntaxError(IDENTIFIER);
+        }
+        return new DlTypecaseStmt(e, l);
+      :}
+  ;
+
+List dl_typecase_block =
+    LBRACE dl_typecases.l RBRACE  {: return l; :}
+  | LBRACE RBRACE                 {: return new List(); :}
+  ;
+
+List dl_typecases =
+    dl_typecases.l dl_typecase.c  {: return l.add(c); :}
+  | dl_typecase.c                 {: return new List(c); :}
+  ;
+
+AbstractDlTypecase dl_typecase =
+    concept_type.t IDENTIFIER.i block.b {: return new DlTypecase(t, i, b); :}
+  | DEFAULT block.b                     {: return new DlTypecaseDefault(b); :}
+  ;

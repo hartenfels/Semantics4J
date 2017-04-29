@@ -19,6 +19,7 @@ module 'jastics', {
 
   scanner {
     basedir 'src/main/scanner'
+    include 'Literals.preamble', [-2]
     include '**/*.flex'
   }
 
