@@ -22,7 +22,7 @@ ParRoleishType    [[｢$Inner｣]]
 EverythingType [[⊤]]
 NothingType    [[⊥]]
 ConceptType    [[«$Iri»]]
-OneType        [[‹$Iri›]]
+OneType        [[⎨«$Iri»⎬]]
 
 RoleType       [[«$Iri»]]
 

@@ -1,9 +1,12 @@
 <YYINITIAL> {
-  "‹"  { dllit_begin(Terminals.DL_ONE, "›"); }
-  "#<" { dllit_begin(Terminals.DL_ONE, ">#"); }
+  "«"  { dllit_begin("»"); }
+  "#<" { dllit_begin(">#"); }
 
-  "«"   { dllit_begin(Terminals.DL_LITERAL, "»"); }
-  "#<<" { dllit_begin(Terminals.DL_LITERAL, ">>#"); }
+  "⎨"  { return sym(Terminals.DL_LCURLY); }
+  "#{" { return sym(Terminals.DL_LCURLY); }
+
+  "⎬"  { return sym(Terminals.DL_RCURLY); }
+  "}#" { return sym(Terminals.DL_RCURLY); }
 
   "⊤"  { return sym(Terminals.DL_EVERYTHING); }
   "#T" { return sym(Terminals.DL_EVERYTHING); }
@@ -46,7 +49,7 @@
 
     if (dllit_buf.equals(dllit_until)) {
       yybegin(YYINITIAL);
-      return sym(dllit_terminal, strbuf.toString(), strlit_start_line,
+      return sym(Terminals.DL_LITERAL, strbuf.toString(), strlit_start_line,
                  strlit_start_column, strbuf.length() + 2);
     }
     else if (dllit_until.indexOf(dllit_buf) != 0) {

@@ -99,9 +99,9 @@ aspect SemanticsPrettyPrint {
     out.print("\u22A5");
   }
   public void OneType.prettyPrint(PrettyPrinter out) {
-    out.print("\u2039");
+    out.print("\u23A8\u00AB");
     out.print(getIri());
-    out.print("\u203A");
+    out.print("\u00BB\u23AC");
   }
   public void ParConceptualType.prettyPrint(PrettyPrinter out) {
     out.print("\uFF62");

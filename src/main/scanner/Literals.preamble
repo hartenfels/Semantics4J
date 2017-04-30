@@ -1,14 +1,12 @@
 %state DLLIT
 
 %{
-  short  dllit_terminal;
   String dllit_from;
   String dllit_until;
   String dllit_buf;
 
-  void dllit_begin(short terminal, String until) {
+  void dllit_begin(String until) {
     yybegin(DLLIT);
-    dllit_terminal      = terminal;
     dllit_from          = str();
     dllit_until         = until;
     dllit_buf           = "";
