@@ -1,3 +1,6 @@
+import semantics.KnowBase;
+
+
 aspect Typecase {
   eq DlTypecaseStmt.modifiedInScope(Variable var) {
     for (AbstractDlTypecase c : getCasesList()) {
@@ -34,6 +37,61 @@ aspect Typecase {
     }
     else if (!getCases(getNumCases() - 1).isDefaultCase()) {
       problems.add(error("default must be the last block in typecase"));
+    }
+
+    return problems;
+  }
+
+
+  public java.util.List<DlTypecase> DlTypecaseStmt.getTypecases() {
+    java.util.List<DlTypecase> cases = new LinkedList<DlTypecase>();
+
+    for (AbstractDlTypecase c : getCasesList()) {
+      if (!c.isDefaultCase()) {
+        cases.add((DlTypecase) c);
+      }
+    }
+
+    return cases;
+  }
+
+  DlTypecaseStmt contributes each subsumationProblems() to CompilationUnit.problems();
+
+  syn Collection<Problem> DlTypecaseStmt.subsumationProblems() {
+    Collection<Problem>        problems = new LinkedList<Problem>();
+    java.util.List<DlTypecase> cases    = getTypecases();
+    String                     knows    = lookupKnows();
+
+    if (!cases.isEmpty() && knows != null) {
+      KnowBase       kb   = KnowBase.of(knows);
+      Everything     top  = new Everything();
+      ConceptualType prev = null;
+      Conceptual     pm   = null;
+
+      for (DlTypecase c : cases) {
+        ConceptualType cur = c.getType();
+        Conceptual     cm  = cur.toModel();
+
+        if (pm != null && kb.isSubtype(cm, pm)) {
+          String pprev = prev.prettyPrint();
+          String pcur  = cur .prettyPrint();
+          problems.add(errorf("bad typecase order, '%s' subsumes '%s'", pprev, pcur));
+        }
+
+        if (!kb.isSatisfiable(cm)) {
+          String pcur = cur.prettyPrint();
+          problems.add(errorf(
+              "typecase '%s' is unsatisfiable and will never match", pcur));
+        }
+        else if (kb.isSubtype(top, cm)) {
+          String pcur = cur.prettyPrint();
+          problems.add(errorf(
+              "typecase '%s' will always match, use the default case instead", pcur));
+        }
+
+        prev = cur;
+        pm   = cm;
+      }
     }
 
     return problems;
