@@ -1,12 +1,12 @@
 <YYINITIAL> {
   "«"  { dllit_begin("»"); }
-  "#<" { dllit_begin(">#"); }
+  "<*" { dllit_begin("*>"); }
 
   "⎨"  { return sym(Terminals.DL_LCURLY); }
-  "#{" { return sym(Terminals.DL_LCURLY); }
+  "{*" { return sym(Terminals.DL_LCURLY); }
 
   "⎬"  { return sym(Terminals.DL_RCURLY); }
-  "}#" { return sym(Terminals.DL_RCURLY); }
+  "*}" { return sym(Terminals.DL_RCURLY); }
 
   "⊤"  { return sym(Terminals.DL_EVERYTHING); }
   "#T" { return sym(Terminals.DL_EVERYTHING); }
@@ -20,11 +20,11 @@
   "⁻"  { return sym(Terminals.DL_INVERSION); }
   "^-" { return sym(Terminals.DL_INVERSION); }
 
-  "⊔"  { return sym(Terminals.DL_UNION); }
-  "#|" { return sym(Terminals.DL_UNION); }
+  "⊔"   { return sym(Terminals.DL_UNION); }
+  "|||" { return sym(Terminals.DL_UNION); }
 
-  "⊓"  { return sym(Terminals.DL_INTERSECTION); }
-  "#&" { return sym(Terminals.DL_INTERSECTION); }
+  "⊓"   { return sym(Terminals.DL_INTERSECTION); }
+  "&&&" { return sym(Terminals.DL_INTERSECTION); }
 
   "∃"  { return sym(Terminals.DL_EXISTENCE); }
   "#E" { return sym(Terminals.DL_EXISTENCE); }
