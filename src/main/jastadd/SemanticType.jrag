@@ -1,0 +1,37 @@
+import semantics.model.Concept;
+import semantics.model.Conceptual;
+import semantics.model.Everything;
+import semantics.model.Existence;
+import semantics.model.Intersection;
+import semantics.model.Inversion;
+import semantics.model.Negation;
+import semantics.model.Nothing;
+import semantics.model.One;
+import semantics.model.Role;
+import semantics.model.Roleish;
+import semantics.model.Union;
+import semantics.model.Universal;
+
+
+aspect SemanticTypes {
+  syn lazy Conceptual ConceptualType.toModel();
+  syn lazy Roleish    RoleishType   .toModel();
+
+  eq ParConceptualType.toModel() = getInner().toModel();
+  eq ParRoleishType   .toModel() = getInner().toModel();
+
+  eq EverythingType.toModel() = new Everything();
+  eq NothingType   .toModel() = new Nothing();
+  eq ConceptType   .toModel() = new Concept(getIri());
+  eq OneType       .toModel() = new One(getIri());
+  eq RoleType      .toModel() = new Role(getIri());
+
+  eq NegationType .toModel() = new Negation( getOperand().toModel());
+  eq InversionType.toModel() = new Inversion(getOperand().toModel());
+
+  eq UnionType       .toModel() = new Union       (getLeft().toModel(), getRight().toModel());
+  eq IntersectionType.toModel() = new Intersection(getLeft().toModel(), getRight().toModel());
+
+  eq ExistenceType.toModel() = new Existence(getRole().toModel(), getConcept().toModel());
+  eq UniversalType.toModel() = new Universal(getRole().toModel(), getConcept().toModel());
+}
