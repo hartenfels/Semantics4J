@@ -2,6 +2,36 @@ import semantics.KnowBase;
 
 
 aspect Typecase {
+  syn lazy VariableDeclarator DlTypecaseish.caseVar();
+
+  eq DlTypecase       .caseVar() = VarDeclStmt().getDeclarator(0);
+  eq DlTypecaseDefault.caseVar() = null;
+
+  syn nta VarDeclStmt DlTypecase.VarDeclStmt() =
+    new VarDeclStmt(
+      new Modifiers(new List<Modifier>(new Modifier("final"))),
+      new TypeAccess("semantics.model", "Individual"),
+      new List<VariableDeclarator>(
+        new VariableDeclarator(
+          getIdent(),
+          new List<Dims>(),
+          new Opt<Expr>(new NullLiteral("null"))
+        )
+      )
+    );
+
+
+  eq DlTypecaseStmt.getCases(int i).lookupVariable(String name) {
+    VariableDeclarator var = getCases(i).caseVar();
+    return var != null && var.getID().equals(name) ? var : lookupVariable(name);
+  }
+
+
+  eq DlTypecaseStmt.getCases(int i).assignedBefore(Variable v) {
+    return v == getCases(i).caseVar() || assignedBefore(v);
+  }
+
+
   eq DlTypecaseStmt.modifiedInScope(Variable var) {
     for (DlTypecaseish c : getCasesList()) {
       if (c.modifiedInScope(var)) {
