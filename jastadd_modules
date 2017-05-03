@@ -11,10 +11,10 @@ module 'jastics', {
   }
 
   jastadd {
-    basedir 'src/main/jastadd'
-    include '**/*.ast'
-    include '**/*.jadd'
-    include '**/*.jrag'
+    basedir 'src/main'
+    include 'grammar/*.ast'
+    include 'jastadd/*.jadd'
+    include 'jastadd/*.jrag'
   }
 
   scanner {
