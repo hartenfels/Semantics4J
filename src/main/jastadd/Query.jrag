@@ -1,4 +1,36 @@
-aspect Transform {
+aspect Query {
+  eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
+  eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
+
+  eq DlQueryExpr.type() = lookupType("semantics", "Individuals");
+
+
+  protected boolean Expr.isConceptOrString(Expr e) {
+    TypeDecl conceptual = lookupType("semantics.model", "Conceptual");
+    TypeDecl td         = e.type();
+    return td.isString() || td.instanceOf(conceptual);
+  }
+
+  protected Problem Expr.errorNotConceptOrString(Expr e) {
+    return errorf("'%s' is neither concept nor string", e.type().typeName());
+  }
+
+
+  DlBinaryExpr contributes errorNotConceptOrString(getLeftOperand())
+    when !isConceptOrString(getLeftOperand())
+    to CompilationUnit.problems();
+
+  DlBinaryExpr contributes errorNotConceptOrString(getRightOperand())
+    when !isConceptOrString(getRightOperand())
+    to CompilationUnit.problems();
+
+  DlQueryExpr contributes errorNotConceptOrString(getOperand())
+    when !isConceptOrString(getOperand())
+    to CompilationUnit.problems();
+}
+
+
+aspect QueryBackend {
   protected Expr Expr.wrapStringInConcept(Expr e) {
     if (e.type().isString()) {
       return new ClassInstanceExpr(

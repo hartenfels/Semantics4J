@@ -1,6 +1,0 @@
-aspect ExprTypes {
-  eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
-  eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
-
-  eq DlQueryExpr.type() = lookupType("semantics", "Individuals");
-}

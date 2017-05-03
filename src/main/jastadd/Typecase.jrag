@@ -56,6 +56,19 @@ aspect Typecase {
   eq DlTypecaseDefault.type() = null;
 
 
+  protected boolean DlTypecaseStmt.isIndividual(Expr e) {
+    return e.type().instanceOf(lookupType("semantics.model", "Individual"));
+  }
+
+  protected Problem DlTypecaseStmt.errorNotIndividual(Expr e) {
+    return errorf("'%s' is not an individual", e.type().typeName());
+  }
+
+  DlTypecaseStmt contributes errorNotIndividual(getExpr())
+    when !isIndividual(getExpr())
+    to CompilationUnit.problems();
+
+
   DlTypecaseStmt contributes each caseProblems() to CompilationUnit.problems();
 
   syn Collection<Problem> DlTypecaseStmt.caseProblems() {

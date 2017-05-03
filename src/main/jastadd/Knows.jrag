@@ -7,4 +7,13 @@ aspect Knows {
   eq KnowsClassDecl.getBodyDecl().lookupKnows() = getKnows().getLITERAL();
 
   eq Program.getChild().lookupKnows() = null;
+
+
+  DlQueryExpr contributes error("class 'knows' no data source for querying")
+    when lookupKnows() == null
+    to CompilationUnit.problems();
+
+  DlTypecaseStmt contributes error("class 'knows' no data source for typecasing")
+    when lookupKnows() == null
+    to CompilationUnit.problems();
 }
