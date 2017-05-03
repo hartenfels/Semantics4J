@@ -21,7 +21,7 @@ List dl_typecases =
   | dl_typecase.c                 {: return new List(c); :}
   ;
 
-AbstractDlTypecase dl_typecase =
+DlTypecaseish dl_typecase =
     concept_type.t IDENTIFIER.i block.b {: return new DlTypecase(t, i, b); :}
   | DEFAULT block.b                     {: return new DlTypecaseDefault(b); :}
   ;

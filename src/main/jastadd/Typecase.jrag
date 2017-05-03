@@ -3,7 +3,7 @@ import semantics.KnowBase;
 
 aspect Typecase {
   eq DlTypecaseStmt.modifiedInScope(Variable var) {
-    for (AbstractDlTypecase c : getCasesList()) {
+    for (DlTypecaseish c : getCasesList()) {
       if (c.modifiedInScope(var)) {
         return true;
       }
@@ -11,13 +11,19 @@ aspect Typecase {
     return false;
   }
 
-  syn boolean AbstractDlTypecase.modifiedInScope(Variable var) = getBlock().modifiedInScope(var);
+  syn boolean DlTypecaseish.modifiedInScope(Variable var) = getBlock().modifiedInScope(var);
 
 
-  syn boolean AbstractDlTypecase.isDefaultCase();
+  syn boolean DlTypecaseish.isDefaultCase();
 
   eq DlTypecase       .isDefaultCase() = false;
   eq DlTypecaseDefault.isDefaultCase() = true;
+
+
+  syn ConceptualType DlTypecaseish.type();
+
+  eq DlTypecase       .type() = getType();
+  eq DlTypecaseDefault.type() = null;
 
 
   DlTypecaseStmt contributes each caseProblems() to CompilationUnit.problems();
@@ -26,7 +32,7 @@ aspect Typecase {
     Collection<Problem> problems  = new LinkedList<Problem>();
     int                 defaults  = 0;
 
-    for (AbstractDlTypecase c : getCasesList()) {
+    for (DlTypecaseish c : getCasesList()) {
       if (c.isDefaultCase()) {
         ++defaults;
       }
@@ -43,12 +49,12 @@ aspect Typecase {
   }
 
 
-  public java.util.List<DlTypecase> DlTypecaseStmt.getTypecases() {
-    java.util.List<DlTypecase> cases = new LinkedList<DlTypecase>();
+  public java.util.List<DlTypecaseish> DlTypecaseStmt.getTypecases() {
+    java.util.List<DlTypecaseish> cases = new LinkedList<DlTypecaseish>();
 
-    for (AbstractDlTypecase c : getCasesList()) {
+    for (DlTypecaseish c : getCasesList()) {
       if (!c.isDefaultCase()) {
-        cases.add((DlTypecase) c);
+        cases.add(c);
       }
     }
 
@@ -58,9 +64,9 @@ aspect Typecase {
   DlTypecaseStmt contributes each subsumationProblems() to CompilationUnit.problems();
 
   syn Collection<Problem> DlTypecaseStmt.subsumationProblems() {
-    Collection<Problem>        problems = new LinkedList<Problem>();
-    java.util.List<DlTypecase> cases    = getTypecases();
-    String                     knows    = lookupKnows();
+    Collection<Problem>           problems = new LinkedList<Problem>();
+    java.util.List<DlTypecaseish> cases    = getTypecases();
+    String                        knows    = lookupKnows();
 
     if (!cases.isEmpty() && knows != null) {
       KnowBase       kb   = KnowBase.of(knows);
@@ -68,8 +74,8 @@ aspect Typecase {
       ConceptualType prev = null;
       Conceptual     pm   = null;
 
-      for (DlTypecase c : cases) {
-        ConceptualType cur = c.getType();
+      for (DlTypecaseish c : cases) {
+        ConceptualType cur = c.type();
         Conceptual     cm  = cur.toModel();
 
         if (pm != null && kb.isSubtype(cm, pm)) {

@@ -1,7 +1,7 @@
-DlTypecaseStmt : Stmt ::= Expr Cases:AbstractDlTypecase*;
+DlTypecaseStmt : Stmt ::= Expr Cases:DlTypecaseish*;
 
 
-abstract AbstractDlTypecase ::= Block;
+abstract DlTypecaseish ::= Block;
 
-DlTypecase        : AbstractDlTypecase ::= Type:ConceptualType <Ident:String> Block;
-DlTypecaseDefault : AbstractDlTypecase;
+DlTypecase        : DlTypecaseish ::= Type:ConceptualType <Ident:String> Block /VarDeclStmt/;
+DlTypecaseDefault : DlTypecaseish;
