@@ -1,3 +1,5 @@
+SemanticTypeDecl : ClassDecl ::= Concept:ConceptualType;
+
 abstract SemanticType;
 abstract ConceptualType : SemanticType;
 abstract RoleishType    : SemanticType;

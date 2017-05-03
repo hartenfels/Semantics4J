@@ -1,3 +1,4 @@
+import java.util.UUID;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.Everything;
@@ -14,6 +15,17 @@ import semantics.model.Universal;
 
 
 aspect SemanticTypes {
+  syn lazy SemanticTypeDecl ConceptualType.semanticTypeDecl() =
+    new SemanticTypeDecl(
+      new Modifiers(new List<Modifier>(new Modifier("public"))),
+      UUID.randomUUID().toString(),
+      new Opt<Access>(new TypeAccess("semantics.model", "Individual")),
+      new List<Access>(),
+      new List<BodyDecl>(),
+      this
+    );
+
+
   syn lazy Conceptual ConceptualType.toModel();
   syn lazy Roleish    RoleishType   .toModel();
 
