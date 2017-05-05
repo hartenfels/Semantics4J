@@ -22,7 +22,7 @@ ConceptualType negation_type =
   ;
 
 ConceptualType primary_concept_type =
-  | DL_LITERAL.l                       {: return new ConceptType(l); :}
+    DL_LITERAL.l                       {: return new ConceptType(l); :}
   | DL_EVERYTHING                      {: return new EverythingType(); :}
   | DL_NOTHING                         {: return new NothingType(); :}
   | DL_LCURLY DL_LITERAL.l   DL_RCURLY {: return new OneType(l); :}
