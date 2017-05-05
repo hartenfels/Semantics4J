@@ -20,4 +20,12 @@ public class Role extends Roleish {
   public String toString() {
     return String.format("<%s>", iri);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Role) {
+      return iri.equals(((Role) o).iri);
+    }
+    return false;
+  }
 }

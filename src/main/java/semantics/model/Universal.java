@@ -21,4 +21,13 @@ public class Universal extends Conceptual {
   public String toString() {
     return String.format("∀%s.%s", r, c);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Universal) {
+      Universal u = (Universal) o;
+      return r.equals(u.r) && c.equals(u.c);
+    }
+    return false;
+  }
 }

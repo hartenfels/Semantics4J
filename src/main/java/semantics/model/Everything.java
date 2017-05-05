@@ -14,4 +14,9 @@ public class Everything extends Conceptual {
   public String toString() {
     return "⊤";
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Everything;
+  }
 }

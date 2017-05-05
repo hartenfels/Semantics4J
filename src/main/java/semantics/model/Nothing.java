@@ -13,4 +13,9 @@ public class Nothing extends Conceptual {
   public String toString() {
     return "⊥";
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Nothing;
+  }
 }

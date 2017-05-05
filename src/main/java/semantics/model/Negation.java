@@ -19,4 +19,12 @@ public class Negation extends Conceptual {
   public String toString() {
     return String.format("¬%s", c);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Negation) {
+      return c.equals(((Negation) o).c);
+    }
+    return false;
+  }
 }

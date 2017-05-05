@@ -20,4 +20,12 @@ public class Concept extends Conceptual {
   public String toString() {
     return String.format("<%s>", iri);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Concept) {
+      return iri.equals(((Concept) o).iri);
+    }
+    return false;
+  }
 }

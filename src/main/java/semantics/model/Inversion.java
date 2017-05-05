@@ -20,4 +20,12 @@ public class Inversion extends Roleish {
   public String toString() {
     return String.format("%s⁻", r);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Inversion) {
+      return r.equals(((Inversion) o).r);
+    }
+    return false;
+  }
 }

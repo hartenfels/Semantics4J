@@ -21,4 +21,13 @@ public class Existence extends Conceptual {
   public String toString() {
     return String.format("∃%s.%s", r, c);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Existence) {
+      Existence e = (Existence) o;
+      return r.equals(e.r) && c.equals(e.c);
+    }
+    return false;
+  }
 }
