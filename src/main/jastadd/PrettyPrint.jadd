@@ -28,7 +28,7 @@ aspect SemanticsPrettyPrint {
     out.print(getBlock());
   }
   public void DlTypecaseStmt.prettyPrint(PrettyPrinter out) {
-    out.print("switch type (");
+    out.print("switch-type (");
     out.print(getExpr());
     out.print(") {");
     out.println();

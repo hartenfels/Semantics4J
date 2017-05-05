@@ -8,7 +8,7 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 DlQueryExpr [[do-query($Operand)]]
 
 
-DlTypecaseStmt [[switch type ($Expr) {
+DlTypecaseStmt [[switch-type ($Expr) {
   $join(CasesList,"\n")
 }]]
 
