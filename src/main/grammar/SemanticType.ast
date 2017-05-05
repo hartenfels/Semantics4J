@@ -1,5 +1,3 @@
-SemanticTypeDecl : ClassDecl ::= Concept:ConceptualType;
-
 abstract SemanticType;
 abstract ConceptualType : SemanticType;
 abstract RoleishType    : SemanticType;
@@ -31,3 +29,7 @@ abstract QuantifierType : ConceptualType ::= Role:RoleishType Concept:Conceptual
 
 ExistenceType : QuantifierType;
 UniversalType : QuantifierType;
+
+
+SemanticTypeDecl   : ClassDecl  ::= <Path:String> <Concept:semantics.model.Conceptual>;
+SemanticTypeAccess : TypeAccess ::= <Concept:semantics.model.Conceptual>;

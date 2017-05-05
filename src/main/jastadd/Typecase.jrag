@@ -10,7 +10,7 @@ aspect Typecase {
   syn nta VarDeclStmt DlTypecase.VarDeclStmt() =
     new VarDeclStmt(
       new Modifiers(new List<Modifier>(new Modifier("final"))),
-      new TypeAccess("semantics.model", "Individual"),
+      new SemanticTypeAccess("semantics.model", "Individual", type().toModel()),
       new List<VariableDeclarator>(
         new VariableDeclarator(
           getIdent(),
@@ -27,9 +27,8 @@ aspect Typecase {
   }
 
 
-  eq DlTypecaseStmt.getCases(int i).assignedBefore(Variable v) {
-    return v == getCases(i).caseVar() || assignedBefore(v);
-  }
+  eq DlTypecaseStmt.getCases(int i).assignedBefore(Variable v) =
+    v == getCases(i).caseVar() || assignedBefore(v);
 
 
   eq DlTypecaseStmt.modifiedInScope(Variable var) {

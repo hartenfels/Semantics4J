@@ -16,4 +16,8 @@ aspect Knows {
   DlTypecaseStmt contributes error("class 'knows' no data source for typecasing")
     when lookupKnows() == null
     to CompilationUnit.problems();
+
+  SemanticTypeAccess contributes error("class 'knows' no data source for semantic type")
+    when lookupKnows() == null
+    to CompilationUnit.problems();
 }
