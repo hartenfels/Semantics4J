@@ -19,7 +19,7 @@ public class Universal extends Conceptual {
 
   @Override
   public String toString() {
-    return String.format("∀%s.%s", r, c);
+    return String.format("∀%s ⇒ %s", r, c);
   }
 
   @Override

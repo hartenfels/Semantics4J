@@ -18,7 +18,7 @@ public class Role extends Roleish {
 
   @Override
   public String toString() {
-    return String.format("<%s>", iri);
+    return String.format("«%s»", iri);
   }
 
   @Override

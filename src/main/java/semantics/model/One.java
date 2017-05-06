@@ -18,7 +18,7 @@ public class One extends Conceptual {
 
   @Override
   public String toString() {
-    return String.format("{%s}", iri);
+    return String.format("⎨«%s»⎬", iri);
   }
 
   @Override

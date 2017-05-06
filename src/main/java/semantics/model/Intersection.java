@@ -18,7 +18,7 @@ public class Intersection extends Conceptual {
 
   @Override
   public String toString() {
-    return String.format("(%s)", Util.join(" ⊓ ", cs));
+    return String.format("｢%s｣", Util.join(" ⊓ ", cs));
   }
 
   @Override
