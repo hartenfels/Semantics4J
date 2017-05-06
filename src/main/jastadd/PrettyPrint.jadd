@@ -124,4 +124,7 @@ aspect SemanticsPrettyPrint {
     out.print(getIri());
     out.print("\u00BB");
   }
+  public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
+    out.print(getConcept());
+  }
 }

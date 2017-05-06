@@ -31,3 +31,5 @@ InversionType [[$Operand⁻]]
 
 BinaryType     [[$Left #printInfix $Right]]
 QuantifierType [[#printPrefix$Role ⇒ $Concept]]
+
+SemanticTypeAccess [[$Concept]]
