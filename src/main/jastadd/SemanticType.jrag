@@ -15,7 +15,7 @@ import semantics.model.Union;
 import semantics.model.Universal;
 
 
-aspect SemanticTypes {
+aspect SemanticType {
   syn lazy Conceptual ConceptualType.toModel();
   syn lazy Roleish    RoleishType   .toModel();
 
