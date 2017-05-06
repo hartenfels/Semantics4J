@@ -10,7 +10,7 @@ aspect Typecase {
   syn nta VarDeclStmt DlTypecase.VarDeclStmt() =
     new VarDeclStmt(
       new Modifiers(new List<Modifier>(new Modifier("final"))),
-      new SemanticTypeAccess("semantics.model", "Individual", type().toModel()),
+      new SemanticTypeAccess("semantics.model", "Individual", type()),
       new List<VariableDeclarator>(
         new VariableDeclarator(
           getIdent(),
