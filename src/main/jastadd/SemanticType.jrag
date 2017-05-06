@@ -1,4 +1,5 @@
 import java.util.UUID;
+import semantics.KnowBase;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.Everything;
@@ -37,14 +38,61 @@ aspect SemanticTypes {
   eq UniversalType.toModel() = new Universal(getRole().toModel(), getConcept().toModel());
 
 
-  syn lazy SemanticTypeDecl ClassDecl.semanticTypeDecl(String path, Conceptual concept) =
-    new SemanticTypeDecl(
+  syn lazy SemanticTypeDecl ClassDecl.semanticTypeDecl(String path, Conceptual concept) {
+    String escapedPath = new StringLiteral(path).escapedLiteral();
+
+    SemanticTypeDecl decl = new SemanticTypeDecl(
       new Modifiers(),
-      UUID.randomUUID().toString(),
+      String.format("\"%s\".%s", escapedPath, concept),
       new Opt<Access>(new TypeAccess(packageName(), name())),
       new List<Access>(),
       new List<BodyDecl>(),
       path,
       concept
     );
+
+    decl.setParent(getParent());
+    return decl;
+  }
+
+
+  eq SemanticTypeDecl.typeName() = getConcept().toString();
+  eq SemanticTypeDecl.fullName() = getID();
+
+  syn boolean TypeDecl.isSemanticTypeDecl() = false;
+  eq  SemanticTypeDecl.isSemanticTypeDecl() = true;
+
+  eq SemanticTypeDecl.accessibleFrom       (TypeDecl type       ) = true;
+  eq SemanticTypeDecl.accessibleFromExtend (TypeDecl type       ) = true;
+  eq SemanticTypeDecl.accessibleFromPackage(String   packageName) = true;
+
+  eq SemanticTypeDecl.erasure() = ((TypeAccess) getSuperClass()).decl().erasure();
+
+
+  eq SemanticTypeAccess.decl() {
+    String path = lookupKnows();
+    if (path != null) {
+      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
+      return ind.semanticTypeDecl(path, getConcept().toModel());
+    }
+    return unknownType();
+  }
+
+  eq SemanticTypeAccess.decls() = toSet(decl());
+
+
+  eq SemanticTypeDecl.instanceOf(TypeDecl type) = type.isSupertypeOfSemanticTypeDecl(this);
+
+  syn lazy boolean TypeDecl.isSupertypeOfSemanticTypeDecl(SemanticTypeDecl type) =
+    isSupertypeOfClassDecl(type);
+
+  eq SemanticTypeDecl.isSupertypeOfSemanticTypeDecl(SemanticTypeDecl type) {
+    String path = getPath();
+    if (path != null && path.equals(type.getPath())) {
+      if (KnowBase.of(path).isSubtype(type.getConcept(), getConcept())) {
+        return true;
+      }
+    }
+    return super.isSupertypeOfSemanticTypeDecl(type);
+  }
 }

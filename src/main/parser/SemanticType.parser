@@ -41,3 +41,12 @@ RoleishType primary_role_type =
     DL_LITERAL.l                    {: return new RoleType(l); :}
   | DL_LBRACK role_type.r DL_RBRACK {: return new ParRoleishType(r); :}
   ;
+
+
+Access reference_type =
+    semantic_type
+  ;
+
+Access semantic_type =
+    concept_type.c {: return new SemanticTypeAccess("semantics.model", "Individual", c); :}
+  ;
