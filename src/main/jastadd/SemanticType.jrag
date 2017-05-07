@@ -65,7 +65,12 @@ aspect SemanticType {
   eq SemanticTypeDecl.accessibleFromExtend (TypeDecl type       ) = true;
   eq SemanticTypeDecl.accessibleFromPackage(String   packageName) = true;
 
-  eq SemanticTypeDecl.erasure() = ((TypeAccess) getSuperClass()).decl().erasure();
+
+  syn TypeDecl SemanticTypeDecl.underlyingType() = ((TypeAccess) getSuperClass()).decl();
+
+  eq SemanticTypeDecl.erasure() = underlyingType().erasure();
+
+  eq SemanticTypeAccess.erasedCopy() = new TypeAccess("semantics.model", "Individual");
 
 
   eq SemanticTypeAccess.decl() {
@@ -94,4 +99,41 @@ aspect SemanticType {
     }
     return super.isSupertypeOfSemanticTypeDecl(type);
   }
+}
+
+
+aspect SemanticTypeBackend {
+  eq SemanticTypeDecl.typeDescriptor() = underlyingType().typeDescriptor();
+
+  eq SemanticTypeDecl.constantPoolName() = underlyingType().constantPoolName();
+
+  eq SemanticTypeDecl.uniqueIndex() = underlyingType().uniqueIndex();
+
+
+  protected static Expr SemanticType.cie(String cls, Expr... args) {
+    return new ClassInstanceExpr(
+      new TypeAccess("semantics.model", cls),
+      new List<Expr>(args)
+    );
+  }
+
+  syn lazy Expr SemanticType.toExpr();
+
+  eq ParConceptualType.toExpr() = getInner().toExpr();
+  eq ParRoleishType   .toExpr() = getInner().toExpr();
+
+  eq EverythingType.toExpr() = cie("Everything");
+  eq NothingType   .toExpr() = cie("Nothing");
+  eq ConceptType   .toExpr() = cie("Concept", new StringLiteral(getIri()));
+  eq OneType       .toExpr() = cie("One",     new StringLiteral(getIri()));
+  eq RoleType      .toExpr() = cie("Role",    new StringLiteral(getIri()));
+
+  eq NegationType .toExpr() = cie("Negation",  getOperand().toExpr());
+  eq InversionType.toExpr() = cie("Inversion", getOperand().toExpr());
+
+  eq UnionType       .toExpr() = cie("Union",        getLeft().toExpr(), getRight().toExpr());
+  eq IntersectionType.toExpr() = cie("Intersection", getLeft().toExpr(), getRight().toExpr());
+
+  eq ExistenceType.toExpr() = cie("Existence", getRole().toExpr(), getConcept().toExpr());
+  eq UniversalType.toExpr() = cie("Universal", getRole().toExpr(), getConcept().toExpr());
 }
