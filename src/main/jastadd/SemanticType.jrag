@@ -1,4 +1,3 @@
-import java.util.UUID;
 import semantics.KnowBase;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
