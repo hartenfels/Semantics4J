@@ -43,6 +43,10 @@ public final class Individual {
     return kb.project(this, r);
   }
 
+  public Individuals project(String iri) {
+    return project(new Role(iri));
+  }
+
 
   @Override
   public boolean equals(Object other) {
