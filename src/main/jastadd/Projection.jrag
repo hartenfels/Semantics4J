@@ -1,0 +1,30 @@
+aspect Projection {
+  eq DlProjectionExpr.type() = lookupType("semantics", "Individuals");
+
+
+  protected boolean DlProjectionExpr.isIndividual(Expr e) {
+    return e.type().instanceOf(lookupType("semantics.model", "Individual"));
+  }
+
+  protected Problem DlProjectionExpr.errorNotIndividual(Expr e) {
+    return errorf("'%s' is not an individual", e.type().typeName());
+  }
+
+  DlProjectionExpr contributes errorNotIndividual(getExpr())
+    when !isIndividual(getExpr())
+    to CompilationUnit.problems();
+}
+
+
+aspect ProjectionBackend {
+  syn nta Expr DlProjectionExpr.getTransformed() =
+    new Dot(
+      getExpr().treeCopyNoTransform(),
+      new MethodAccess("project", new List<Expr>(getRole().toExpr()))
+    );
+
+
+  public void DlProjectionExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+}
