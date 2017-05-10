@@ -144,6 +144,16 @@ aspect Typecase {
 
     return problems;
   }
+
+
+  eq DlTypecaseStmt.canCompleteNormally() {
+    for (DlTypecaseish c : getCasesList()) {
+      if (!c.getBlock().canCompleteNormally()) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 
