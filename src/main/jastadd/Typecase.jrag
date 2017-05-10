@@ -145,3 +145,91 @@ aspect Typecase {
     return problems;
   }
 }
+
+
+aspect TypecaseBackend {
+  public static VarDeclStmt DlTypecaseStmt.mkVarDecl(String pkg, String cls,
+                                                     String name, Expr init) {
+    return new VarDeclStmt(
+      new Modifiers(new List<Modifier>(new Modifier("final"))),
+      new TypeAccess(pkg, cls),
+      new List<VariableDeclarator>(
+        new VariableDeclarator(name, new List<Dims>(), new Opt<Expr>(init))
+      )
+    );
+  }
+
+  protected Expr DlTypecaseStmt.mkKnowBaseExpr() {
+    return new Dot(
+      lookupType("semantics", "KnowBase").createQualifiedAccess(),
+      new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
+    );
+  }
+
+
+  syn Stmt DlTypecaseish.getTransformed();
+
+  eq DlTypecaseDefault.getTransformed() = getBlock().treeCopyNoTransform();
+
+  eq DlTypecase.getTransformed() {
+    VarDeclStmt vd = VarDeclStmt().treeCopyNoTransform();
+    vd.getDeclarator(0).setInit(new VarAccess("#topic"));
+    return new Block(new List<Stmt>(vd, getBlock().treeCopyNoTransform()));
+  }
+
+
+  protected Stmt DlTypecaseStmt.getTransformedCases() {
+      IfStmt first = null, prev = null;
+
+      for (DlTypecaseish c : getCasesList()) {
+        if (c.isDefaultCase()) {
+          prev.setElse(c.getTransformed());
+        }
+        else {
+          IfStmt cond = new IfStmt(
+            new Dot(
+              new VarAccess("#kb"),
+              new MethodAccess(
+                "isMember",
+                new List<Expr>(c.type().toExpr(), new VarAccess("#topic"))
+              )
+            ),
+            c.getTransformed()
+          );
+
+          if (prev == null) {
+            first = cond;
+          }
+          else {
+            prev.setElse(cond);
+          }
+
+          prev = cond;
+        }
+      }
+
+      return first;
+  }
+
+
+  syn nta Stmt DlTypecaseStmt.getTransformed() {
+    List<Stmt> stmts = new List<>();
+
+    if (getNumCases() == 1) {
+      stmts.add(getCases(0).getTransformed());
+    }
+    else {
+      stmts.add(mkVarDecl("semantics.model", "Individual", "#topic",
+                          getExpr().treeCopyNoTransform()));
+      stmts.add(mkVarDecl("semantics", "KnowBase", "#kb", mkKnowBaseExpr()));
+      stmts.add(getTransformedCases());
+    }
+
+    return new Block(stmts);
+  }
+
+
+  public void DlTypecaseStmt.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+}
