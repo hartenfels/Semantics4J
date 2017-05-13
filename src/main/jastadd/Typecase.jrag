@@ -169,13 +169,6 @@ aspect TypecaseBackend {
     );
   }
 
-  protected Expr DlTypecaseStmt.mkKnowBaseExpr() {
-    return new Dot(
-      lookupType("semantics", "KnowBase").createQualifiedAccess(),
-      new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
-    );
-  }
-
 
   syn Stmt DlTypecaseish.getTransformed();
 
@@ -231,7 +224,7 @@ aspect TypecaseBackend {
     else {
       stmts.add(mkVarDecl("semantics.model", "Individual", "#topic",
                           getExpr().treeCopyNoTransform()));
-      stmts.add(mkVarDecl("semantics", "KnowBase", "#kb", mkKnowBaseExpr()));
+      stmts.add(mkVarDecl("semantics", "KnowBase", "#kb", getKnowBase().mkAccess()));
       stmts.add(getTransformedCases());
     }
 

@@ -157,18 +157,10 @@ aspect SemanticTypeBackend {
 
 
   syn nta Expr SemanticCastExpr.getTransformed() =
-    new Dot(
-      new Dot(
-        lookupType("semantics", "KnowBase").createQualifiedAccess(),
-        new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
-      ),
-      new MethodAccess(
-        "cast",
-        new List<Expr>(
-          getSemanticTypeAccess().getConcept().toExpr(),
-          getExpr().treeCopyNoTransform()
-        )
-      )
+    getKnowBase().mkMethodAccess(
+      "cast",
+      getSemanticTypeAccess().getConcept().toExpr(),
+      getExpr().treeCopyNoTransform()
     );
 
   public void SemanticCastExpr.createBCode(CodeGeneration gen) {
@@ -177,18 +169,10 @@ aspect SemanticTypeBackend {
 
 
   syn nta Expr SemanticInstanceOfExpr.getTransformed() =
-    new Dot(
-      new Dot(
-        lookupType("semantics", "KnowBase").createQualifiedAccess(),
-        new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
-      ),
-      new MethodAccess(
-        "isInstanceOf",
-        new List<Expr>(
-          getSemanticTypeAccess().getConcept().toExpr(),
-          getExpr().treeCopyNoTransform()
-        )
-      )
+    getKnowBase().mkMethodAccess(
+      "isInstanceOf",
+      getSemanticTypeAccess().getConcept().toExpr(),
+      getExpr().treeCopyNoTransform()
     );
 
   public void SemanticInstanceOfExpr.createBCode(CodeGeneration gen) {

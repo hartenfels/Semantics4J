@@ -72,19 +72,12 @@ aspect QueryBackend {
   }
 
 
-  syn nta Expr DlQueryExpr.getTransformed() {
-    return adoptToParent(
-      new Dot(
-        new Dot(
-          lookupType("semantics", "KnowBase").createQualifiedAccess(),
-          new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
-        ),
-        new MethodAccess(
-          "query", new List<Expr>(wrapStringInConcept(getOperand()))
-        )
+  syn nta Expr DlQueryExpr.getTransformed() =
+    adoptToParent(
+      getKnowBase().mkMethodAccess(
+        "query", wrapStringInConcept(getOperand())
       )
     );
-  }
 
 
   public void DlBinaryExpr.createBCode(CodeGeneration gen) {
