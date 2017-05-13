@@ -142,6 +142,10 @@ public class KnowBase {
     return i;
   }
 
+  public boolean isInstanceOf(Conceptual c, Object o) {
+    return o instanceof Individual && isMember(c, (Individual) o);
+  }
+
 
   @Override
   public String toString() {
