@@ -50,3 +50,9 @@ Access reference_type =
 Access semantic_type =
     concept_type.c {: return new SemanticTypeAccess("semantics.model", "Individual", c); :}
   ;
+
+
+Expr cast_expression =
+    LPAREN semantic_type.t RPAREN unary_expression_not_plus_minus.e @CAST
+        {: return new SemanticCastExpr(t, e); :}
+  ;

@@ -33,3 +33,4 @@ UniversalType : QuantifierType;
 
 SemanticTypeDecl   : ClassDecl  ::= <Path:String> <Concept:semantics.model.Conceptual>;
 SemanticTypeAccess : TypeAccess ::= Concept:ConceptualType;
+SemanticCastExpr   : CastExpr;

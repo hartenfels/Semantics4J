@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import semantics.err.CommunicationException;
 import semantics.err.MessageException;
+import semantics.err.SemanticCastException;
 import semantics.err.UnsatisfiableQueryException;
 import semantics.model.Conceptual;
 import semantics.model.Individual;
@@ -130,6 +131,15 @@ public class KnowBase {
     arg.add(i.getIri());
     arg.add(r.toJson());
     return toIndividuals(msg("project", arg));
+  }
+
+
+  public Individual cast(Conceptual c, Object o) {
+    Individual i = (Individual) o;
+    if (!isMember(c, i)) {
+      throw new SemanticCastException(c, i);
+    }
+    return i;
   }
 
 

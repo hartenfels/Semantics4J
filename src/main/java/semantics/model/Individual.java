@@ -49,6 +49,11 @@ public final class Individual {
 
 
   @Override
+  public String toString() {
+    return getIri();
+  }
+
+  @Override
   public boolean equals(Object other) {
     if (other instanceof Individual) {
       Individual i = (Individual) other;

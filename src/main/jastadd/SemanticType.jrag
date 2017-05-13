@@ -99,6 +99,10 @@ aspect SemanticType {
     }
     return super.isSupertypeOfSemanticTypeDecl(type);
   }
+
+
+  syn SemanticTypeAccess SemanticCastExpr.getSemanticTypeAccess() =
+    (SemanticTypeAccess) getTypeAccess();
 }
 
 
@@ -136,4 +140,24 @@ aspect SemanticTypeBackend {
 
   eq ExistenceType.toExpr() = cie("Existence", getRole().toExpr(), getConcept().toExpr());
   eq UniversalType.toExpr() = cie("Universal", getRole().toExpr(), getConcept().toExpr());
+
+
+  syn nta Expr SemanticCastExpr.getTransformed() =
+    new Dot(
+      new Dot(
+        lookupType("semantics", "KnowBase").createQualifiedAccess(),
+        new MethodAccess("of", new List<Expr>(new StringLiteral(lookupKnows())))
+      ),
+      new MethodAccess(
+        "cast",
+        new List<Expr>(
+          getSemanticTypeAccess().getConcept().toExpr(),
+          getExpr().treeCopyNoTransform()
+        )
+      )
+    );
+
+  public void SemanticCastExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
 }
