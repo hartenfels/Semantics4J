@@ -44,7 +44,7 @@
 
 
 <DLLIT> {
-  [^\R] {
+  [^\r\n\u2028\u2029\u000B\u000C\u0085] {
     dllit_buf += str();
 
     if (dllit_buf.equals(dllit_until)) {
