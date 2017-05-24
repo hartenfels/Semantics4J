@@ -3,23 +3,27 @@ package syntax;
 
 public class SyntaxTest extends SyntaxTestBase {
   @org.junit.Test
-  public void checkClassExtendsImplements(){
+  public void checkClassExtendsImplements() {
     checkSyntax("ClassExtendsImplements");
   }
   @org.junit.Test
-  public void checkExprUnionIntersection(){
+  public void checkExprUnionIntersection() {
     checkSyntax("ExprUnionIntersection");
   }
   @org.junit.Test
-  public void checkClassDecl(){
+  public void checkClassDecl() {
     checkSyntax("ClassDecl");
   }
   @org.junit.Test
-  public void checkClassKnows(){
+  public void checkClassKnows() {
     checkSyntax("ClassKnows");
   }
   @org.junit.Test
-  public void checkKnowsKnows(){
+  public void checkKnowsKnows() {
     checkSyntax("KnowsKnows");
+  }
+  @org.junit.Test
+  public void checkInstanceOf() {
+    checkSyntax("InstanceOf");
   }
 }

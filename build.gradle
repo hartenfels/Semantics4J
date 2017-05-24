@@ -62,7 +62,7 @@ project.task('generateSyntaxTest') {
     inputs.files.grep({ it.getName().endsWith('.java') }).each {
       def cls = it.getName().replace('.java', '')
       out.append '  @org.junit.Test\n'
-      out.append "  public void check$cls(){\n"
+      out.append "  public void check$cls() {\n"
       out.append "    checkSyntax(\"$cls\");\n"
       out.append '  }\n'
     }
