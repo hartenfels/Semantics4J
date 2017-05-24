@@ -68,10 +68,10 @@ aspect Query {
 
 
 aspect QueryBackend {
-  protected Expr Expr.wrapStringInConcept(Expr e) {
+  protected Expr Expr.mkModel(String name, Expr e) {
     if (e.type().isString()) {
       return new ClassInstanceExpr(
-        lookupType("semantics.model", "Concept").createQualifiedAccess(),
+        lookupType("semantics.model", name).createQualifiedAccess(),
         new List<Expr>(e.treeCopyNoTransform())
       );
     }
@@ -80,44 +80,68 @@ aspect QueryBackend {
     }
   }
 
-  protected Expr Expr.adoptToParent(Expr e) {
-    e.setParent(getParent());
-    return e;
-  }
 
+  syn nta Expr DlLiteralExpr.getTransformed() =
+    new ClassInstanceExpr(type().createQualifiedAccess(), new List<Expr>());
 
-  protected abstract TypeDecl DlBinaryExpr.getSemanticTypeDecl();
-
-  protected TypeDecl DlUnionExpr.getSemanticTypeDecl() {
-    return lookupType("semantics.model", "Union");
-  }
-
-  protected TypeDecl DlIntersectionExpr.getSemanticTypeDecl() {
-    return lookupType("semantics.model", "Intersection");
-  }
-
-  syn nta Expr DlBinaryExpr.getTransformed() {
-    return adoptToParent(
-      new ClassInstanceExpr(
-        getSemanticTypeDecl().createQualifiedAccess(),
-        new List<Expr>(
-          wrapStringInConcept(getLeftOperand()),
-          wrapStringInConcept(getRightOperand())
-        )
+  syn nta Expr DlQuantifierExpr.getTransformed() =
+    new ClassInstanceExpr(
+      type().createQualifiedAccess(),
+      new List<Expr>(
+        mkModel("Role",    getLeftOperand()),
+        mkModel("Concept", getRightOperand())
       )
     );
-  }
 
+  syn nta Expr DlBinaryExpr.getTransformed() =
+    new ClassInstanceExpr(
+      type().createQualifiedAccess(),
+      new List<Expr>(
+        mkModel("Concept", getLeftOperand()),
+        mkModel("Concept", getRightOperand())
+      )
+    );
+
+  syn nta Expr DlNegationExpr.getTransformed() =
+    new ClassInstanceExpr(
+      type().createQualifiedAccess(),
+      new List<Expr>(mkModel("Concept", getOperand()))
+    );
+
+  syn nta Expr DlInversionExpr.getTransformed() =
+    new ClassInstanceExpr(
+      type().createQualifiedAccess(),
+      new List<Expr>(mkModel("Role", getOperand()))
+    );
+
+  syn nta Expr DlOneExpr.getTransformed() =
+    mkModel("One", getOperand());
 
   syn nta Expr DlQueryExpr.getTransformed() =
-    adoptToParent(
-      getKnowBase().mkMethodAccess(
-        "query", wrapStringInConcept(getOperand())
-      )
-    );
+    getKnowBase().mkMethodAccess("query", mkModel("Concept", getOperand()));
 
+
+  public void DlLiteralExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+
+  public void DlQuantifierExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
 
   public void DlBinaryExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+
+  public void DlNegationExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+
+  public void DlInversionExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
+
+  public void DlOneExpr.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);
   }
 
