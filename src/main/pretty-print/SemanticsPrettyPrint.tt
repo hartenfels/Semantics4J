@@ -5,14 +5,27 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 }]]
 
 
+DlEverythingExpr [[⊤]]
+DlNothingExpr    [[⊥]]
+
+DlQuantifierExpr [[#printPrefix$LeftOperand #printOp $RightOperand]]
+
+DlNegationExpr  [[¬$Operand]]
+DlInversionExpr [[$Operand⁻]]
+
+DlOneExpr [[⎨$Operand⎬]]
+
 DlQueryExpr [[do-query($Operand)]]
+
+
+DlProjectionExpr [[$Expr.$Role]]
 
 
 DlTypecaseStmt [[switch-type ($Expr) {
   $join(CasesList,"\n")
 }]]
 
-DlTypecase        [[$Type $Ident $Block]]
+DlTypecase        [[｢$Type｣ $Ident $Block]]
 DlTypecaseDefault [[default $Block]]
 
 
@@ -29,7 +42,7 @@ RoleType       [[«$Iri»]]
 NegationType  [[¬$Operand]]
 InversionType [[$Operand⁻]]
 
-BinaryType     [[$Left #printInfix $Right]]
+BinaryType     [[$Left #printOp $Right]]
 QuantifierType [[#printPrefix$Role ⇒ $Concept]]
 
-SemanticTypeAccess [[$Concept]]
+SemanticTypeAccess [[｢$Concept｣]]

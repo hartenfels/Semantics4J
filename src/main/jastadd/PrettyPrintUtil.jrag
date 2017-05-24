@@ -1,12 +1,19 @@
 aspect PrettyPrintUtil {
   eq DlUnionExpr       .printOp() = "⊔";
   eq DlIntersectionExpr.printOp() = "⊓";
+  eq DlQuantifierExpr  .printOp() = "⇒";
 
 
-  syn String BinaryType.printInfix();
+  syn String DlQuantifierExpr.printPrefix();
 
-  eq UnionType       .printInfix() = "⊔";
-  eq IntersectionType.printInfix() = "⊓";
+  eq DlExistenceExpr.printPrefix() = "∃";
+  eq DlUniversalExpr.printPrefix() = "∀";
+
+
+  syn String BinaryType.printOp();
+
+  eq UnionType       .printOp() = "⊔";
+  eq IntersectionType.printOp() = "⊓";
 
 
   syn String QuantifierType.printPrefix();

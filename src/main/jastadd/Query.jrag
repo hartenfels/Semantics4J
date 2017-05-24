@@ -1,6 +1,13 @@
 aspect Query {
+  eq DlEverythingExpr  .type() = lookupType("semantics.model", "Everything");
+  eq DlNothingExpr     .type() = lookupType("semantics.model", "Nothing");
   eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
   eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
+  eq DlExistenceExpr   .type() = lookupType("semantics.model", "Existence");
+  eq DlUniversalExpr   .type() = lookupType("semantics.model", "Universal");
+  eq DlNegationExpr    .type() = lookupType("semantics.model", "Negation");
+  eq DlInversionExpr   .type() = lookupType("semantics.model", "Inversion");
+  eq DlOneExpr         .type() = lookupType("semantics.model", "One");
 
   eq DlQueryExpr.type() = lookupType("semantics", "Individuals");
 
@@ -11,8 +18,18 @@ aspect Query {
     return td.isString() || td.instanceOf(conceptual);
   }
 
+  protected boolean Expr.isRoleOrString(Expr e) {
+    TypeDecl roleish = lookupType("semantics.model", "Roleish");
+    TypeDecl td      = e.type();
+    return td.isString() || td.instanceOf(roleish);
+  }
+
   protected Problem Expr.errorNotConceptOrString(Expr e) {
     return errorf("'%s' is neither concept nor string", e.type().typeName());
+  }
+
+  protected Problem Expr.errorNotRoleOrString(Expr e) {
+    return errorf("'%s' is neither role nor string", e.type().typeName());
   }
 
 
@@ -22,6 +39,26 @@ aspect Query {
 
   DlBinaryExpr contributes errorNotConceptOrString(getRightOperand())
     when !isConceptOrString(getRightOperand())
+    to CompilationUnit.problems();
+
+  DlQuantifierExpr contributes errorNotRoleOrString(getLeftOperand())
+    when !isRoleOrString(getLeftOperand())
+    to CompilationUnit.problems();
+
+  DlQuantifierExpr contributes errorNotConceptOrString(getRightOperand())
+    when !isConceptOrString(getRightOperand())
+    to CompilationUnit.problems();
+
+  DlNegationExpr contributes errorNotConceptOrString(getOperand())
+    when !isConceptOrString(getOperand())
+    to CompilationUnit.problems();
+
+  DlInversionExpr contributes errorNotRoleOrString(getOperand())
+    when !isRoleOrString(getOperand())
+    to CompilationUnit.problems();
+
+  DlOneExpr contributes errorf("'%s' is not a string", getOperand().type().typeName())
+    when !getOperand().type().isString()
     to CompilationUnit.problems();
 
   DlQueryExpr contributes errorNotConceptOrString(getOperand())

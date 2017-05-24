@@ -1,6 +1,48 @@
-Expr postfix_expression =
-    dl_query @BOTTOM
+Expr dl_quantifier_expression =
+    DL_EXISTENCE expression.e1 DL_ARROW expression.e2
+        {: return new DlExistenceExpr(e1, e2); :}
+  | DL_UNIVERSAL expression.e1 DL_ARROW expression.e2
+        {: return new DlUniversalExpr(e1, e2); :}
+  | dl_union_expression @BOTTOM
   ;
+
+
+Expr dl_union_expression =
+    dl_union_expression.e1 DL_UNION dl_intersection_expression.e2
+        {: return new DlUnionExpr(e1, e2); :}
+  | dl_intersection_expression @BOTTOM
+  ;
+
+Expr dl_intersection_expression =
+    dl_intersection_expression.e1 DL_INTERSECTION shift_expression.e2
+        {: return new DlIntersectionExpr(e1, e2); :}
+  | shift_expression @BOTTOM
+  ;
+
+
+Expr postfix_expression =
+    DL_EVERYTHING @BOTTOM {: return new DlEverythingExpr(); :}
+  | DL_NOTHING    @BOTTOM {: return new DlNothingExpr   (); :}
+  | dl_query      @BOTTOM
+  | dl_negation_expression
+  | dl_inversion_expression
+  | dl_one_expression
+  ;
+
+
+Expr dl_negation_expression =
+    DL_NEGATION expression.e {: return new DlNegationExpr(e); :}
+  ;
+
+Expr dl_inversion_expression =
+    postfix_expression.e DL_INVERSION @POSTINCDEC {: return new DlInversionExpr(e); :}
+  ;
+
+
+Expr dl_one_expression =
+    DL_LCURLY expression.e DL_RCURLY {: return new DlOneExpr(e); :}
+  ;
+
 
 // Ideally, we'd just call our keyword `query`, but that's such a common method
 // name that it would break huge amounts of Java code. So instead, we take

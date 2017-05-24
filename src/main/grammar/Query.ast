@@ -1,7 +1,24 @@
+DlEverythingExpr : Expr;
+DlNothingExpr    : Expr;
+
+
+abstract DlQuantifierExpr : Binary;
+
+DlExistenceExpr : DlQuantifierExpr;
+DlUniversalExpr : DlQuantifierExpr;
+
+
 abstract DlBinaryExpr : Binary;
 
 DlUnionExpr        : DlBinaryExpr;
 DlIntersectionExpr : DlBinaryExpr;
+
+
+DlNegationExpr  : Unary;
+DlInversionExpr : Unary;
+
+
+DlOneExpr : Unary;
 
 
 DlQueryExpr : Unary;

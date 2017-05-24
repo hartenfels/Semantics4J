@@ -8,7 +8,7 @@ Expr dl_projection =
   ;
 
 RoleishType projection_role =
-    projection_inversion
+    projection_inversion @BOTTOM
   ;
 
 RoleishType projection_inversion =
