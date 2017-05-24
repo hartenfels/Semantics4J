@@ -49,19 +49,6 @@ sourceSets.main {
 }
 
 
-project.task('postprocessParser', dependsOn: 'preprocessParser') {
-  doLast {
-    def file = new File("${preprocessParser.temporaryDir}/JavaParser.beaver")
-    file.write(
-        file.text
-          .replaceFirst(/(%left\s+MULT\s*,\s*DIV,\s*MOD)\s*;/, '$1, DL_INTERSECTION;')
-          .replaceFirst(/(%left\s+PLUS\s*,\s*MINUS)\s*;/,      '$1, DL_UNION;'))
-  }
-}
-
-parser.dependsOn 'postprocessParser'
-
-
 project.task('generateSyntaxTest') {
   inputs.files(fileTree('src/test/resources/syntax'))
   outputs.files(['src/test/java/syntax/SyntaxTest.java'])

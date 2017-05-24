@@ -1,0 +1,11 @@
+--- extendj/java5/parser/java14fix.parser	2017-05-24 06:06:37.471620324 +0200
++++ patches/java14fix.parser	2017-05-24 06:06:34.586620382 +0200
+@@ -109,7 +109,7 @@
+  * for instanceof_expression_nn.
+  */
+ Expr relational_expression :=
+-    shift_expression @BOTTOM
++    dl_quantifier_expression @BOTTOM
+   | relational_expression.e1 LT shift_expression.e2     {: return new LTExpr(e1, e2); :}
+   | relational_expression.e1 GT shift_expression.e2     {: return new GTExpr(e1, e2); :}
+   | relational_expression.e1 LTEQ shift_expression.e2   {: return new LEExpr(e1, e2); :}

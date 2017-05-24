@@ -1,5 +1,6 @@
 GRADLE ?= gradle
 GIT    ?= git
+PATCH  ?= patch
 JAVA   ?= java
 
 
@@ -8,6 +9,8 @@ test: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 
 extendj/build.gradle:
 	$(GIT) submodule update --init
+	$(PATCH) -p0 <patches/java4.patch
+	$(PATCH) -p0 <patches/java5.patch
 
 
 src/main/jastadd/PrettyPrint.jadd: src/main/pretty-print/SemanticsPrettyPrint.tt | aspectgen/aspectgen.jar
