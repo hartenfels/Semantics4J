@@ -6,11 +6,12 @@ import java.util.Set;
 import semantics.model.Individual;
 
 
-public class Individuals extends HashSet<Individual> {
-  private Set<String> getVia(Function<Individual, String> func) {
+public class Individuals {
+  private static Set<String> getVia(Set<Individual>              is,
+                                    Function<Individual, String> func) {
     Set<String> set = new HashSet<>();
 
-    for (Individual i : this) {
+    for (Individual i : is) {
       set.add(func.apply(i));
     }
 
@@ -18,11 +19,11 @@ public class Individuals extends HashSet<Individual> {
   }
 
 
-  public Set<String> getIris() {
-    return getVia(Individual::getIri);
+  public static Set<String> getIris(Set<Individual> is) {
+    return getVia(is, Individual::getIri);
   }
 
-  public Set<String> getNames() {
-    return getVia(Individual::getName);
+  public static Set<String> getNames(Set<Individual> is) {
+    return getVia(is, Individual::getName);
   }
 }

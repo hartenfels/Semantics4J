@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import semantics.err.CommunicationException;
 import semantics.err.MessageException;
 import semantics.err.SemanticCastException;
@@ -85,8 +87,8 @@ public class KnowBase {
   }
 
 
-  private Individuals toIndividuals(JsonElement from) {
-    Individuals is = new Individuals();
+  private Set<Individual> toIndividuals(JsonElement from) {
+    Set<Individual> is = new HashSet<Individual>();
 
     for (JsonElement e : from.getAsJsonArray()) {
       is.add(new Individual(this, e.getAsString()));
@@ -118,7 +120,7 @@ public class KnowBase {
   }
 
 
-  public Individuals query(Conceptual c) {
+  public Set<Individual> query(Conceptual c) {
     if (!isSatisfiable(c)) {
       throw new UnsatisfiableQueryException(this, c);
     }
@@ -126,7 +128,7 @@ public class KnowBase {
   }
 
 
-  public Individuals project(Individual i, Roleish r) {
+  public Set<Individual> project(Individual i, Roleish r) {
     JsonArray arg = new JsonArray();
     arg.add(i.getIri());
     arg.add(r.toJson());

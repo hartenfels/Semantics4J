@@ -1,5 +1,11 @@
 aspect Projection {
-  eq DlProjectionExpr.type() = lookupType("semantics", "Individuals");
+  eq DlProjectionExpr.type() {
+    Collection<TypeDecl> param = new LinkedList<>();
+    param.add(lookupType("semantics.model", "Individual"));
+
+    GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
+    return set.lookupParTypeDecl(param);
+  }
 
 
   protected boolean DlProjectionExpr.isIndividual(Expr e) {

@@ -2,7 +2,7 @@ package semantics.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import semantics.Individuals;
+import java.util.Set;
 import semantics.KnowBase;
 
 
@@ -39,11 +39,11 @@ public final class Individual {
   }
 
 
-  public Individuals project(Roleish r) {
+  public Set<Individual> project(Roleish r) {
     return kb.project(this, r);
   }
 
-  public Individuals project(String iri) {
+  public Set<Individual> project(String iri) {
     return project(new Role(iri));
   }
 

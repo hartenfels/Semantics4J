@@ -23,7 +23,16 @@ aspect Query {
   eq DlOneExpr      .isConstant() = getOperand().isConstant();
 
 
-  eq DlQueryExpr.type()       = lookupType("semantics", "Individuals");
+  syn lazy TypeDecl DlQueryExpr.queryResultType() {
+    Collection<TypeDecl> param = new LinkedList<>();
+    param.add(lookupType("semantics.model", "Individual"));
+
+    GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
+    return set.lookupParTypeDecl(param);
+  }
+
+
+  eq DlQueryExpr.type()       = queryResultType();
   eq DlQueryExpr.isConstant() = getOperand().isConstant();
 
 
