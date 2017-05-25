@@ -7,7 +7,7 @@ import semantics.model.Individual;
 
 
 public class Individuals {
-  private static Set<String> getVia(Set<Individual>              is,
+  private static Set<String> getVia(Set<? extends Individual>    is,
                                     Function<Individual, String> func) {
     Set<String> set = new HashSet<>();
 
@@ -19,11 +19,11 @@ public class Individuals {
   }
 
 
-  public static Set<String> getIris(Set<Individual> is) {
+  public static Set<String> getIris(Set<? extends Individual> is) {
     return getVia(is, Individual::getIri);
   }
 
-  public static Set<String> getNames(Set<Individual> is) {
+  public static Set<String> getNames(Set<? extends Individual> is) {
     return getVia(is, Individual::getName);
   }
 }
