@@ -1,4 +1,4 @@
-public class Sample knows "share/music.rdf" {
-  public class ObjectInner knows "share/abc.rdf" {}
-  static class StaticInner knows "share/xyz.rdf" {}
+public class Sample knows "music.rdf" {
+  public class ObjectInner knows "abc.rdf" {}
+  static class StaticInner knows "xyz.rdf" {}
 }

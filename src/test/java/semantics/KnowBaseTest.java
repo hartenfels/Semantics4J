@@ -17,17 +17,17 @@ public class KnowBaseTest {
 
   @BeforeClass
   public static void setUpClass() {
-    kb = KnowBase.of("share/music.rdf");
+    kb = KnowBase.of("music.rdf");
   }
 
 
   @Test
   public void cache() {
-    KnowBase music = KnowBase.of("share/music.rdf");
+    KnowBase music = KnowBase.of("music.rdf");
     assertSame(kb, music);
     assertEquals(kb, music);
 
-    KnowBase wine = KnowBase.of("share/wine.rdf");
+    KnowBase wine = KnowBase.of("wine.rdf");
     assertNotSame(kb, wine);
     assertNotEquals(kb, wine);
   }

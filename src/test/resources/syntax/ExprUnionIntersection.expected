@@ -1,4 +1,4 @@
-public class Sample knows "share/music.rdf" {
+public class Sample knows "music.rdf" {
   public static void sample() {
     Object o1 = ("a" ⊔ "b");
     Object o2 = ("a" ⊓ "b");
