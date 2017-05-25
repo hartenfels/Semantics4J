@@ -9,7 +9,22 @@ aspect Query {
   eq DlInversionExpr   .type() = lookupType("semantics.model", "Inversion");
   eq DlOneExpr         .type() = lookupType("semantics.model", "One");
 
-  eq DlQueryExpr.type() = lookupType("semantics", "Individuals");
+
+  eq DlLiteralExpr.isConstant() = true;
+
+  eq DlQuantifierExpr.isConstant() =
+    getLeftOperand().isConstant() && getRightOperand().isConstant();
+
+  eq DlBinaryExpr.isConstant() =
+    getLeftOperand().isConstant() && getRightOperand().isConstant();
+
+  eq DlNegationExpr .isConstant() = getOperand().isConstant();
+  eq DlInversionExpr.isConstant() = getOperand().isConstant();
+  eq DlOneExpr      .isConstant() = getOperand().isConstant();
+
+
+  eq DlQueryExpr.type()       = lookupType("semantics", "Individuals");
+  eq DlQueryExpr.isConstant() = getOperand().isConstant();
 
 
   protected boolean Expr.isConceptOrString(Expr e) {
@@ -63,6 +78,69 @@ aspect Query {
 
   DlQueryExpr contributes errorNotConceptOrString(getOperand())
     when !isConceptOrString(getOperand())
+    to CompilationUnit.problems();
+
+
+  syn Conceptual DlBinaryExpr.setop(Conceptual c, Conceptual d);
+
+  eq DlIntersectionExpr.setop(Conceptual c, Conceptual d) = new Intersection(c, d);
+  eq DlUnionExpr       .setop(Conceptual c, Conceptual d) = new Union       (c, d);
+
+
+  syn Conceptual DlQuantifierExpr.quantop(Roleish r, Conceptual c);
+
+  eq DlExistenceExpr.quantop(Roleish r, Conceptual c) = new Existence(r, c);
+  eq DlUniversalExpr.quantop(Roleish r, Conceptual c) = new Universal(r, c);
+
+
+  syn Conceptual Expr.toConceptual() =
+    isConstant() && type().isString() ? new Concept(constant().stringValue()) : null;
+
+  eq DlEverythingExpr.toConceptual() = new Everything();
+  eq DlNothingExpr   .toConceptual() = new Nothing();
+
+  eq DlBinaryExpr.toConceptual() {
+    Conceptual c = getLeftOperand ().toConceptual();
+    Conceptual d = getRightOperand().toConceptual();
+    return c == null || d == null ? null : setop(c, d);
+  }
+
+  eq DlQuantifierExpr.toConceptual() {
+    Roleish    r = getLeftOperand ().toRoleish();
+    Conceptual c = getRightOperand().toConceptual();
+    return r == null || c == null ? null : quantop(r, c);
+  }
+
+  eq DlNegationExpr.toConceptual() {
+    Conceptual c = getOperand().toConceptual();
+    return c == null ? null : new Negation(c);
+  }
+
+  eq DlOneExpr.toConceptual() {
+    Expr op = getOperand();
+    return isConstant() && op.type().isString()
+         ? new One(op.constant().stringValue())
+         : null;
+  }
+
+
+  syn Roleish Expr.toRoleish() =
+    isConstant() && type().isString() ? new Role(constant().stringValue()) : null;
+
+  eq DlInversionExpr.toRoleish() {
+    Roleish r = getOperand().toRoleish();
+    return r == null ? null : new Inversion(r);
+  }
+
+
+  syn lazy boolean DlQueryExpr.isGuaranteedUnsatisfiable() {
+    String     path = lookupKnows();
+    Conceptual c    = getOperand().toConceptual();
+    return path != null && c != null && !KnowBase.of(path).isSatisfiable(c);
+  }
+
+  DlQueryExpr contributes error("constant query is unsatisfiable")
+    when isGuaranteedUnsatisfiable()
     to CompilationUnit.problems();
 }
 
