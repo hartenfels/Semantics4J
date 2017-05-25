@@ -48,8 +48,7 @@ Access reference_type =
   ;
 
 Access semantic_type =
-    DL_LBRACK concept_type.c DL_RBRACK
-        {: return new SemanticTypeAccess("semantics.model", "Individual", c); :}
+    concept_type.c {: return new SemanticTypeAccess("semantics.model", "Individual", c); :}
   ;
 
 

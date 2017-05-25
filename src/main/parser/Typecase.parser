@@ -22,8 +22,6 @@ List dl_typecases =
   ;
 
 DlTypecaseish dl_typecase =
-    DL_LBRACK concept_type.t DL_RBRACK IDENTIFIER.i block.b
-        {: return new DlTypecase(t, i, b); :}
-  | DEFAULT block.b
-        {: return new DlTypecaseDefault(b); :}
+    concept_type.t IDENTIFIER.i block.b {: return new DlTypecase(t, i, b); :}
+  | DEFAULT block.b                     {: return new DlTypecaseDefault(b); :}
   ;
