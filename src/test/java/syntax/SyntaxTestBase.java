@@ -14,7 +14,7 @@ public abstract class SyntaxTestBase {
 
   private static class Checker extends JavaChecker {
     private String runChecker(String file) throws IOException {
-      run(new String[]{file});
+      run(new String[]{"-classpath", "build/classes/main", file});
       return program.structuredPrettyPrint();
     }
   }
