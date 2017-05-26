@@ -6,10 +6,10 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import semantics.err.UnsatisfiableQueryException;
-import semantics.Individuals;
 import semantics.KnowBase;
 import semantics.model.*;
 import static org.junit.Assert.*;
+import static semantics.Individuals.getIris;
 
 
 public class KnowBaseTest {
@@ -75,7 +75,7 @@ public class KnowBaseTest {
 
   private static void queryIs(Conceptual c, String... iris) {
     assertTrue(kb.isSatisfiable(c));
-    assertEquals(new HashSet<>(Arrays.asList(iris)), kb.query(c).getIris());
+    assertEquals(new HashSet<>(Arrays.asList(iris)), getIris(kb.query(c)));
   }
 
   @Test
@@ -103,7 +103,7 @@ public class KnowBaseTest {
 
 
   private static void projectIs(Individual i, Roleish r, String... iris) {
-    assertEquals(new HashSet<>(Arrays.asList(iris)), i.project(r).getIris());
+    assertEquals(new HashSet<>(Arrays.asList(iris)), getIris(i.project(r)));
   }
 
   @Test
