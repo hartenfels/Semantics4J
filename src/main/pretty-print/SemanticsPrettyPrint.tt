@@ -25,7 +25,7 @@ DlTypecaseStmt [[switch-type ($Expr) {
   $join(CasesList,"\n")
 }]]
 
-DlTypecase        [[｢$Type｣ $Ident $Block]]
+DlTypecase        [[$Type $Ident $Block]]
 DlTypecaseDefault [[default $Block]]
 
 
@@ -45,4 +45,4 @@ InversionType [[$Operand⁻]]
 BinaryType     [[$Left #printOp $Right]]
 QuantifierType [[#printPrefix$Role ⇒ $Concept]]
 
-SemanticTypeAccess [[｢$Concept｣]]
+SemanticTypeAccess [[$Concept]]

@@ -49,9 +49,8 @@ aspect SemanticsPrettyPrint {
     out.print(")");
   }
   public void DlTypecase.prettyPrint(PrettyPrinter out) {
-    out.print("\uFF62");
     out.print(getType());
-    out.print("\uFF63 ");
+    out.print(" ");
     out.print(getIdent());
     out.print(" ");
     out.print(getBlock());
@@ -158,8 +157,6 @@ aspect SemanticsPrettyPrint {
     out.print("\u00BB");
   }
   public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
-    out.print("\uFF62");
     out.print(getConcept());
-    out.print("\uFF63");
   }
 }
