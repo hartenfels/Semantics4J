@@ -7,10 +7,6 @@ public class SyntaxTest extends SyntaxTestBase {
     checkSyntax("ClassExtendsImplements");
   }
   @org.junit.Test
-  public void checkExprUnionIntersection() {
-    checkSyntax("ExprUnionIntersection");
-  }
-  @org.junit.Test
   public void checkClassDecl() {
     checkSyntax("ClassDecl");
   }
@@ -21,6 +17,10 @@ public class SyntaxTest extends SyntaxTestBase {
   @org.junit.Test
   public void checkKnowsKnows() {
     checkSyntax("KnowsKnows");
+  }
+  @org.junit.Test
+  public void checkQuery() {
+    checkSyntax("Query");
   }
   @org.junit.Test
   public void checkInstanceOf() {
