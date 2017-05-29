@@ -37,7 +37,7 @@ aspect SemanticType {
   eq UniversalType.toModel() = new Universal(getRole().toModel(), getConcept().toModel());
 
 
-  syn lazy SemanticTypeDecl ClassDecl.semanticTypeDecl(String path, Conceptual concept) {
+  syn nta SemanticTypeDecl ClassDecl.semanticTypeDecl(String path, Conceptual concept) {
     String escapedPath = new StringLiteral(path).escapedLiteral();
 
     SemanticTypeDecl decl = new SemanticTypeDecl(
@@ -50,7 +50,6 @@ aspect SemanticType {
       concept
     );
 
-    decl.setParent(getParent());
     return decl;
   }
 
