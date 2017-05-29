@@ -20,14 +20,24 @@ Expr dl_intersection_expression =
   ;
 
 
-Expr postfix_expression =
+Expr dl_postfix_expression =
     DL_EVERYTHING @BOTTOM {: return new DlEverythingExpr(); :}
   | DL_NOTHING    @BOTTOM {: return new DlNothingExpr   (); :}
   | dl_query      @BOTTOM
-  | dl_negation_expression
   | dl_inversion_expression
+  ;
+
+Expr postfix_expression    = dl_postfix_expression;
+Expr postfix_expression_nn = dl_postfix_expression;
+
+
+Expr dl_unary_expression =
+    dl_negation_expression
   | dl_one_expression
   ;
+
+Expr unary_expression_not_plus_minus    = dl_unary_expression;
+Expr unary_expression_not_plus_minus_nn = dl_unary_expression;
 
 
 Expr dl_negation_expression =
