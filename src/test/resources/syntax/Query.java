@@ -14,4 +14,18 @@ public class Query knows "music.rdf" {
     Object o5 = "a" ⊔ "b" ⊔ "c";
     Object o6 = "a" ⊓ "b" ⊓ "c";
   }
+
+  public static void inversionExpr() {
+    Object o1 = "a"⁻;
+    Object o2 = "a"⁻⁻⁻⁻;
+    Object o3 = ("a"⁻);
+    Object o4 = (("a"⁻)⁻⁻)⁻;
+  }
+
+  public static void negationExpr() {
+    Object o1 = ¬"a";
+    Object o2 = ¬¬¬¬"a";
+    Object o3 = (¬"a");
+    Object o4 = ¬(¬¬(¬"a"));
+  }
 }
