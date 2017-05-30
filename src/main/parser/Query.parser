@@ -6,6 +6,14 @@ Expr dl_quantifier_expression =
   | dl_union_expression @BOTTOM
   ;
 
+Expr dl_quantifier_expression_nn =
+    DL_EXISTENCE expression_nn.e1 DL_ARROW expression.e2
+        {: return new DlExistenceExpr(e1, e2); :}
+  | DL_UNIVERSAL expression_nn.e1 DL_ARROW expression.e2
+        {: return new DlUniversalExpr(e1, e2); :}
+  | dl_union_expression_nn
+  ;
+
 
 Expr dl_union_expression =
     dl_union_expression.e1 DL_UNION dl_intersection_expression.e2
@@ -13,10 +21,23 @@ Expr dl_union_expression =
   | dl_intersection_expression @BOTTOM
   ;
 
+Expr dl_union_expression_nn =
+    dl_union_expression_nn.e1 DL_UNION dl_intersection_expression_nn.e2
+        {: return new DlUnionExpr(e1, e2); :}
+  | dl_intersection_expression_nn
+  ;
+
+
 Expr dl_intersection_expression =
     dl_intersection_expression.e1 DL_INTERSECTION shift_expression.e2
         {: return new DlIntersectionExpr(e1, e2); :}
   | shift_expression @BOTTOM
+  ;
+
+Expr dl_intersection_expression_nn =
+    dl_intersection_expression_nn.e1 DL_INTERSECTION shift_expression_nn.e2
+        {: return new DlIntersectionExpr(e1, e2); :}
+  | shift_expression_nn
   ;
 
 

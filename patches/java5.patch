@@ -1,5 +1,14 @@
---- extendj/java5/parser/java14fix.parser	2017-05-24 06:06:37.471620324 +0200
-+++ patches/java14fix.parser	2017-05-24 06:06:34.586620382 +0200
+--- extendj/java5/parser/java14fix.parser	2017-05-30 08:09:08.392274954 +0200
++++ patches/java14fix.parser	2017-05-30 08:08:30.649275724 +0200
+@@ -66,7 +66,7 @@
+   | shift_expression_nn.e1 URSHIFT additive_expression.e2 {: return new URShiftExpr(e1, e2); :}
+   ;
+ Expr relational_expression_nn =
+-    shift_expression_nn
++    dl_quantifier_expression_nn
+   | name.e1 LT shift_expression.e2                          {: return new LTExpr(e1, e2); :}
+   | shift_expression_nn.e1 LT shift_expression.e2           {: return new LTExpr(e1, e2); :}
+   | name.e1 GT shift_expression.e2                          {: return new GTExpr(e1, e2); :}
 @@ -109,7 +109,7 @@
   * for instanceof_expression_nn.
   */
