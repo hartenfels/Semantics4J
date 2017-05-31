@@ -1,4 +1,4 @@
-abstract DlLiteralExpr : Expr;
+abstract DlLiteralExpr : Literal;
 
 DlEverythingExpr : DlLiteralExpr;
 DlNothingExpr    : DlLiteralExpr;

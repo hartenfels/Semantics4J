@@ -42,9 +42,7 @@ Expr dl_intersection_expression_nn =
 
 
 Expr dl_postfix_expression =
-    DL_EVERYTHING @BOTTOM {: return new DlEverythingExpr(); :}
-  | DL_NOTHING    @BOTTOM {: return new DlNothingExpr   (); :}
-  | dl_query      @BOTTOM
+    dl_query      @BOTTOM
   | dl_inversion_expression
   ;
 
@@ -72,6 +70,12 @@ Expr dl_inversion_expression =
 
 Expr dl_one_expression =
     DL_LCURLY expression.e DL_RCURLY {: return new DlOneExpr(e); :}
+  ;
+
+
+Expr literal =
+    DL_EVERYTHING {: return new DlEverythingExpr(DL_EVERYTHING); :}
+  | DL_NOTHING    {: return new DlNothingExpr   (DL_NOTHING   ); :}
   ;
 
 
