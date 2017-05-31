@@ -1,6 +1,7 @@
 import java.util.Set;
 import static semantics.Individuals.getSorted;
 
+
 public class Recommend knows "wine.rdf" {
   private static «:Wine» getWineFor(«:Winery» winery) {
     try {
