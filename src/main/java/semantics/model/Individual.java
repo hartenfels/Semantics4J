@@ -6,7 +6,7 @@ import java.util.Set;
 import semantics.KnowBase;
 
 
-public final class Individual {
+public final class Individual implements Comparable<Individual> {
   private static final Pattern[] NAME_PATTERNS = {
     Pattern.compile("<.*#(.*)>"),
     Pattern.compile("<.*?:(.*)>"),
@@ -65,5 +65,10 @@ public final class Individual {
   @Override
   public int hashCode() {
     return (kb + "\0" + iri).hashCode();
+  }
+
+
+  public int compareTo(Individual other) {
+    return getIri().compareTo(other.getIri());
   }
 }
