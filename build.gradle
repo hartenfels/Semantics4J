@@ -74,6 +74,31 @@ project.task('generateSyntaxTest') {
 compileTestJava.dependsOn 'generateSyntaxTest'
 
 
+project.task('generateIntegrationTest') {
+  inputs.files(fileTree('src/test/resources/integration').include('**/*.java'))
+  outputs.files(['src/test/java/integration/IntegrationTest.java'])
+
+  doLast {
+    def out = outputs.files[0]
+    out.write  '// Auto-generated file, do not modify directly.\n'
+    out.append 'package integration;\n\n'
+    out.append 'public class IntegrationTest extends IntegrationTestBase {\n'
+
+    inputs.files.each {
+      def cls = it.getName().replace('.java', '')
+      out.append '  @org.junit.Test\n'
+      out.append "  public void check$cls() {\n"
+      out.append "    checkIntegration(\"$cls\");\n"
+      out.append '  }\n'
+    }
+
+    out.append '}\n'
+  }
+}
+
+compileTestJava.dependsOn 'generateIntegrationTest'
+
+
 sourceCompatibility = '1.8'
 mainClassName       = 'org.extendj.JavaCompiler'
 

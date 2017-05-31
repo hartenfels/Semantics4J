@@ -1,6 +1,6 @@
 aspectgen
 build
-examples/*.class
+*.class
 gradle.log
 src/gen
 src/gen-res
