@@ -1,5 +1,7 @@
 aspectgen
 build
+examples/*.class
+gradle.log
 src/gen
 src/gen-res
 *.jar

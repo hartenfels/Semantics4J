@@ -75,5 +75,16 @@ compileTestJava.dependsOn 'generateSyntaxTest'
 
 
 sourceCompatibility = '1.8'
-mainClassName       = 'Main'
-run.args            = ['-classpath', 'build/classes/main', 'Sample.java']
+mainClassName       = 'org.extendj.JavaCompiler'
+
+
+jar {
+  archiveName    = 'jastics.jar'
+  destinationDir = projectDir
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+  manifest {
+    attributes 'Main-Class': mainClassName
+  }
+}
