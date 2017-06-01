@@ -1,6 +1,1 @@
-public class UNCHECKED knows "music.rdf" {
-  public static void weirdCast() {
-    ⊤ top = (⊤) ⊤;
-    ⊥ bot = ((⊥) (⊥));
-  }
-}
+public class UNCHECKED knows "music.rdf" {}

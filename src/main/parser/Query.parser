@@ -12,38 +12,22 @@ Expr dl_union_expression_nn =
 
 
 Expr dl_intersection_expression =
-    dl_intersection_expression.e1 DL_INTERSECTION dl_quantifier_expression.e2
+    dl_intersection_expression.e1 DL_INTERSECTION shift_expression.e2
         {: return new DlIntersectionExpr(e1, e2); :}
-  | dl_quantifier_expression @BOTTOM
-  ;
-
-Expr dl_intersection_expression_nn =
-    dl_intersection_expression_nn.e1 DL_INTERSECTION dl_quantifier_expression_nn.e2
-        {: return new DlIntersectionExpr(e1, e2); :}
-  | dl_quantifier_expression_nn
-  ;
-
-
-Expr dl_quantifier_expression =
-    DL_EXISTENCE expression.e1 DL_ARROW expression.e2
-        {: return new DlExistenceExpr(e1, e2); :}
-  | DL_UNIVERSAL expression.e1 DL_ARROW expression.e2
-        {: return new DlUniversalExpr(e1, e2); :}
   | shift_expression @BOTTOM
   ;
 
-Expr dl_quantifier_expression_nn =
-    DL_EXISTENCE expression_nn.e1 DL_ARROW expression.e2
-        {: return new DlExistenceExpr(e1, e2); :}
-  | DL_UNIVERSAL expression_nn.e1 DL_ARROW expression.e2
-        {: return new DlUniversalExpr(e1, e2); :}
+Expr dl_intersection_expression_nn =
+    dl_intersection_expression_nn.e1 DL_INTERSECTION shift_expression_nn.e2
+        {: return new DlIntersectionExpr(e1, e2); :}
   | shift_expression_nn
   ;
 
 
 Expr dl_postfix_expression =
-    dl_query      @BOTTOM
+    dl_query @BOTTOM
   | dl_inversion_expression
+  | dl_quantifier_expression
   ;
 
 Expr postfix_expression    = dl_postfix_expression;
@@ -57,6 +41,14 @@ Expr dl_unary_expression =
 
 Expr unary_expression_not_plus_minus    = dl_unary_expression;
 Expr unary_expression_not_plus_minus_nn = dl_unary_expression;
+
+
+Expr dl_quantifier_expression =
+    DL_EXISTENCE expression.e1 DL_ARROW expression.e2
+        {: return new DlExistenceExpr(e1, e2); :}
+  | DL_UNIVERSAL expression.e1 DL_ARROW expression.e2
+        {: return new DlUniversalExpr(e1, e2); :}
+  ;
 
 
 Expr dl_negation_expression =
@@ -74,8 +66,8 @@ Expr dl_one_expression =
 
 
 Expr literal =
-    DL_EVERYTHING {: return new DlEverythingExpr(DL_EVERYTHING); :}
-  | DL_NOTHING    {: return new DlNothingExpr   (DL_NOTHING   ); :}
+    DL_EVERYTHING @CAST {: return new DlEverythingExpr(DL_EVERYTHING); :}
+  | DL_NOTHING    @CAST {: return new DlNothingExpr   (DL_NOTHING   ); :}
   ;
 
 

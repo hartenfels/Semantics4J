@@ -9,6 +9,11 @@ public class Query knows "music.rdf" {
     Set<«:RadioStation»> stations = do-query(":Radio" + "Station");
   }
 
+  public static void literalExpr() {
+    Object o1 = ⊤;
+    Object o2 = (⊥);
+  }
+
   public static void binaryExpr() {
     Object o1  = "a" ⊔ "b";
     Object o2  = "a" ⊓ "b";
@@ -20,6 +25,10 @@ public class Query knows "music.rdf" {
     Object o8  = ("a" ⊓ "b");
     Object o9  = ("a" ⊔ "b") ⊓ "c";
     Object o10 = ("a" ⊔ "b" ⊓ "c");
+    Object o11 = "a" ⊔ ("b" ⊓ "c");
+    Object o12 = ("a" ⊔ ("b" ⊓ "c"));
+    Object o13 = "a" ⊓ ("b" ⊔ "c");
+    Object o14 = ("a" ⊓ ("b" ⊔ "c"));
   }
 
   public static void inversionExpr() {
@@ -50,5 +59,13 @@ public class Query knows "music.rdf" {
     Object o2 = (⎨"a"⎬);
     Object o3 = (⎨("a")⎬);
     Object o4 = ⎨"a" + "b"⎬;
+  }
+
+  public static void complexExprs() {
+    Object o1 = "a" ⊓ ∃"b" ⇒ ⎨"c"⎬;
+    Object o2 = ("a" ⊓ ∃"b" ⇒ ⎨"c"⎬);
+
+    Object o3 = ⊥ ⊓ ∃"a" ⇒ ⎨"b"⎬;
+    Object o4 = (⊥ ⊓ ∃"a" ⇒ ⎨"b"⎬);
   }
 }
