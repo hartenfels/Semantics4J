@@ -38,6 +38,8 @@ aspect Query {
   syn Conceptual Expr.toConceptual() =
     isConstant() && type().isString() ? new Concept(constant().stringValue()) : null;
 
+  eq ParExpr.toConceptual() = getExpr().toConceptual();
+
   eq DlEverythingExpr.toConceptual() = new Everything();
   eq DlNothingExpr   .toConceptual() = new Nothing();
 
@@ -68,6 +70,8 @@ aspect Query {
 
   syn Roleish Expr.toRoleish() =
     isConstant() && type().isString() ? new Role(constant().stringValue()) : null;
+
+  eq ParExpr.toRoleish() = getExpr().toRoleish();
 
   eq DlInversionExpr.toRoleish() {
     Roleish r = getOperand().toRoleish();
