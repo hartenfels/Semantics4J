@@ -5,7 +5,7 @@ JAVA   ?= java
 
 
 all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
-	$(GRADLE) check jar >gradle.log
+	$(GRADLE) check >gradle.log
 	@echo
 	@echo
 	@echo -e "\e[32mjastics.jar built successfully!\e[0m"

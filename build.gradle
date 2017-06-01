@@ -113,3 +113,5 @@ jar {
     attributes 'Main-Class': mainClassName
   }
 }
+
+check.dependsOn 'jar'
