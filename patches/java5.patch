@@ -5,7 +5,7 @@
    ;
  Expr relational_expression_nn =
 -    shift_expression_nn
-+    dl_quantifier_expression_nn
++    dl_union_expression_nn
    | name.e1 LT shift_expression.e2                          {: return new LTExpr(e1, e2); :}
    | shift_expression_nn.e1 LT shift_expression.e2           {: return new LTExpr(e1, e2); :}
    | name.e1 GT shift_expression.e2                          {: return new GTExpr(e1, e2); :}
@@ -14,7 +14,7 @@
   */
  Expr relational_expression :=
 -    shift_expression @BOTTOM
-+    dl_quantifier_expression @BOTTOM
++    dl_union_expression @BOTTOM
    | relational_expression.e1 LT shift_expression.e2     {: return new LTExpr(e1, e2); :}
    | relational_expression.e1 GT shift_expression.e2     {: return new GTExpr(e1, e2); :}
    | relational_expression.e1 LTEQ shift_expression.e2   {: return new LEExpr(e1, e2); :}

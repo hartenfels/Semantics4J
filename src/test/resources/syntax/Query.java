@@ -42,6 +42,7 @@ public class Query knows "music.rdf" {
     Object o3 = (∃"a" ⇒ "b");
     Object o4 = ∀"a" ⇒ ∃"b" ⇒ "c";
     Object o5 = ∀"a"⁻⁻ ⇒ "b" ⊓ "c";
+    Object o6 = "a" ⊓ ∃"b" ⇒ "c";
   }
 
   public static void oneExpr() {
