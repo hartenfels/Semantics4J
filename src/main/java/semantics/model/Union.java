@@ -23,7 +23,7 @@ public class Union extends Conceptual {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Existence) {
+    if (o instanceof Union) {
       return Arrays.equals(cs, ((Union) o).cs);
     }
     return false;

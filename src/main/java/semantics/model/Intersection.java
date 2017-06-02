@@ -23,7 +23,7 @@ public class Intersection extends Conceptual {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Existence) {
+    if (o instanceof Intersection) {
       return Arrays.equals(cs, ((Intersection) o).cs);
     }
     return false;
