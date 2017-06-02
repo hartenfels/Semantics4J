@@ -1,30 +1,30 @@
-ConceptualType concept_type = quantifier_type;
-
-ConceptualType quantifier_type =
-    union_type @BOTTOM
-  | DL_EXISTENCE role_type.r DL_ARROW concept_type.c {: return new ExistenceType(r, c); :}
-  | DL_UNIVERSAL role_type.r DL_ARROW concept_type.c {: return new UniversalType(r, c); :}
-  ;
+ConceptualType concept_type = union_type;
 
 ConceptualType union_type =
-    intersection_type @BOTTOM
-  | union_type.e1 DL_UNION intersection_type.e2 {: return new UnionType(e1, e2); :}
+    union_type.e1 DL_UNION intersection_type.e2 {: return new UnionType(e1, e2); :}
+  | intersection_type
   ;
 
 ConceptualType intersection_type =
-    negation_type @BOTTOM
-  | intersection_type.e1 DL_INTERSECTION negation_type.e2 {: return new IntersectionType(e1, e2); :}
+    intersection_type.e1 DL_INTERSECTION negation_type.e2 {: return new IntersectionType(e1, e2); :}
+  | quantifier_type
+  ;
+
+ConceptualType quantifier_type =
+    DL_EXISTENCE role_type.r DL_ARROW concept_type.c {: return new ExistenceType(r, c); :}
+  | DL_UNIVERSAL role_type.r DL_ARROW concept_type.c {: return new UniversalType(r, c); :}
+  | negation_type
   ;
 
 ConceptualType negation_type =
-    primary_concept_type @BOTTOM
-  | DL_NEGATION negation_type.n  {: return new NegationType(n); :}
+    DL_NEGATION negation_type.n  {: return new NegationType(n); :}
+  | primary_concept_type
   ;
 
 ConceptualType primary_concept_type =
     DL_LITERAL.l                       {: return new ConceptType(l); :}
-  | DL_EVERYTHING @BOTTOM              {: return new EverythingType(); :}
-  | DL_NOTHING    @BOTTOM              {: return new NothingType(); :}
+  | DL_EVERYTHING                      {: return new EverythingType(); :}
+  | DL_NOTHING                         {: return new NothingType(); :}
   | DL_LCURLY DL_LITERAL.l   DL_RCURLY {: return new OneType(l); :}
   | DL_LBRACK concept_type.c DL_RBRACK {: return new ParConceptualType(c); :}
   ;
@@ -33,7 +33,7 @@ ConceptualType primary_concept_type =
 RoleishType role_type = inversion_type;
 
 RoleishType inversion_type =
-    primary_role_type @BOTTOM
+    primary_role_type
   | inversion_type.i DL_INVERSION {: return new InversionType(i); :}
   ;
 
