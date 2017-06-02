@@ -1,7 +1,26 @@
 aspect Projection {
   eq DlProjectionExpr.type() {
+    TypeDecl   et = getExpr().type();
+    Roleish    r  = getRole().toModel();
+    Conceptual c;
+
+    if (et.isSemanticTypeDecl()) {
+      c = ((SemanticTypeDecl) et).getConcept();
+    }
+    else {
+      c = new Everything();
+    }
+
     Collection<TypeDecl> param = new LinkedList<>();
-    param.add(lookupType("semantics.model", "Individual"));
+    String               path  = lookupKnows();
+
+    if (path != null) {
+      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
+      param.add(ind.semanticTypeDecl(path, new Existence(new Inversion(r), c)));
+    }
+    else {
+      param.add(unknownType());
+    }
 
     GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
     return set.lookupParTypeDecl(param);

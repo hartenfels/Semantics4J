@@ -1,6 +1,5 @@
 import java.util.HashSet;
 import java.util.Set;
-import semantics.model.Individual;
 import static semantics.Individuals.getNames;
 import static semantics.Individuals.getSorted;
 
@@ -10,8 +9,8 @@ public class Wineries knows "wine.rdf" {
     Set<«:Winery»> wineries = new HashSet<>();
 
     for («:Wine» wine : wines) {
-      for (Individual maker : wine.«:hasMaker») {
-        wineries.add((«:Winery») maker);
+      for (∃«:hasMaker»⁻ ⇒ «:Wine» maker : wine.«:hasMaker») {
+        wineries.add(maker);
       }
     }
 
