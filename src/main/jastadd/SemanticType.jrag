@@ -85,6 +85,7 @@ aspect SemanticType {
 
 
   eq SemanticTypeDecl.instanceOf(TypeDecl type) = type.isSupertypeOfSemanticTypeDecl(this);
+  eq SemanticTypeDecl.subtype   (TypeDecl type) = type.isSupertypeOfSemanticTypeDecl(this);
 
   syn lazy boolean TypeDecl.isSupertypeOfSemanticTypeDecl(SemanticTypeDecl type) =
     isSupertypeOfClassDecl(type);

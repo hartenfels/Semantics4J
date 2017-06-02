@@ -6,10 +6,10 @@ import static semantics.Individuals.getSorted;
 
 
 public class Wineries knows "wine.rdf" {
-  private static Set<«:Winery»> toMaker(Set<? extends Individual> wines) {
+  private static Set<«:Winery»> toMaker(Set<? extends «:Wine»> wines) {
     Set<«:Winery»> wineries = new HashSet<>();
 
-    for (Individual wine : wines) {
+    for («:Wine» wine : wines) {
       for (Individual maker : wine.«:hasMaker») {
         wineries.add((«:Winery») maker);
       }
