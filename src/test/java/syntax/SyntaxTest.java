@@ -3,6 +3,10 @@ package syntax;
 
 public class SyntaxTest extends SyntaxTestBase {
   @org.junit.Test
+  public void checkTypes() {
+    checkSyntax("Types");
+  }
+  @org.junit.Test
   public void checkClassExtendsImplements() {
     checkSyntax("ClassExtendsImplements");
   }

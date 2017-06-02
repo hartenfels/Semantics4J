@@ -15,6 +15,10 @@ public class IntegrationTest extends IntegrationTestBase {
     checkIntegration("Recommend");
   }
   @org.junit.Test
+  public void checkImplicitTypeConversion() {
+    checkIntegration("ImplicitTypeConversion");
+  }
+  @org.junit.Test
   public void checkWineries() {
     checkIntegration("Wineries");
   }
