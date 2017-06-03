@@ -34,12 +34,6 @@
 
   "⇒"  { return sym(Terminals.DL_ARROW); }
   "=>" { return sym(Terminals.DL_ARROW); }
-
-  "｢"  { return sym(Terminals.DL_LBRACK); }
-  "[*" { return sym(Terminals.DL_LBRACK); }
-
-  "｣"  { return sym(Terminals.DL_RBRACK); }
-  "*]" { return sym(Terminals.DL_RBRACK); }
 }
 
 
