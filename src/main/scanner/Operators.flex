@@ -3,10 +3,10 @@
   "<*" { dllit_begin("*>"); }
 
   "⎨"  { return sym(Terminals.DL_LCURLY); }
-  "{*" { return sym(Terminals.DL_LCURLY); }
+  "{|" { return sym(Terminals.DL_LCURLY); }
 
   "⎬"  { return sym(Terminals.DL_RCURLY); }
-  "*}" { return sym(Terminals.DL_RCURLY); }
+  "|}" { return sym(Terminals.DL_RCURLY); }
 
   "⊤"  { return sym(Terminals.DL_EVERYTHING); }
   "#T" { return sym(Terminals.DL_EVERYTHING); }
