@@ -1,6 +1,6 @@
 <YYINITIAL> {
-  "«"  { dllit_begin("»"); }
-  "<*" { dllit_begin("*>"); }
+  "«"   { dllit_begin( "»" ); }
+  "<<<" { dllit_begin(">>>"); }
 
   "⎨"  { return sym(Terminals.DL_LCURLY); }
   "{|" { return sym(Terminals.DL_LCURLY); }
