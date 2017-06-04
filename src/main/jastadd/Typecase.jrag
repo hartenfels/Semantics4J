@@ -216,14 +216,15 @@ aspect TypecaseBackend {
 
 
   syn nta Stmt DlTypecaseStmt.getTransformed() {
-    List<Stmt> stmts = new List<>();
+    List<Stmt> stmts = new List<>(
+      mkVarDecl("semantics.model", "Individual", "#topic",
+                getExpr().treeCopyNoTransform())
+    );
 
     if (getNumCases() == 1) {
       stmts.add(getCases(0).getTransformed());
     }
     else {
-      stmts.add(mkVarDecl("semantics.model", "Individual", "#topic",
-                          getExpr().treeCopyNoTransform()));
       stmts.add(mkVarDecl("semantics", "KnowBase", "#kb", getKnowBase().mkAccess()));
       stmts.add(getTransformedCases());
     }
