@@ -12,6 +12,10 @@ aspect Knows {
     when lookupKnows() == null
     to CompilationUnit.problems();
 
+  DlProjectionExpr contributes error("class 'knows' no data source for projecting")
+    when lookupKnows() == null
+    to CompilationUnit.problems();
+
   DlTypecaseStmt contributes error("class 'knows' no data source for typecasing")
     when lookupKnows() == null
     to CompilationUnit.problems();
