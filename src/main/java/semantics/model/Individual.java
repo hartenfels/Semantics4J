@@ -24,6 +24,10 @@ public final class Individual implements Comparable<Individual> {
   }
 
 
+  public KnowBase getKnowBase() {
+    return kb;
+  }
+
   public String getIri() {
     return iri;
   }

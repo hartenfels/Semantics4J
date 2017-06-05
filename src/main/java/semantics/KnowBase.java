@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import semantics.err.CommunicationException;
+import semantics.err.IncompatibleIndividualException;
 import semantics.err.MessageException;
 import semantics.err.SemanticCastException;
 import semantics.err.UnsatisfiableQueryException;
@@ -98,6 +99,14 @@ public class KnowBase {
   }
 
 
+  private Individual ensureCorrectSource(Individual i) {
+    if (!equals(i.getKnowBase())) {
+      throw new IncompatibleIndividualException(this, i);
+    }
+    return i;
+  }
+
+
   public boolean isSatisfiable(Conceptual c) {
     return msg("satisfiable", c.toJson()).getAsBoolean();
   }
@@ -109,7 +118,7 @@ public class KnowBase {
   public boolean isMember(Conceptual c, Individual i) {
     JsonArray arg = new JsonArray();
     arg.add(c.toJson());
-    arg.add(i.getIri());
+    arg.add(ensureCorrectSource(i).getIri());
     return msg("member", arg).getAsBoolean();
   }
 
@@ -130,7 +139,7 @@ public class KnowBase {
 
   public Set<Individual> project(Individual i, Roleish r) {
     JsonArray arg = new JsonArray();
-    arg.add(i.getIri());
+    arg.add(ensureCorrectSource(i).getIri());
     arg.add(r.toJson());
     return toIndividuals(msg("project", arg));
   }
