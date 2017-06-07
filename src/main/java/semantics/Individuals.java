@@ -1,6 +1,7 @@
 package semantics;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Function;
 import java.util.HashSet;
@@ -47,8 +48,8 @@ public class Individuals {
   }
 
 
-  public static <T extends Individual> List<T> getSorted(Set<T> is) {
-    List<T> list = new ArrayList<T>(is);
+  public static <T extends Comparable<? super T>> List<T> getSorted(Collection<T> c) {
+    List<T> list = new ArrayList<T>(c);
     Collections.sort(list);
     return list;
   }
