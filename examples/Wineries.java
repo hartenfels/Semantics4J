@@ -1,7 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
-import static semantics.Individuals.getNames;
-import static semantics.Individuals.getSorted;
+import static semantics.Individuals.names;
+import static semantics.Individuals.sorted;
 
 
 public class Wineries knows "wine.rdf" {
@@ -20,6 +20,6 @@ public class Wineries knows "wine.rdf" {
 
   public static void main(String[] args) {
     Set<«:Winery»> makers = toMaker(do-query(":RedWine" ⊓ ":DryWine"));
-    System.out.println(String.join("\n", getNames(getSorted(makers))));
+    System.out.println(String.join("\n", names(sorted(makers))));
   }
 }

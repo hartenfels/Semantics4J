@@ -1,12 +1,12 @@
 import java.util.Set;
-import static semantics.Individuals.getNames;
+import static semantics.Individuals.names;
 
 
 public class Influences knows "music.rdf" {
   private static String getInfluences(«:MusicArtist» artist) {
     switch-type (artist) {
       ∃«:influencedBy» ⇒ ⊤ influenceable {
-        return String.join(", ", getNames(influenceable.«:influencedBy»));
+        return String.join(", ", names(influenceable.«:influencedBy»));
       }
       default {
         return "nobody";

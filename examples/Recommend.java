@@ -1,11 +1,11 @@
 import java.util.Set;
-import static semantics.Individuals.getSorted;
+import static semantics.Individuals.sorted;
 
 
 public class Recommend knows "wine.rdf" {
   private static «:Wine» getWineFor(«:Winery» winery) {
     try {
-      return («:Wine») getSorted(winery.«:hasMaker»⁻).get(0);
+      return («:Wine») sorted(winery.«:hasMaker»⁻).get(0);
     }
     catch (IndexOutOfBoundsException e) {
       return null;
@@ -22,7 +22,7 @@ public class Recommend knows "wine.rdf" {
   }
 
   public static void main(String[] args) {
-    for («:Winery» winery : getSorted(do-query(":Winery"))) {
+    for («:Winery» winery : sorted(do-query(":Winery"))) {
       «:Wine» wine = getWineFor(winery);
       String  food = wine == null ? "not a winery at all" : recommendFor(wine);
       System.out.format("%25s: %s\n", winery.getName(), food);
