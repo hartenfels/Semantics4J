@@ -54,21 +54,6 @@ aspectgen:
 	$(GIT) clone --recursive 'https://bitbucket.org/joqvist/aspectgen'
 
 
-gradle-wrapper: gradle gradlew gradlew.bat
-
-clean-gradle-wrapper:
-	rm -rf gradle gradlew gradlew.bat
-
-gradle: extendj/gradle
-	cp -r $< $@
-
-gradlew: extendj/gradlew
-	cp $< $@
-
-gradlew.bat: extendj/gradlew.bat
-	cp $< $@
-
-
 clean:
 	$(GRADLE) clean
 	rm -f examples/*.class gradle.log
@@ -79,5 +64,5 @@ realclean: clean
 	$(MAKE) -C examples/WineSearch realclean
 
 
-.PHONY: all test gradle-wrapper clean-gradle-wrapper clean realclean
+.PHONY: all test clean realclean
 .PRECIOUS: examples/%.class
