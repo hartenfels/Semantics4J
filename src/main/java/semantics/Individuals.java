@@ -53,4 +53,9 @@ public class Individuals {
     Collections.sort(list);
     return list;
   }
+
+
+  public static <T> T head(Collection<T> c) {
+    return c.iterator().next();
+  }
 }
