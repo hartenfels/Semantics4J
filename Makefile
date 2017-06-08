@@ -13,12 +13,15 @@ all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	@echo -e "\e[32mjastics.jar built successfully!\e[0m"
 	@echo
 	@echo -e 'You can try running some examples now:'
+	@$(MAKE) -s list-examples
+	@echo
+
+list-examples:
 	@echo
 	@for file in examples/*.java examples/WineSearch; do \
 		name="$$(basename $$file | sed s/\.java//)"; \
 		echo -e "\e[36m - make $$name.example\e[0m"; \
 	done
-	@echo
 	@echo
 
 
@@ -64,5 +67,5 @@ realclean: clean
 	$(MAKE) -C examples/WineSearch realclean
 
 
-.PHONY: all test clean realclean
+.PHONY: all list-examples test clean realclean
 .PRECIOUS: examples/%.class
