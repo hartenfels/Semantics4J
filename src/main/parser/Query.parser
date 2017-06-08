@@ -1,3 +1,11 @@
+Expr assignment =
+    postfix_expression.dest DL_INTERSECTIONEQ assignment_expression.source
+        {: return new AssignSimpleExpr(dest, new DlIntersectionExpr(dest, source)); :}
+  | postfix_expression.dest DL_UNIONEQ assignment_expression.source
+        {: return new AssignSimpleExpr(dest, new DlUnionExpr(dest, source)); :}
+  ;
+
+
 Expr dl_union_expression =
     dl_union_expression.e1 DL_UNION dl_intersection_expression.e2
         {: return new DlUnionExpr(e1, e2); :}

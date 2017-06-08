@@ -34,6 +34,12 @@
 
   "⇒"  { return sym(Terminals.DL_ARROW); }
   "=>" { return sym(Terminals.DL_ARROW); }
+
+  "⊔="   { return sym(Terminals.DL_UNIONEQ); }
+  "|||=" { return sym(Terminals.DL_UNIONEQ); }
+
+  "⊓="   { return sym(Terminals.DL_INTERSECTIONEQ); }
+  "&&&=" { return sym(Terminals.DL_INTERSECTIONEQ); }
 }
 
 
