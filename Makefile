@@ -3,6 +3,8 @@ GIT    ?= git
 PATCH  ?= patch
 JAVA   ?= java
 
+SOURCE_FILES = $(shell find src/main -type f)
+
 
 all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	$(GRADLE) check >gradle.log
@@ -12,7 +14,7 @@ all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	@echo
 	@echo -e 'You can try running some examples now:'
 	@echo
-	@for file in examples/*.java; do \
+	@for file in examples/*.java examples/WineSearch; do \
 		name="$$(basename $$file | sed s/\.java//)"; \
 		echo -e "\e[36m - make $$name.example\e[0m"; \
 	done
@@ -23,7 +25,7 @@ all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 test: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	$(GRADLE) cleanTest check
 
-jastics.jar: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
+jastics.jar: src/main/jastadd/PrettyPrint.jadd $(SOURCE_FILES) build.gradle | extendj/build.gradle
 	$(GRADLE) jar
 
 extendj/build.gradle:
@@ -31,6 +33,9 @@ extendj/build.gradle:
 	$(PATCH) -p0 <patches/java4.patch
 	$(PATCH) -p0 <patches/java5.patch
 
+
+WineSearch.example: examples/WineSearch jastics.jar
+	-$(MAKE) -C $<
 
 %.example: examples/%.class jastics.jar
 	$(JAVA) -cp examples:jastics.jar $*
@@ -67,9 +72,11 @@ gradlew.bat: extendj/gradlew.bat
 clean:
 	$(GRADLE) clean
 	rm -f examples/*.class gradle.log
+	$(MAKE) -C examples/WineSearch clean
 
 realclean: clean
 	rm -f jastics.jar
+	$(MAKE) -C examples/WineSearch realclean
 
 
 .PHONY: all test gradle-wrapper clean-gradle-wrapper clean realclean
