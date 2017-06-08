@@ -100,7 +100,7 @@ compileTestJava.dependsOn 'generateIntegrationTest'
 
 
 sourceCompatibility = '1.8'
-mainClassName       = 'org.extendj.JavaCompiler'
+mainClassName       = 'semantics.JavaCompiler'
 
 
 jar {
