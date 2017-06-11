@@ -21,12 +21,12 @@ import static spark.Spark.*;
 
 public class WineSearch knows "wine.rdf" {
   private static List<String> getCriterion(String concept) {
-    return sorted(names(do-query(concept)));
+    return sorted(names(query-for(concept)));
   }
 
   private static Set<«:Region»> getTopLevelRegions() {
-    Set<«:Region»> regions = do-query(":Region");
-    regions.removeAll(do-query(∃":locatedIn" ⇒ ":Region"));
+    Set<«:Region»> regions = query-for(":Region");
+    regions.removeAll(query-for(∃":locatedIn" ⇒ ":Region"));
     return regions;
   }
 
@@ -67,7 +67,7 @@ public class WineSearch knows "wine.rdf" {
       }
     }
 
-    return sorted(do-query(dl));
+    return sorted(query-for(dl));
   }
 
 
@@ -80,7 +80,7 @@ public class WineSearch knows "wine.rdf" {
     «:Wine» wine;
 
     try {
-      wine = («:Wine») head(do-query(⎨iri⎬));
+      wine = («:Wine») head(query-for(⎨iri⎬));
     }
     catch (ClassCastException | NoSuchElementException e) {
       res.status(404);

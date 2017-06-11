@@ -15,7 +15,7 @@ public class Influences knows "music.rdf" {
   }
 
   public static void main(String[] args) {
-    for («:MusicArtist» a : do-query(":MusicArtist")) {
+    for («:MusicArtist» a : query-for(":MusicArtist")) {
       System.out.format("%s influences: %s\n", a.getName(), getInfluences(a));
     }
   }

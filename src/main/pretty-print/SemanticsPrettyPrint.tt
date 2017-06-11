@@ -15,7 +15,7 @@ DlInversionExpr [[$Operand⁻]]
 
 DlOneExpr [[⎨$Operand⎬]]
 
-DlQueryExpr [[do-query($Operand)]]
+DlQueryExpr [[query-for($Operand)]]
 
 
 DlProjectionExpr [[$Expr.$Role]]

@@ -22,7 +22,7 @@ public class Recommend knows "wine.rdf" {
   }
 
   public static void main(String[] args) {
-    for («:Winery» winery : sorted(do-query(":Winery"))) {
+    for («:Winery» winery : sorted(query-for(":Winery"))) {
       «:Wine» wine = getWineFor(winery);
       String  food = wine == null ? "not a winery at all" : recommendFor(wine);
       System.out.format("%25s: %s\n", winery.getName(), food);

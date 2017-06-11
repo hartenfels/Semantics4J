@@ -40,6 +40,9 @@
 
   "⊓="   { return sym(Terminals.DL_INTERSECTIONEQ); }
   "&&&=" { return sym(Terminals.DL_INTERSECTIONEQ); }
+
+  "query-for"   { return sym(Terminals.DL_QUERY);  }
+  "switch-type" { return sym(Terminals.DL_SWITCH); }
 }
 
 

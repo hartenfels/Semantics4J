@@ -19,7 +19,7 @@ public class Wineries knows "wine.rdf" {
 
 
   public static void main(String[] args) {
-    Set<«:Winery»> makers = toMaker(do-query(":RedWine" ⊓ ":DryWine"));
+    Set<«:Winery»> makers = toMaker(query-for(":RedWine" ⊓ ":DryWine"));
     System.out.println(String.join("\n", names(sorted(makers))));
   }
 }

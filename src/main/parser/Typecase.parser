@@ -3,12 +3,8 @@ Stmt statement_without_trailing_substatement =
   ;
 
 DlTypecaseStmt dl_typecase_statement =
-    SWITCH MINUS IDENTIFIER LPAREN expression.e RPAREN dl_typecase_block.l {:
-        if (!IDENTIFIER.value.equals("type")) {
-          report.syntaxError(IDENTIFIER);
-        }
-        return new DlTypecaseStmt(e, l);
-      :}
+    DL_SWITCH LPAREN expression.e RPAREN dl_typecase_block.l
+        {: return new DlTypecaseStmt(e, l); :}
   ;
 
 List dl_typecase_block =

@@ -3,7 +3,7 @@ import semantics.model.Individual;
 
 public class ImplicitTypeConversion knows "wine.rdf" {
   public static void main(String[] args) {
-    for («:RedWine» ⊓ «:DryWine» redAndDryWine : do-query(":RedWine" ⊓ ":DryWine")) {
+    for («:RedWine» ⊓ «:DryWine» redAndDryWine : query-for(":RedWine" ⊓ ":DryWine")) {
       Individual individual = redAndDryWine;
       «:RedWine» redWine    = redAndDryWine;
       «:DryWine» dryWine    = redAndDryWine;

@@ -3,10 +3,10 @@ import java.util.Set;
 
 public class Query knows "music.rdf" {
   public static void query() {
-    Set<? extends Individual> everything = do-query(⊤);
+    Set<? extends Individual> everything = query-for(⊤);
 
-    Set<«:MusicArtist» > artists  = do-query(":MusicArtist");
-    Set<«:RadioStation»> stations = do-query(":Radio" + "Station");
+    Set<«:MusicArtist» > artists  = query-for(":MusicArtist");
+    Set<«:RadioStation»> stations = query-for(":Radio" + "Station");
   }
 
   public static void literalExpr() {

@@ -44,7 +44,7 @@ aspect SemanticsPrettyPrint {
     out.print(getRightOperand());
   }
   public void DlQueryExpr.prettyPrint(PrettyPrinter out) {
-    out.print("do-query(");
+    out.print("query-for(");
     out.print(getOperand());
     out.print(")");
   }
