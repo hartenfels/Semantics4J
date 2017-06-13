@@ -7,6 +7,8 @@ public class Query knows "music.rdf" {
 
     Set<«:MusicArtist» > artists  = query-for(":MusicArtist");
     Set<«:RadioStation»> stations = query-for(":Radio" + "Station");
+
+    System.out.println(query-for(":MusicArtist").toString());
   }
 
   public static void literalExpr() {

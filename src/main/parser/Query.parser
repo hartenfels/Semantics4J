@@ -33,8 +33,7 @@ Expr dl_intersection_expression_nn =
 
 
 Expr dl_postfix_expression =
-    dl_query @BOTTOM
-  | dl_inversion_expression
+    dl_inversion_expression
   | dl_quantifier_expression
   ;
 
@@ -78,6 +77,11 @@ Expr literal =
   | DL_NOTHING    @CAST {: return new DlNothingExpr   (DL_NOTHING   ); :}
   ;
 
+
+
+Expr primary_no_new_array =
+    dl_query
+  ;
 
 Expr dl_query =
     DL_QUERY LPAREN expression.e RPAREN {: return new DlQueryExpr(e); :}
