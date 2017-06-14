@@ -16,7 +16,6 @@ import semantics.err.CommunicationException;
 import semantics.err.IncompatibleIndividualException;
 import semantics.err.MessageException;
 import semantics.err.SemanticCastException;
-import semantics.err.UnsatisfiableQueryException;
 import semantics.model.Conceptual;
 import semantics.model.Individual;
 import semantics.model.Roleish;
@@ -130,9 +129,6 @@ public class KnowBase {
 
 
   public Set<Individual> query(Conceptual c) {
-    if (!isSatisfiable(c)) {
-      throw new UnsatisfiableQueryException(this, c);
-    }
     return toIndividuals(msg("query", c.toJson()));
   }
 

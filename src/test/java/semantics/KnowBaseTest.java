@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import semantics.err.UnsatisfiableQueryException;
 import semantics.KnowBase;
 import semantics.model.*;
 import static org.junit.Assert.*;
@@ -94,11 +93,11 @@ public class KnowBaseTest {
     queryIs(inf, ":hendrix");
   }
 
-  @Test(expected = UnsatisfiableQueryException.class)
+  @Test
   public void unsatisfiableQuery() {
     Conceptual nothing = new Nothing();
     assertFalse(kb.isSatisfiable(nothing));
-    kb.query(nothing);
+    assertTrue(kb.query(nothing).isEmpty());
   }
 
 
