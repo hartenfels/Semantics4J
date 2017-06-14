@@ -147,7 +147,7 @@ public class KnowBase {
 
   public Individual cast(Conceptual c, Object o) {
     Individual i = (Individual) o;
-    if (!isMember(c, i)) {
+    if (i != null && !isMember(c, i)) {
       throw new SemanticCastException(c, i);
     }
     return i;
