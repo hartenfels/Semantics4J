@@ -124,7 +124,7 @@ public class KnowBase {
 
 
   public Individual nominal(String iri) {
-    checkIndividualSignature(iri);
+    checkSignature("individual", iri);
     String actualIri = msg("individual", new JsonPrimitive(iri)).getAsString();
     return new Individual(this, actualIri);
   }
@@ -170,18 +170,6 @@ public class KnowBase {
       Logger.getGlobal().warning(
           String.format("%s '%s' not in signature of '%s'", type, iri, path));
     }
-  }
-
-  public void checkConceptSignature(String iri) {
-    checkSignature("concept", iri);
-  }
-
-  public void checkRoleSignature(String iri) {
-    checkSignature("role", iri);
-  }
-
-  public void checkIndividualSignature(String iri) {
-    checkSignature("individual", iri);
   }
 
 

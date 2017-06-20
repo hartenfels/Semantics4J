@@ -35,7 +35,7 @@ aspect Query {
   eq DlUniversalExpr.quantop(Roleish r, Conceptual c) = new Universal(r, c);
 
 
-  syn Conceptual Expr.toConceptual() =
+  syn lazy Conceptual Expr.toConceptual() =
     isConstant() && type().isString() ? new Concept(constant().stringValue()) : null;
 
   eq ParExpr.toConceptual() = getExpr().toConceptual();
@@ -68,7 +68,7 @@ aspect Query {
   }
 
 
-  syn Roleish Expr.toRoleish() =
+  syn lazy Roleish Expr.toRoleish() =
     isConstant() && type().isString() ? new Role(constant().stringValue()) : null;
 
   eq ParExpr.toRoleish() = getExpr().toRoleish();
@@ -158,6 +158,64 @@ aspect Query {
 
   DlQueryExpr contributes error("constant query is unsatisfiable")
     when isGuaranteedUnsatisfiable()
+    to CompilationUnit.problems();
+
+
+  protected Problem Expr.signatureWarning(DescriptionLogic dl) {
+    String type = dl.getSignatureType();
+    String iri  = dl.getSignatureIri();
+    String path = lookupKnows();
+    return warning(
+        String.format("%s '%s' not in signature of '%s'", type, iri, path));
+  }
+
+  protected boolean Expr.hasSignature(DescriptionLogic dl, String expectedType) {
+    String path = lookupKnows();
+
+    if (dl == null || path == null) {
+      return true;
+    }
+
+    String type = dl.getSignatureType();
+    String iri  = dl.getSignatureIri();
+
+    if (type == null || iri == null || !type.equals(expectedType)) {
+      return true;
+    }
+
+    return KnowBase.of(path).hasSignature(type, iri);
+  }
+
+  DlQuantifierExpr contributes signatureWarning(getLeftOperand().toRoleish())
+    when toConceptual() != null
+      && !hasSignature(getLeftOperand().toRoleish(), "role")
+    to CompilationUnit.problems();
+
+  DlQuantifierExpr contributes signatureWarning(getRightOperand().toConceptual())
+    when toConceptual() != null
+      && !hasSignature(getRightOperand().toConceptual(), "concept")
+    to CompilationUnit.problems();
+
+  DlBinaryExpr contributes signatureWarning(getLeftOperand().toConceptual())
+    when toConceptual() != null
+      && !hasSignature(getLeftOperand().toConceptual(), "concept")
+    to CompilationUnit.problems();
+
+  DlBinaryExpr contributes signatureWarning(getRightOperand().toConceptual())
+    when toConceptual() != null
+      && !hasSignature(getRightOperand().toConceptual(), "concept")
+    to CompilationUnit.problems();
+
+  DlNegationExpr contributes signatureWarning(getOperand().toConceptual())
+    when !hasSignature(getOperand().toConceptual(), "concept")
+    to CompilationUnit.problems();
+
+  DlInversionExpr contributes signatureWarning(getOperand().toRoleish())
+    when !hasSignature(getOperand().toRoleish(), "role")
+    to CompilationUnit.problems();
+
+  DlOneExpr contributes signatureWarning(toConceptual())
+    when !hasSignature(toConceptual(), "individual")
     to CompilationUnit.problems();
 }
 

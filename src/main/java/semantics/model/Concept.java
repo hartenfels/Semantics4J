@@ -13,8 +13,14 @@ public class Concept extends Conceptual {
     this.iri = iri;
   }
 
-  public void checkSignature(KnowBase kb) {
-    kb.checkConceptSignature(iri);
+  @Override
+  public String getSignatureType() {
+    return "concept";
+  }
+
+  @Override
+  public String getSignatureIri() {
+    return iri;
   }
 
   public JsonElement toJson() {

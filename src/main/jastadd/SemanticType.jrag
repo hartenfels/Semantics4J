@@ -1,6 +1,7 @@
 import semantics.KnowBase;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
+import semantics.model.DescriptionLogic;
 import semantics.model.Everything;
 import semantics.model.Existence;
 import semantics.model.Intersection;
@@ -116,6 +117,29 @@ aspect SemanticType {
 
   syn SemanticTypeAccess SemanticInstanceOfExpr.getSemanticTypeAccess() =
     (SemanticTypeAccess) getTypeAccess();
+
+
+  protected Problem SemanticType.signatureWarning(String type, String iri) {
+    return warning(
+        String.format("%s '%s' not in signature of '%s'", type, iri, lookupKnows()));
+  }
+
+  protected boolean SemanticType.hasSignature(String type, String iri) {
+    String path = lookupKnows();
+    return path != null && KnowBase.of(path).hasSignature(type, iri);
+  }
+
+  ConceptType contributes signatureWarning("concept", getIri())
+    when !hasSignature("concept", getIri())
+    to CompilationUnit.problems();
+
+  RoleType contributes signatureWarning("role", getIri())
+    when !hasSignature("role", getIri())
+    to CompilationUnit.problems();
+
+  OneType contributes signatureWarning("individual", getIri())
+    when !hasSignature("individual", getIri())
+    to CompilationUnit.problems();
 
 
   rewrite InstanceOfExpr {

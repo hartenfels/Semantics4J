@@ -13,8 +13,14 @@ public class Role extends Roleish {
     this.iri = iri;
   }
 
-  public void checkSignature(KnowBase kb) {
-    kb.checkRoleSignature(iri);
+  @Override
+  public String getSignatureType() {
+    return "role";
+  }
+
+  @Override
+  public String getSignatureIri() {
+    return iri;
   }
 
   public JsonElement toJson() {
