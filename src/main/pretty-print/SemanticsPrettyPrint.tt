@@ -29,8 +29,8 @@ DlTypecase        [[$Type $Ident $Block]]
 DlTypecaseDefault [[default $Block]]
 
 
-ParConceptualType [[｢$Inner｣]]
-ParRoleishType    [[｢$Inner｣]]
+ParConceptualType [[[$Inner]]]
+ParRoleishType    [[[$Inner]]]
 
 EverythingType [[⊤]]
 NothingType    [[⊥]]

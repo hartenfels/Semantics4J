@@ -44,24 +44,24 @@ public class ConstructionTest {
     Conceptual b = new Concept("b");
     Conceptual c = new Concept("c");
 
-    is("｢｣", new Union());
-    is("｢｣", new Intersection());
+    is("[]", new Union());
+    is("[]", new Intersection());
 
-    is("｢«a»｣", new Union(a));
-    is("｢«a»｣", new Intersection(a));
+    is("[«a»]", new Union(a));
+    is("[«a»]", new Intersection(a));
 
-    is("｢«a» ⊔ «b»｣", new Union(a, b));
-    is("｢«a» ⊓ «b»｣", new Intersection(a, b));
+    is("[«a» ⊔ «b»]", new Union(a, b));
+    is("[«a» ⊓ «b»]", new Intersection(a, b));
 
-    is("｢«a» ⊔ «b» ⊔ «c»｣", new Union(a, b, c));
-    is("｢«a» ⊓ «b» ⊓ «c»｣", new Intersection(a, b, c));
+    is("[«a» ⊔ «b» ⊔ «c»]", new Union(a, b, c));
+    is("[«a» ⊓ «b» ⊓ «c»]", new Intersection(a, b, c));
   }
 
 
   @Test
   public void nested() {
     is(
-        "｢∃«r» ⇒ ｢∀«s»⁻ ⇒ ¬⎨«o»⎬ ⊓ «c»｣ ⊔ ⊥｣",
+        "[∃«r» ⇒ [∀«s»⁻ ⇒ ¬⎨«o»⎬ ⊓ «c»] ⊔ ⊥]",
         new Union(
           new Existence(
             new Role("r"),

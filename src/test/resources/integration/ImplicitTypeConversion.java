@@ -19,6 +19,6 @@ public class ImplicitTypeConversion knows "wine.rdf" {
 
 /*
  *! src/test/resources/integration/ImplicitTypeConversion.java:12: error: can not assign redWine of type «:RedWine» a value of type «:DryWine»
- *! src/test/resources/integration/ImplicitTypeConversion.java:13: error: can not assign redAndDryWine of type ｢«:RedWine» ⊓ «:DryWine»｣ a value of type «:Wine»
+ *! src/test/resources/integration/ImplicitTypeConversion.java:13: error: can not assign redAndDryWine of type [«:RedWine» ⊓ «:DryWine»] a value of type «:Wine»
  *! src/test/resources/integration/ImplicitTypeConversion.java:14: error: can not assign wine of type «:Wine» a value of type semantics.model.Individual
  */

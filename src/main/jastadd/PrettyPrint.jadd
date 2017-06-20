@@ -136,14 +136,14 @@ aspect SemanticsPrettyPrint {
     out.print("\u00BB\u23AC");
   }
   public void ParConceptualType.prettyPrint(PrettyPrinter out) {
-    out.print("\uFF62");
+    out.print("[");
     out.print(getInner());
-    out.print("\uFF63");
+    out.print("]");
   }
   public void ParRoleishType.prettyPrint(PrettyPrinter out) {
-    out.print("\uFF62");
+    out.print("[");
     out.print(getInner());
-    out.print("\uFF63");
+    out.print("]");
   }
   public void QuantifierType.prettyPrint(PrettyPrinter out) {
     out.print(printPrefix());
