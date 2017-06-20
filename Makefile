@@ -59,7 +59,7 @@ aspectgen:
 
 clean:
 	$(GRADLE) clean
-	rm -f examples/*.class gradle.log
+	rm -f examples/*.class src/test/resources/integration/*.class gradle.log
 	$(MAKE) -C examples/WineSearch clean
 
 realclean: clean
