@@ -8,7 +8,7 @@ import org.junit.Test;
 import semantics.KnowBase;
 import semantics.model.*;
 import static org.junit.Assert.*;
-import static semantics.Individuals.iris;
+import static semantics.Util.iris;
 
 
 public class KnowBaseTest {

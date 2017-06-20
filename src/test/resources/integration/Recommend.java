@@ -1,5 +1,5 @@
 import java.util.Set;
-import static semantics.Individuals.sorted;
+import static semantics.Util.sorted;
 
 
 public class Recommend knows "wine.rdf" {

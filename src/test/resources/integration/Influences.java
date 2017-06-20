@@ -1,5 +1,5 @@
 import java.util.Set;
-import static semantics.Individuals.names;
+import static semantics.Util.names;
 
 
 public class Influences knows "music.rdf" {

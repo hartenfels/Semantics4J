@@ -13,9 +13,9 @@ import semantics.model.Conceptual;
 import semantics.model.Individual;
 import spark.Request;
 import spark.Response;
-import static semantics.Individuals.head;
-import static semantics.Individuals.names;
-import static semantics.Individuals.sorted;
+import static semantics.Util.head;
+import static semantics.Util.names;
+import static semantics.Util.sorted;
 import static spark.Spark.*;
 
 

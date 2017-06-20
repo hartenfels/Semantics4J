@@ -1,7 +1,7 @@
 import java.util.HashSet;
 import java.util.Set;
-import static semantics.Individuals.names;
-import static semantics.Individuals.sorted;
+import static semantics.Util.names;
+import static semantics.Util.sorted;
 
 
 public class Wineries knows "wine.rdf" {
