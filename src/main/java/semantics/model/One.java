@@ -2,6 +2,7 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import semantics.KnowBase;
 import semantics.Util;
 
 
@@ -10,6 +11,10 @@ public class One extends Conceptual {
 
   public One(String iri) {
     this.iri = iri;
+  }
+
+  public void checkSignature(KnowBase kb) {
+    kb.checkIndividualSignature(iri);
   }
 
   public JsonElement toJson() {

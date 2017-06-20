@@ -2,6 +2,7 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import semantics.KnowBase;
 import semantics.Util;
 
 
@@ -10,6 +11,10 @@ public class Inversion extends Roleish {
 
   public Inversion(Roleish r) {
     this.r = r;
+  }
+
+  public void checkSignature(KnowBase kb) {
+    r.checkSignature(kb);
   }
 
   public JsonElement toJson() {

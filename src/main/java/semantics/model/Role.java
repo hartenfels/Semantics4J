@@ -2,6 +2,7 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import semantics.KnowBase;
 import semantics.Util;
 
 
@@ -10,6 +11,10 @@ public class Role extends Roleish {
 
   public Role(String iri) {
     this.iri = iri;
+  }
+
+  public void checkSignature(KnowBase kb) {
+    kb.checkRoleSignature(iri);
   }
 
   public JsonElement toJson() {

@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Logger;
 import java.util.Set;
 import semantics.err.CommunicationException;
 import semantics.err.IncompatibleIndividualException;
@@ -123,17 +124,20 @@ public class KnowBase {
 
 
   public Individual nominal(String iri) {
+    checkIndividualSignature(iri);
     String actualIri = msg("individual", new JsonPrimitive(iri)).getAsString();
     return new Individual(this, actualIri);
   }
 
 
   public Set<Individual> query(Conceptual c) {
+    c.checkSignature(this);
     return toIndividuals(msg("query", c.toJson()));
   }
 
 
   public Set<Individual> project(Individual i, Roleish r) {
+    r.checkSignature(this);
     JsonArray arg = new JsonArray();
     arg.add(ensureCorrectSource(i).getIri());
     arg.add(r.toJson());
@@ -151,6 +155,33 @@ public class KnowBase {
 
   public boolean isInstanceOf(Conceptual c, Object o) {
     return o instanceof Individual && isMember(c, (Individual) o);
+  }
+
+
+  public boolean hasSignature(String type, String iri) {
+    JsonArray arg = new JsonArray();
+    arg.add(type);
+    arg.add(iri);
+    return msg("signature", arg).getAsBoolean();
+  }
+
+  public void checkSignature(String type, String iri) {
+    if (!hasSignature(type, iri)) {
+      Logger.getGlobal().warning(
+          String.format("%s '%s' not in signature of '%s'", type, iri, path));
+    }
+  }
+
+  public void checkConceptSignature(String iri) {
+    checkSignature("concept", iri);
+  }
+
+  public void checkRoleSignature(String iri) {
+    checkSignature("role", iri);
+  }
+
+  public void checkIndividualSignature(String iri) {
+    checkSignature("individual", iri);
   }
 
 

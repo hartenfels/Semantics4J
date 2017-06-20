@@ -2,7 +2,7 @@ package semantics;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import semantics.model.Jsonable;
+import semantics.model.DescriptionLogic;
 
 
 public class Util {
@@ -18,10 +18,10 @@ public class Util {
   }
 
 
-  public static JsonElement allToJson(Jsonable... elems) {
+  public static JsonElement allToJson(DescriptionLogic... elems) {
     JsonArray arr = new JsonArray();
 
-    for (Jsonable e : elems) {
+    for (DescriptionLogic e : elems) {
       arr.add(e.toJson());
     }
 

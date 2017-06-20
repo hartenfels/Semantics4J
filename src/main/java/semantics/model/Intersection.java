@@ -1,31 +1,23 @@
 package semantics.model;
 
-import com.google.gson.JsonElement;
-import java.util.Arrays;
-import semantics.Util;
 
-
-public class Intersection extends Conceptual {
-  private final Conceptual[] cs;
-
+public class Intersection extends Binary {
   public Intersection(Conceptual... cs) {
-    this.cs = cs;
-  }
-
-  public JsonElement toJson() {
-    return Util.toTaggedArray("I", Util.allToJson(cs));
+    super(cs);
   }
 
   @Override
-  public String toString() {
-    return String.format("｢%s｣", Util.join(" ⊓ ", cs));
+  protected String getTag() {
+    return "I";
+  }
+
+  @Override
+  protected String getOperator() {
+    return "⊓";
   }
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof Intersection) {
-      return Arrays.equals(cs, ((Intersection) o).cs);
-    }
-    return false;
+    return o instanceof Intersection && super.equals(o);
   }
 }

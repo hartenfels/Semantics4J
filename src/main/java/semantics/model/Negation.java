@@ -1,6 +1,7 @@
 package semantics.model;
 
 import com.google.gson.JsonElement;
+import semantics.KnowBase;
 import semantics.Util;
 
 
@@ -9,6 +10,10 @@ public class Negation extends Conceptual {
 
   public Negation(Conceptual c) {
     this.c = c;
+  }
+
+  public void checkSignature(KnowBase kb) {
+    c.checkSignature(kb);
   }
 
   public JsonElement toJson() {

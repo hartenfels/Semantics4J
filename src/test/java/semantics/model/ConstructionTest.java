@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 
 public class ConstructionTest {
-  private static void is(String expected, Jsonable actual) {
+  private static void is(String expected, DescriptionLogic actual) {
     assertEquals(expected, actual.toString());
   }
 
