@@ -33,8 +33,8 @@ public class ConstructionTest {
 
   @Test
   public void quantifiers() {
-    is("∃«r» ⇒ «c»", new Existence(new Role("r"), new Concept("c")));
-    is("∀«r» ⇒ «c»", new Universal(new Role("r"), new Concept("c")));
+    is("∃«r»·«c»", new Existence(new Role("r"), new Concept("c")));
+    is("∀«r»·«c»", new Universal(new Role("r"), new Concept("c")));
   }
 
 
@@ -61,7 +61,7 @@ public class ConstructionTest {
   @Test
   public void nested() {
     is(
-        "[∃«r» ⇒ [∀«s»⁻ ⇒ ¬⎨«o»⎬ ⊓ «c»] ⊔ ⊥]",
+        "[∃«r»·[∀«s»⁻·¬⎨«o»⎬ ⊓ «c»] ⊔ ⊥]",
         new Union(
           new Existence(
             new Role("r"),

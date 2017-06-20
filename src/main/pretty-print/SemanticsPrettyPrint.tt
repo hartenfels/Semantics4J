@@ -8,7 +8,7 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 DlEverythingExpr [[⊤]]
 DlNothingExpr    [[⊥]]
 
-DlQuantifierExpr [[#printPrefix$LeftOperand #printOp $RightOperand]]
+DlQuantifierExpr [[#printPrefix$LeftOperand#printOp$RightOperand]]
 
 DlNegationExpr  [[¬$Operand]]
 DlInversionExpr [[$Operand⁻]]
@@ -43,6 +43,6 @@ NegationType  [[¬$Operand]]
 InversionType [[$Operand⁻]]
 
 BinaryType     [[$Left #printOp $Right]]
-QuantifierType [[#printPrefix$Role ⇒ $Concept]]
+QuantifierType [[#printPrefix$Role·$Concept]]
 
 SemanticTypeAccess [[$Concept]]

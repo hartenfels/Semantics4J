@@ -1,7 +1,7 @@
 aspect PrettyPrintUtil {
   eq DlUnionExpr       .printOp() = "⊔";
   eq DlIntersectionExpr.printOp() = "⊓";
-  eq DlQuantifierExpr  .printOp() = "⇒";
+  eq DlQuantifierExpr  .printOp() = "·";
 
 
   syn String DlQuantifierExpr.printPrefix();

@@ -48,12 +48,12 @@ public class Query knows "music.rdf" {
   }
 
   public static void quantifierExpr() {
-    Object o1 = ∃"a" ⇒ "b";
-    Object o2 = ∀("a") ⇒ ("b");
-    Object o3 = (∃"a" ⇒ "b");
-    Object o4 = ∀"a" ⇒ ∃"b" ⇒ "c";
-    Object o5 = ∀"a"⁻⁻ ⇒ "b" ⊓ "c";
-    Object o6 = "a" ⊓ ∃"b" ⇒ "c";
+    Object o1 = ∃"a"·"b";
+    Object o2 = ∀("a")·("b");
+    Object o3 = (∃"a"·"b");
+    Object o4 = ∀"a"·∃"b"·"c";
+    Object o5 = ∀"a"⁻⁻·"b" ⊓ "c";
+    Object o6 = "a" ⊓ ∃"b"·"c";
   }
 
   public static void oneExpr() {
@@ -64,10 +64,10 @@ public class Query knows "music.rdf" {
   }
 
   public static void complexExprs() {
-    Object o1 = "a" ⊓ ∃"b" ⇒ ⎨"c"⎬;
-    Object o2 = ("a" ⊓ ∃"b" ⇒ ⎨"c"⎬);
+    Object o1 = "a" ⊓ ∃"b"·⎨"c"⎬;
+    Object o2 = ("a" ⊓ ∃"b"·⎨"c"⎬);
 
-    Object o3 = ⊥ ⊓ ∃"a" ⇒ ⎨"b"⎬;
-    Object o4 = (⊥ ⊓ ∃"a" ⇒ ⎨"b"⎬);
+    Object o3 = ⊥ ⊓ ∃"a"·⎨"b"⎬;
+    Object o4 = (⊥ ⊓ ∃"a"·⎨"b"⎬);
   }
 }

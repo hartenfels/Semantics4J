@@ -8,8 +8,8 @@ public class Unsatisfiable knows "music.rdf" {
     Set<? extends Individual> set2 = query-for((⊥));
     Set<? extends Individual> set3 = query-for(":MusicArtist" ⊓ ⊥);
     Set<? extends Individual> set4 = query-for(":MusicArtist" ⊔ ⊥);
-    Set<? extends Individual> set5 = query-for(⊥ ⊓ ∃":influencedBy" ⇒ ⎨":beatles"⎬);
-    Set<? extends Individual> set6 = query-for((⊥) ⊓ (∃(":influencedBy") ⇒ (⎨":beatles"⎬)));
+    Set<? extends Individual> set5 = query-for(⊥ ⊓ ∃":influencedBy"·⎨":beatles"⎬);
+    Set<? extends Individual> set6 = query-for((⊥) ⊓ (∃(":influencedBy")·(⎨":beatles"⎬)));
   }
 }
 

@@ -32,8 +32,7 @@
   "∀"  { return sym(Terminals.DL_UNIVERSAL); }
   "#A" { return sym(Terminals.DL_UNIVERSAL); }
 
-  "⇒"  { return sym(Terminals.DL_ARROW); }
-  "=>" { return sym(Terminals.DL_ARROW); }
+  "·"  { return sym(Terminals.DL_DOT); }
 
   "⊔="   { return sym(Terminals.DL_UNIONEQ); }
   "|||=" { return sym(Terminals.DL_UNIONEQ); }

@@ -51,9 +51,13 @@ Expr unary_expression_not_plus_minus_nn = dl_unary_expression;
 
 
 Expr dl_quantifier_expression =
-    DL_EXISTENCE expression.e1 DL_ARROW expression.e2
+    DL_EXISTENCE expression.e1 DL_DOT expression.e2
         {: return new DlExistenceExpr(e1, e2); :}
-  | DL_UNIVERSAL expression.e1 DL_ARROW expression.e2
+  | DL_UNIVERSAL expression.e1 DL_DOT expression.e2
+        {: return new DlUniversalExpr(e1, e2); :}
+  | DL_EXISTENCE expression.e1 ELLIPSIS expression.e2
+        {: return new DlExistenceExpr(e1, e2); :}
+  | DL_UNIVERSAL expression.e1 ELLIPSIS expression.e2
         {: return new DlUniversalExpr(e1, e2); :}
   ;
 

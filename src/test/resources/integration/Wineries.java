@@ -9,7 +9,7 @@ public class Wineries knows "wine.rdf" {
     Set<«:Winery»> wineries = new HashSet<>();
 
     for («:Wine» wine : wines) {
-      for (∃«:hasMaker»⁻ ⇒ «:Wine» maker : wine.«:hasMaker») {
+      for (∃«:hasMaker»⁻·«:Wine» maker : wine.«:hasMaker») {
         wineries.add(maker);
       }
     }

@@ -28,7 +28,7 @@ public abstract class Quantifier extends Conceptual {
 
   @Override
   public String toString() {
-    return String.format("%s%s ⇒ %s", getPrefix(), r, c);
+    return String.format("%s%s·%s", getPrefix(), r, c);
   }
 
   @Override

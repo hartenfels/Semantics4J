@@ -26,7 +26,7 @@ public class WineSearch knows "wine.rdf" {
 
   private static Set<«:Region»> getTopLevelRegions() {
     Set<«:Region»> regions = query-for(":Region");
-    regions.removeAll(query-for(∃":locatedIn" ⇒ ":Region"));
+    regions.removeAll(query-for(∃":locatedIn"·":Region"));
     return regions;
   }
 
@@ -57,10 +57,10 @@ public class WineSearch knows "wine.rdf" {
 
       if (param != null) {
         String[]   parts = param.split(",");
-        Conceptual union = ∃role ⇒ ⎨":" + parts[0]⎬;
+        Conceptual union = ∃role·⎨":" + parts[0]⎬;
 
         for (int i = 1; i < parts.length; ++i) {
-          union ⊔= ∃role ⇒ ⎨":" + parts[i]⎬;
+          union ⊔= ∃role·⎨":" + parts[i]⎬;
         }
 
         dl ⊓= union;

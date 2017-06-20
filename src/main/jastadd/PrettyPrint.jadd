@@ -38,9 +38,7 @@ aspect SemanticsPrettyPrint {
   public void DlQuantifierExpr.prettyPrint(PrettyPrinter out) {
     out.print(printPrefix());
     out.print(getLeftOperand());
-    out.print(" ");
     out.print(printOp());
-    out.print(" ");
     out.print(getRightOperand());
   }
   public void DlQueryExpr.prettyPrint(PrettyPrinter out) {
@@ -148,7 +146,7 @@ aspect SemanticsPrettyPrint {
   public void QuantifierType.prettyPrint(PrettyPrinter out) {
     out.print(printPrefix());
     out.print(getRole());
-    out.print(" \u21D2 ");
+    out.print("\u00B7");
     out.print(getConcept());
   }
   public void RoleType.prettyPrint(PrettyPrinter out) {

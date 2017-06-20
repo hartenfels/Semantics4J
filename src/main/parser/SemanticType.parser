@@ -11,8 +11,10 @@ ConceptualType intersection_type =
   ;
 
 ConceptualType quantifier_type =
-    DL_EXISTENCE role_type.r DL_ARROW concept_type.c {: return new ExistenceType(r, c); :}
-  | DL_UNIVERSAL role_type.r DL_ARROW concept_type.c {: return new UniversalType(r, c); :}
+    DL_EXISTENCE role_type.r DL_DOT   concept_type.c {: return new ExistenceType(r, c); :}
+  | DL_UNIVERSAL role_type.r DL_DOT   concept_type.c {: return new UniversalType(r, c); :}
+  | DL_EXISTENCE role_type.r ELLIPSIS concept_type.c {: return new ExistenceType(r, c); :}
+  | DL_UNIVERSAL role_type.r ELLIPSIS concept_type.c {: return new UniversalType(r, c); :}
   | negation_type
   ;
 
