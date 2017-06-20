@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.IntStream;
-import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.Individual;
 import spark.Request;
 import spark.Response;
+import static semantics.Util.concept;
 import static semantics.Util.head;
 import static semantics.Util.names;
 import static semantics.Util.sorted;
@@ -49,7 +49,7 @@ public class WineSearch knows "wine.rdf" {
   }
 
   private static List<Individual> wines(Request req, Response res) {
-    Conceptual dl = new Concept(":Wine");
+    Conceptual dl = concept(":Wine");
 
     for (String key : "body color flavor maker region sugar".split("\\s+")) {
       String role  = key.equals("region") ? ":locatedIn" : ":has" + ucfirst(key);

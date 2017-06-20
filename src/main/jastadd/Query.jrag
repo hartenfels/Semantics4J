@@ -217,6 +217,20 @@ aspect Query {
   DlOneExpr contributes signatureWarning(toConceptual())
     when !hasSignature(toConceptual(), "individual")
     to CompilationUnit.problems();
+
+  MethodAccess contributes signatureWarning(getArg(0).toConceptual())
+    when decl().hostType().fullName().equals("semantics.Util")
+      && decl().name().equals("concept")
+      && getNumArg() == 1
+      && !hasSignature(getArg(0).toConceptual(), "concept")
+    to CompilationUnit.problems();
+
+  MethodAccess contributes signatureWarning(getArg(0).toRoleish())
+    when decl().hostType().fullName().equals("semantics.Util")
+      && decl().name().equals("role")
+      && getNumArg() == 1
+      && !hasSignature(getArg(0).toRoleish(), "role")
+    to CompilationUnit.problems();
 }
 
 
