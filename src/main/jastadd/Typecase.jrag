@@ -113,17 +113,24 @@ aspect Typecase {
     if (!cases.isEmpty() && knows != null) {
       KnowBase       kb   = KnowBase.of(knows);
       Everything     top  = new Everything();
-      ConceptualType prev = null;
-      Conceptual     pm   = null;
 
       for (DlTypecaseish c : cases) {
         ConceptualType cur = c.type();
         Conceptual     cm  = cur.toModel();
 
-        if (pm != null && kb.isSubtype(cm, pm)) {
-          String pprev = prev.prettyPrint();
-          String pcur  = cur .prettyPrint();
-          problems.add(errorf("bad typecase order, '%s' subsumes '%s'", pprev, pcur));
+        for (DlTypecaseish p : cases) {
+          if (p == c) {
+            break;
+          }
+
+          ConceptualType prev = p.type();
+          Conceptual     pm   = prev.toModel();
+
+          if (pm != null && kb.isSubtype(cm, pm)) {
+            String pprev = prev.prettyPrint();
+            String pcur  = cur .prettyPrint();
+            problems.add(errorf("bad typecase order, '%s' subsumes '%s'", pprev, pcur));
+          }
         }
 
         if (!kb.isSatisfiable(cm)) {
@@ -136,9 +143,6 @@ aspect Typecase {
           problems.add(errorf(
               "typecase '%s' will always match, use the default case instead", pcur));
         }
-
-        prev = cur;
-        pm   = cm;
       }
     }
 
