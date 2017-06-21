@@ -29,7 +29,7 @@ public abstract class IntegrationTestBase {
 
   private static String slurpStream(InputStream is) throws IOException {
     try (BufferedReader br = new BufferedReader(new InputStreamReader(is, UTF_8))) {
-      return br.lines().collect(Collectors.joining("\n"));
+      return br.lines().collect(Collectors.joining("\n")) + "\n";
     }
   }
 
