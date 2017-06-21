@@ -19,6 +19,10 @@ public class IntegrationTest extends IntegrationTestBase {
     checkIntegration("TypecaseErrors");
   }
   @org.junit.Test
+  public void checkSignatures() {
+    checkIntegration("Signatures");
+  }
+  @org.junit.Test
   public void checkImplicitTypeConversion() {
     checkIntegration("ImplicitTypeConversion");
   }
