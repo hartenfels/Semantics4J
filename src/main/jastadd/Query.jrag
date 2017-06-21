@@ -186,6 +186,11 @@ aspect Query {
     return KnowBase.of(path).hasSignature(type, iri);
   }
 
+  DlQueryExpr contributes signatureWarning(getOperand().toConceptual())
+    when getOperand().toConceptual() != null
+      && !hasSignature(getOperand().toConceptual(), "concept")
+    to CompilationUnit.problems();
+
   DlQuantifierExpr contributes signatureWarning(getLeftOperand().toRoleish())
     when toConceptual() != null
       && !hasSignature(getLeftOperand().toRoleish(), "role")
