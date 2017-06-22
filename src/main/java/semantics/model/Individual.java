@@ -1,20 +1,12 @@
 package semantics.model;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Set;
 import semantics.KnowBase;
 
 
 public final class Individual implements Comparable<Individual> {
-  private static final Pattern[] NAME_PATTERNS = {
-    Pattern.compile("<.*#(.*)>"),
-    Pattern.compile("<.*?:(.*)>"),
-    Pattern.compile("<(.*)>"),
-    Pattern.compile(".*?:(.*)"),
-  };
-
-
   private final KnowBase kb;
   private final String   iri;
 
@@ -33,13 +25,14 @@ public final class Individual implements Comparable<Individual> {
   }
 
   public String getName() {
-    for (Pattern p : NAME_PATTERNS) {
-      Matcher m = p.matcher(iri);
-      if (m.matches()) {
-        return m.group(1);
-      }
+    // FIXME: URIs aren't exactly IRIs, since they don't allow Unicode
+    // characters. This either needs URL encoding or a real IRI library.
+    try {
+      return new URI(iri).getFragment();
     }
-    return iri;
+    catch (URISyntaxException e) {
+      return iri;
+    }
   }
 
 

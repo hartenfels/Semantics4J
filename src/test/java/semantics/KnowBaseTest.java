@@ -3,6 +3,7 @@ package semantics;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import semantics.KnowBase;
@@ -65,16 +66,22 @@ public class KnowBaseTest {
 
   @Test
   public void nominal() {
-    nominalIs(":hendrix", ":hendrix");
-    nominalIs(":hendrix", "http://example.org/music#hendrix");
-    nominalIs("<what:ever>", "what:ever");
-    nominalIs("<http://example.org/what#ever>", "http://example.org/what#ever");
+    nominalIs("http://example.org/music#hendrix", ":hendrix");
+    nominalIs("http://example.org/music#hendrix", "http://example.org/music#hendrix");
+    nominalIs("what:ever", "what:ever");
+    nominalIs("http://example.org/what#ever", "http://example.org/what#ever");
   }
 
 
-  private static void queryIs(Conceptual c, String... iris) {
+  private static Set<String> unabbreviate(String[] abbreviated) {
+    return Arrays.stream(abbreviated)
+      .map(iri -> "http://example.org/music#" + iri.replaceFirst("^:", ""))
+      .collect(Collectors.toSet());
+  }
+
+  private static void queryIs(Conceptual c, String... abbreviated) {
     assertTrue(kb.isSatisfiable(c));
-    assertEquals(new HashSet<>(Arrays.asList(iris)), iris(kb.query(c)));
+    assertEquals(unabbreviate(abbreviated), iris(kb.query(c)));
   }
 
   @Test
@@ -101,8 +108,8 @@ public class KnowBaseTest {
   }
 
 
-  private static void projectIs(Individual i, Roleish r, String... iris) {
-    assertEquals(new HashSet<>(Arrays.asList(iris)), iris(i.project(r)));
+  private static void projectIs(Individual i, Roleish r, String... abbreviated) {
+    assertEquals(unabbreviate(abbreviated), iris(i.project(r)));
   }
 
   @Test
