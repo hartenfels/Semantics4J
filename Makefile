@@ -57,11 +57,9 @@ aspectgen:
 clean:
 	$(GRADLE) clean
 	rm -f examples/*.class src/test/resources/integration/*.class gradle.log
-	$(MAKE) -C examples/WineSearch clean
 
 realclean: clean
 	rm -f jastics.jar
-	$(MAKE) -C examples/WineSearch realclean
 
 
 .PHONY: all list-examples test clean realclean
