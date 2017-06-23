@@ -10,6 +10,11 @@ public class Universal extends Quantifier {
   }
 
   @Override
+  protected Quantifier construct(Roleish r, Conceptual c) {
+    return new Universal(r, c);
+  }
+
+  @Override
   protected String getTag() {
     return "A";
   }

@@ -14,6 +14,8 @@ public abstract class Quantifier extends Conceptual {
     this.c = c;
   }
 
+  protected abstract Quantifier construct(Roleish r, Conceptual c);
+
   protected abstract String getTag();
   protected abstract String getPrefix();
 
@@ -25,6 +27,20 @@ public abstract class Quantifier extends Conceptual {
   public JsonElement toJson() {
     return Util.toTaggedArray(getTag(), r.toJson(), c.toJson());
   }
+
+
+  @Override
+  public boolean containsUnknown() {
+    return c.containsUnknown() || r.containsUnknown();
+  }
+
+  @Override
+  public Conceptual stripUnknown() {
+    return r.containsUnknown()
+         ? new Everything()
+         : construct(r, c.stripUnknown());
+  }
+
 
   @Override
   public String toString() {

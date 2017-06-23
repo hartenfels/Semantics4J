@@ -36,7 +36,9 @@ aspect Query {
 
 
   syn lazy Conceptual Expr.toConceptual() =
-    isConstant() && type().isString() ? new Concept(constant().stringValue()) : null;
+    isConstant() && type().isString()
+      ? new Concept(constant().stringValue())
+      : new UnknownConcept();
 
   eq ParExpr.toConceptual() = getExpr().toConceptual();
 
@@ -64,12 +66,14 @@ aspect Query {
     Expr op = getOperand();
     return isConstant() && op.type().isString()
          ? new One(op.constant().stringValue())
-         : null;
+         : new UnknownConcept();
   }
 
 
   syn lazy Roleish Expr.toRoleish() =
-    isConstant() && type().isString() ? new Role(constant().stringValue()) : null;
+    isConstant() && type().isString()
+      ? new Role(constant().stringValue())
+      : new UnknownRole();
 
   eq ParExpr.toRoleish() = getExpr().toRoleish();
 
@@ -85,7 +89,13 @@ aspect Query {
     ClassDecl  ind  = (ClassDecl) lookupType("semantics.model", "Individual");
 
     Collection<TypeDecl> param = new LinkedList<>();
-    param.add(path == null || c == null ? ind : ind.semanticTypeDecl(path, c));
+
+    if (path == null || c == null) {
+      param.add(ind);
+    }
+    else {
+      param.add(ind.semanticTypeDecl(path, c.stripUnknown()));
+    }
 
     GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
     return set.lookupParTypeDecl(param);
@@ -153,7 +163,8 @@ aspect Query {
   syn lazy boolean DlQueryExpr.isGuaranteedUnsatisfiable() {
     String     path = lookupKnows();
     Conceptual c    = getOperand().toConceptual();
-    return path != null && c != null && !KnowBase.of(path).isSatisfiable(c);
+    return path != null && c != null && !c.isUnknown()
+        && !KnowBase.of(path).isSatisfiable(c.stripUnknown());
   }
 
   DlQueryExpr contributes error("constant query is unsatisfiable")

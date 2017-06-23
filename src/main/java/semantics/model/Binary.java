@@ -6,12 +6,14 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public abstract class Binary extends Conceptual {
+public abstract class Binary extends Conceptual implements Cloneable {
   private final Conceptual[] cs;
 
   public Binary(Conceptual[] cs) {
     this.cs = cs;
   }
+
+  protected abstract Binary construct(Conceptual[] cs);
 
   protected abstract String getTag();
   protected abstract String getOperator();
@@ -25,6 +27,33 @@ public abstract class Binary extends Conceptual {
   public JsonElement toJson() {
     return Util.toTaggedArray(getTag(), Util.allToJson(cs));
   }
+
+
+  @Override
+  public boolean containsUnknown() {
+    for (Conceptual c : cs) {
+      if (c.containsUnknown()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public Conceptual stripUnknown() {
+    if (!containsUnknown()) {
+      return this;
+    }
+
+    Conceptual[] stripped = new Conceptual[cs.length];
+
+    for (int i = 0; i < cs.length; ++i) {
+      stripped[i] = cs[i].stripUnknown();
+    }
+
+    return construct(stripped);
+  }
+
 
   @Override
   public String toString() {

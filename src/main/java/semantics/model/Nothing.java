@@ -6,10 +6,6 @@ import semantics.KnowBase;
 
 
 public class Nothing extends Conceptual {
-  public void checkSignature(KnowBase kb) {
-    // ⊥ is always in the signature
-  }
-
   public JsonElement toJson() {
     return new JsonPrimitive(false);
   }

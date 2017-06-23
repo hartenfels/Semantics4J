@@ -13,6 +13,8 @@ import semantics.model.Role;
 import semantics.model.Roleish;
 import semantics.model.Union;
 import semantics.model.Universal;
+import semantics.model.UnknownConcept;
+import semantics.model.UnknownRole;
 
 
 aspect SemanticType {

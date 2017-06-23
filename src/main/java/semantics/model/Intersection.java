@@ -7,6 +7,11 @@ public class Intersection extends Binary {
   }
 
   @Override
+  protected Binary construct(Conceptual[] cs) {
+    return new Intersection(cs);
+  }
+
+  @Override
   protected String getTag() {
     return "I";
   }

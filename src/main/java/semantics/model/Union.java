@@ -7,6 +7,11 @@ public class Union extends Binary {
   }
 
   @Override
+  protected Binary construct(Conceptual[] cs) {
+    return new Union(cs);
+  }
+
+  @Override
   protected String getTag() {
     return "U";
   }

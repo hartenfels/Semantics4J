@@ -22,6 +22,11 @@ public class Inversion extends Roleish {
   }
 
   @Override
+  public boolean containsUnknown() {
+    return r.containsUnknown();
+  }
+
+  @Override
   public String toString() {
     return String.format("%s⁻", r);
   }

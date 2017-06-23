@@ -7,6 +7,11 @@ public class Existence extends Quantifier {
   }
 
   @Override
+  protected Quantifier construct(Roleish r, Conceptual c) {
+    return new Existence(r, c);
+  }
+
+  @Override
   protected String getTag() {
     return "E";
   }

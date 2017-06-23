@@ -21,6 +21,16 @@ public class Negation extends Conceptual {
   }
 
   @Override
+  public boolean containsUnknown() {
+    return c.containsUnknown();
+  }
+
+  @Override
+  public Conceptual stripUnknown() {
+    return containsUnknown() ? new Everything() : this;
+  }
+
+  @Override
   public String toString() {
     return String.format("¬%s", c);
   }

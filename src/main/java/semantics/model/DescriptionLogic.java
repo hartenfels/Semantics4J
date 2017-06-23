@@ -21,5 +21,13 @@ public abstract class DescriptionLogic {
     }
   }
 
+  public boolean isUnknown() {
+    return false;
+  }
+
+  public boolean containsUnknown() {
+    return isUnknown();
+  }
+
   public abstract JsonElement toJson();
 }
