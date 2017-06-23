@@ -6,7 +6,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public abstract class Binary extends Conceptual implements Cloneable {
+public abstract class Binary extends Conceptual {
   private final Conceptual[] cs;
 
   public Binary(Conceptual[] cs) {
