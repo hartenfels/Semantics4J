@@ -18,7 +18,7 @@ all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 
 list-examples:
 	@echo
-	@for file in examples/*.java examples/WineSearch; do \
+	@for file in examples/*.java; do \
 		name="$$(basename $$file | sed s/\.java//)"; \
 		echo -e "\e[36m - make $$name.example\e[0m"; \
 	done
@@ -36,9 +36,6 @@ extendj/build.gradle:
 	$(PATCH) -p0 <patches/java4.patch
 	$(PATCH) -p0 <patches/java5.patch
 
-
-WineSearch.example: examples/WineSearch jastics.jar
-	-$(MAKE) -C $<
 
 %.example: examples/%.class jastics.jar
 	$(JAVA) -cp examples:jastics.jar $*
