@@ -15,9 +15,9 @@ public class Unsatisfiable knows "music.rdf" {
 
 
 /*
- *! src/test/resources/integration/Unsatisfiable.java:7: error: constant query is unsatisfiable
- *! src/test/resources/integration/Unsatisfiable.java:8: error: constant query is unsatisfiable
- *! src/test/resources/integration/Unsatisfiable.java:9: error: constant query is unsatisfiable
- *! src/test/resources/integration/Unsatisfiable.java:11: error: constant query is unsatisfiable
- *! src/test/resources/integration/Unsatisfiable.java:12: error: constant query is unsatisfiable
+ *! src/test/resources/integration/Unsatisfiable.java:7: error: query-for ⊥ is unsatisfiable
+ *! src/test/resources/integration/Unsatisfiable.java:8: error: query-for ⊥ is unsatisfiable
+ *! src/test/resources/integration/Unsatisfiable.java:9: error: query-for [«:MusicArtist» ⊓ ⊥] is unsatisfiable
+ *! src/test/resources/integration/Unsatisfiable.java:11: error: query-for [⊥ ⊓ ∃«:influencedBy»·⎨«:beatles»⎬] is unsatisfiable
+ *! src/test/resources/integration/Unsatisfiable.java:12: error: query-for [⊥ ⊓ ∃«:influencedBy»·⎨«:beatles»⎬] is unsatisfiable
  */

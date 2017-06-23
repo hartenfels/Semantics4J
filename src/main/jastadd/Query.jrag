@@ -167,7 +167,8 @@ aspect Query {
         && !KnowBase.of(path).isSatisfiable(c.stripUnknown());
   }
 
-  DlQueryExpr contributes error("constant query is unsatisfiable")
+  DlQueryExpr contributes
+      errorf("query-for %s is unsatisfiable", getOperand().toConceptual())
     when isGuaranteedUnsatisfiable()
     to CompilationUnit.problems();
 
