@@ -5,9 +5,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +22,7 @@ import semantics.err.SemanticCastException;
 import semantics.model.Conceptual;
 import semantics.model.Individual;
 import semantics.model.Roleish;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 
 public class KnowBase {
@@ -30,7 +33,7 @@ public class KnowBase {
 
   private String         path;
   private Socket         socket;
-  private PrintWriter    output;
+  private BufferedWriter output;
   private BufferedReader input;
 
 
@@ -38,8 +41,12 @@ public class KnowBase {
     this.path = path;
     try {
       socket = new Socket(host, port);
-      output = new PrintWriter(socket.getOutputStream());
-      input  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+      output = new BufferedWriter(
+          new OutputStreamWriter(socket.getOutputStream(), UTF_8));
+
+      input = new BufferedReader(
+          new InputStreamReader(socket.getInputStream(), UTF_8));
     }
     catch (IOException e) {
       throw new CommunicationException(e);
@@ -69,11 +76,11 @@ public class KnowBase {
     req.add(op);
     req.add(arg);
 
-    output.println(req.toString());
-    output.flush();
-
     JsonElement res;
+
     try {
+       output.write(req.toString() + "\n");
+       output.flush();
        res = new JsonParser().parse(input.readLine());
     }
     catch (IOException e) {
