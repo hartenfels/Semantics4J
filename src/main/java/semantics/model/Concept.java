@@ -23,6 +23,7 @@ public class Concept extends Conceptual {
     return iri;
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray("C", new JsonPrimitive(iri));
   }

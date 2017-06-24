@@ -18,12 +18,14 @@ public abstract class Binary extends Conceptual {
   protected abstract String getTag();
   protected abstract String getOperator();
 
+  @Override
   public void checkSignature(KnowBase kb) {
     for (Conceptual c : cs) {
       c.checkSignature(kb);
     }
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray(getTag(), Util.allToJson(cs));
   }

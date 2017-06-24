@@ -13,10 +13,12 @@ public class Inversion extends Roleish {
     this.r = r;
   }
 
+  @Override
   public void checkSignature(KnowBase kb) {
     r.checkSignature(kb);
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray("i", r.toJson());
   }

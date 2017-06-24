@@ -1,8 +1,5 @@
 package semantics.model;
 
-import com.google.gson.JsonElement;
-import semantics.Util;
-
 
 public class Universal extends Quantifier {
   public Universal(Roleish r, Conceptual c) {

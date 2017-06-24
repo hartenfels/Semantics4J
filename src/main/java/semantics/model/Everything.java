@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 
 
 public class Everything extends Conceptual {
+  @Override
   public JsonElement toJson() {
     return new JsonPrimitive(true);
   }

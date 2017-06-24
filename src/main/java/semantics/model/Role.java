@@ -2,7 +2,6 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import semantics.KnowBase;
 import semantics.Util;
 
 
@@ -23,6 +22,7 @@ public class Role extends Roleish {
     return iri;
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray("r", new JsonPrimitive(iri));
   }

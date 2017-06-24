@@ -19,11 +19,13 @@ public abstract class Quantifier extends Conceptual {
   protected abstract String getTag();
   protected abstract String getPrefix();
 
+  @Override
   public void checkSignature(KnowBase kb) {
     r.checkSignature(kb);
     c.checkSignature(kb);
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray(getTag(), r.toJson(), c.toJson());
   }

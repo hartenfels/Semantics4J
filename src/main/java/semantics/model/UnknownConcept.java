@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 
 
 public class UnknownConcept extends Conceptual {
+  @Override
   public JsonElement toJson() {
     throw new UnsupportedOperationException(
         "Unknown concept cannot be converted to JSON");

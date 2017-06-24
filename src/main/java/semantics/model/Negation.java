@@ -12,10 +12,12 @@ public class Negation extends Conceptual {
     this.c = c;
   }
 
+  @Override
   public void checkSignature(KnowBase kb) {
     c.checkSignature(kb);
   }
 
+  @Override
   public JsonElement toJson() {
     return Util.toTaggedArray("N", c.toJson());
   }
