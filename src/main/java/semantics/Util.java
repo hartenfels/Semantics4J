@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.function.Function;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import semantics.model.Concept;
 import semantics.model.DescriptionLogic;
@@ -69,8 +70,17 @@ public class Util {
   }
 
 
+  public static <T> T head(Collection<T> c, T otherwise) {
+    try {
+      return c.iterator().next();
+    }
+    catch (NoSuchElementException e) {
+      return otherwise;
+    }
+  }
+
   public static <T> T head(Collection<T> c) {
-    return c.iterator().next();
+    return head(c, null);
   }
 
 
