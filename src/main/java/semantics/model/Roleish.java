@@ -1,13 +1,8 @@
 package semantics.model;
 
 
-public abstract class Roleish extends DescriptionLogic {
-  public Roleish stripUnknown() {
+public interface Roleish extends DescriptionLogic {
+  default Roleish stripUnknownRole() {
     return this;
-  }
-
-  @Override
-  public int hashCode() {
-    return toString().hashCode();
   }
 }

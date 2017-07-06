@@ -20,6 +20,8 @@ RoleishType projection_inversion =
 
 RoleishType projection_primary_role =
     DL_LITERAL.l                    {: return new RoleType(l); :}
+  | DL_EVERYTHING                   {: return new TopRoleType(); :}
+  | DL_NOTHING                      {: return new BottomRoleType(); :}
   | LBRACK projection_role.r RBRACK {: return new ParRoleishType(r); :}
   ;
 

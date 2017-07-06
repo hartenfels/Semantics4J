@@ -6,7 +6,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public abstract class Binary extends Conceptual {
+public abstract class Binary extends Base implements Conceptual {
   private final Conceptual[] cs;
 
   public Binary(Conceptual[] cs) {
@@ -42,7 +42,7 @@ public abstract class Binary extends Conceptual {
   }
 
   @Override
-  public Conceptual stripUnknown() {
+  public Conceptual stripUnknownConcept() {
     if (!containsUnknown()) {
       return this;
     }
@@ -50,7 +50,7 @@ public abstract class Binary extends Conceptual {
     Conceptual[] stripped = new Conceptual[cs.length];
 
     for (int i = 0; i < cs.length; ++i) {
-      stripped[i] = cs[i].stripUnknown();
+      stripped[i] = cs[i].stripUnknownConcept();
     }
 
     return construct(stripped);

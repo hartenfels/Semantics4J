@@ -5,7 +5,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public class Negation extends Conceptual {
+public class Negation extends Base implements Conceptual {
   private final Conceptual c;
 
   public Negation(Conceptual c) {
@@ -28,7 +28,7 @@ public class Negation extends Conceptual {
   }
 
   @Override
-  public Conceptual stripUnknown() {
+  public Conceptual stripUnknownConcept() {
     return containsUnknown() ? new Everything() : this;
   }
 

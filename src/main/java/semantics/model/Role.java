@@ -5,7 +5,7 @@ import com.google.gson.JsonPrimitive;
 import semantics.Util;
 
 
-public class Role extends Roleish {
+public class Role extends Base implements Roleish {
   private final String iri;
 
   public Role(String iri) {

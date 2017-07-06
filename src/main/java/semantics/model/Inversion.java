@@ -6,7 +6,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public class Inversion extends Roleish {
+public class Inversion extends Base implements Roleish {
   private final Roleish r;
 
   public Inversion(Roleish r) {
@@ -29,8 +29,8 @@ public class Inversion extends Roleish {
   }
 
   @Override
-  public Roleish stripUnknown() {
-    return containsUnknown() ? new TopRole() : this;
+  public Roleish stripUnknownRole() {
+    return containsUnknown() ? new Everything() : this;
   }
 
   @Override

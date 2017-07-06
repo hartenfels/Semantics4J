@@ -4,30 +4,14 @@ import com.google.gson.JsonElement;
 import semantics.KnowBase;
 
 
-public abstract class DescriptionLogic {
-  public String getSignatureType() {
-    return null;
-  }
+public interface DescriptionLogic {
+  public String getSignatureType();
+  public String getSignatureIri();
 
-  public String getSignatureIri() {
-    return null;
-  }
+  public void checkSignature(KnowBase kb);
 
-  public void checkSignature(KnowBase kb) {
-    String type = getSignatureType();
-    String iri  = getSignatureIri();
-    if (type != null && iri != null) {
-      kb.checkSignature(type, iri);
-    }
-  }
+  public boolean isUnknown();
+  public boolean containsUnknown();
 
-  public boolean isUnknown() {
-    return false;
-  }
-
-  public boolean containsUnknown() {
-    return isUnknown();
-  }
-
-  public abstract JsonElement toJson();
+  public JsonElement toJson();
 }

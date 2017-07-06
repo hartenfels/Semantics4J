@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 
-public class Nothing extends Conceptual {
+public class Nothing extends Base implements Conceptual, Roleish {
   @Override
   public JsonElement toJson() {
     return new JsonPrimitive(false);

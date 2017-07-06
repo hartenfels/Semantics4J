@@ -6,7 +6,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public class Concept extends Conceptual {
+public class Concept extends Base implements Conceptual {
   private final String iri;
 
   public Concept(String iri) {

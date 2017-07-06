@@ -1,13 +1,8 @@
 package semantics.model;
 
 
-public abstract class Conceptual extends DescriptionLogic {
-  public Conceptual stripUnknown() {
+public interface Conceptual extends DescriptionLogic {
+  default Conceptual stripUnknownConcept() {
     return this;
-  }
-
-  @Override
-  public int hashCode() {
-    return toString().hashCode();
   }
 }

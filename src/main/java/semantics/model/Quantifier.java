@@ -5,7 +5,7 @@ import semantics.KnowBase;
 import semantics.Util;
 
 
-public abstract class Quantifier extends Conceptual {
+public abstract class Quantifier extends Base implements Conceptual {
   private final Roleish    r;
   private final Conceptual c;
 
@@ -39,9 +39,9 @@ public abstract class Quantifier extends Conceptual {
   protected abstract Roleish getUnknownRoleValue();
 
   @Override
-  public Conceptual stripUnknown() {
+  public Conceptual stripUnknownConcept() {
     return construct(r.containsUnknown() ? getUnknownRoleValue() : r,
-                     c.stripUnknown());
+                     c.stripUnknownConcept());
   }
 
 
