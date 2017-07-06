@@ -7,10 +7,10 @@ ParConceptualType : ConceptualType ::= Inner:ConceptualType;
 ParRoleishType    : RoleishType    ::= Inner:RoleishType;
 
 
-EverythingType : ConceptualType;
-NothingType    : ConceptualType;
-ConceptType    : ConceptualType ::= <Iri:String>;
-OneType        : ConceptualType ::= <Iri:String>;
+TopType     : ConceptualType;
+BottomType  : ConceptualType;
+ConceptType : ConceptualType ::= <Iri:String>;
+OneType     : ConceptualType ::= <Iri:String>;
 
 TopRoleType    : RoleishType;
 BottomRoleType : RoleishType;

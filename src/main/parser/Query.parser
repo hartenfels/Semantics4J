@@ -77,8 +77,8 @@ Expr dl_one_expression =
 
 
 Expr literal =
-    DL_EVERYTHING  @CAST {: return new DlEverythingExpr(DL_EVERYTHING ); :}
-  | DL_NOTHING     @CAST {: return new DlNothingExpr   (DL_NOTHING    ); :}
+    DL_TOP    @CAST {: return new DlTopExpr   (DL_TOP   ); :}
+  | DL_BOTTOM @CAST {: return new DlBottomExpr(DL_BOTTOM); :}
   ;
 
 

@@ -7,7 +7,7 @@ aspect Projection {
       c = ((SemanticTypeDecl) et).getConcept();
     }
     else {
-      c = new Everything();
+      c = new Top();
     }
 
     Collection<TypeDecl> param = new LinkedList<>();

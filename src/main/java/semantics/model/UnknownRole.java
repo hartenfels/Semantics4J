@@ -17,7 +17,7 @@ public class UnknownRole extends Base implements Roleish {
 
   @Override
   public Roleish stripUnknownRole() {
-    return new Everything();
+    return new Top();
   }
 
   @Override

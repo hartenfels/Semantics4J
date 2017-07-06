@@ -17,7 +17,7 @@ public class UnknownConcept extends Base implements Conceptual {
 
   @Override
   public Conceptual stripUnknownConcept() {
-    return new Everything();
+    return new Top();
   }
 
   @Override

@@ -1,16 +1,16 @@
 import semantics.KnowBase;
+import semantics.model.Bottom;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.DescriptionLogic;
-import semantics.model.Everything;
 import semantics.model.Existence;
 import semantics.model.Intersection;
 import semantics.model.Inversion;
 import semantics.model.Negation;
-import semantics.model.Nothing;
 import semantics.model.One;
 import semantics.model.Role;
 import semantics.model.Roleish;
+import semantics.model.Top;
 import semantics.model.Union;
 import semantics.model.Universal;
 import semantics.model.UnknownConcept;
@@ -24,10 +24,10 @@ aspect SemanticType {
   eq ParConceptualType.toModel() = getInner().toModel();
   eq ParRoleishType   .toModel() = getInner().toModel();
 
-  eq EverythingType.toModel() = new Everything();
-  eq NothingType   .toModel() = new Nothing();
-  eq TopRoleType   .toModel() = new Everything();
-  eq BottomRoleType.toModel() = new Nothing();
+  eq TopType       .toModel() = new Top();
+  eq BottomType    .toModel() = new Bottom();
+  eq TopRoleType   .toModel() = new Top();
+  eq BottomRoleType.toModel() = new Bottom();
   eq ConceptType   .toModel() = new Concept(getIri());
   eq OneType       .toModel() = new One(getIri());
   eq RoleType      .toModel() = new Role(getIri());
@@ -178,10 +178,10 @@ aspect SemanticTypeBackend {
   eq ParConceptualType.toExpr() = getInner().toExpr();
   eq ParRoleishType   .toExpr() = getInner().toExpr();
 
-  eq EverythingType.toExpr() = cie("Everything");
-  eq NothingType   .toExpr() = cie("Nothing");
-  eq TopRoleType   .toExpr() = cie("Everything");
-  eq BottomRoleType.toExpr() = cie("Nothing");
+  eq TopType       .toExpr() = cie("Top");
+  eq BottomType    .toExpr() = cie("Bottom");
+  eq TopRoleType   .toExpr() = cie("Top");
+  eq BottomRoleType.toExpr() = cie("Bottom");
   eq ConceptType   .toExpr() = cie("Concept", new StringLiteral(getIri()));
   eq OneType       .toExpr() = cie("One",     new StringLiteral(getIri()));
   eq RoleType      .toExpr() = cie("Role",    new StringLiteral(getIri()));

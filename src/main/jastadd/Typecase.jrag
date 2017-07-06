@@ -111,8 +111,8 @@ aspect Typecase {
     String                        knows    = lookupKnows();
 
     if (!cases.isEmpty() && knows != null) {
-      KnowBase       kb   = KnowBase.of(knows);
-      Everything     top  = new Everything();
+      KnowBase kb  = KnowBase.of(knows);
+      Top      top = new Top();
 
       for (DlTypecaseish c : cases) {
         ConceptualType cur = c.type();

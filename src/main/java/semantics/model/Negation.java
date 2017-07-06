@@ -29,7 +29,7 @@ public class Negation extends Base implements Conceptual {
 
   @Override
   public Conceptual stripUnknownConcept() {
-    return containsUnknown() ? new Everything() : this;
+    return containsUnknown() ? new Top() : this;
   }
 
   @Override

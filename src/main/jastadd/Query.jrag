@@ -1,6 +1,6 @@
 aspect Query {
-  eq DlEverythingExpr  .type() = lookupType("semantics.model", "Everything");
-  eq DlNothingExpr     .type() = lookupType("semantics.model", "Nothing");
+  eq DlTopExpr         .type() = lookupType("semantics.model", "Top");
+  eq DlBottomExpr      .type() = lookupType("semantics.model", "Bottom");
   eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
   eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
   eq DlExistenceExpr   .type() = lookupType("semantics.model", "Existence");
@@ -42,8 +42,8 @@ aspect Query {
 
   eq ParExpr.toConceptual() = getExpr().toConceptual();
 
-  eq DlEverythingExpr.toConceptual() = new Everything();
-  eq DlNothingExpr   .toConceptual() = new Nothing();
+  eq DlTopExpr   .toConceptual() = new Top();
+  eq DlBottomExpr.toConceptual() = new Bottom();
 
   eq DlBinaryExpr.toConceptual() {
     Conceptual c = getLeftOperand ().toConceptual();
@@ -77,8 +77,8 @@ aspect Query {
 
   eq ParExpr.toRoleish() = getExpr().toRoleish();
 
-  eq DlEverythingExpr.toRoleish() = new Everything();
-  eq DlNothingExpr   .toRoleish() = new Nothing();
+  eq DlTopExpr   .toRoleish() = new Top();
+  eq DlBottomExpr.toRoleish() = new Bottom();
 
   eq DlInversionExpr.toRoleish() {
     Roleish r = getOperand().toRoleish();

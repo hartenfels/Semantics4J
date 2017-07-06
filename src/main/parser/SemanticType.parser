@@ -25,8 +25,8 @@ ConceptualType negation_type =
 
 ConceptualType primary_concept_type =
     DL_LITERAL.l                       {: return new ConceptType(l); :}
-  | DL_EVERYTHING                      {: return new EverythingType(); :}
-  | DL_NOTHING                         {: return new NothingType(); :}
+  | DL_TOP                             {: return new TopType(); :}
+  | DL_BOTTOM                          {: return new BottomType(); :}
   | DL_LCURLY DL_LITERAL.l   DL_RCURLY {: return new OneType(l); :}
   | LBRACK    concept_type.c RBRACK    {: return new ParConceptualType(c); :}
   ;
@@ -41,8 +41,8 @@ RoleishType inversion_type =
 
 RoleishType primary_role_type =
     DL_LITERAL.l              {: return new RoleType(l); :}
-  | DL_EVERYTHING             {: return new TopRoleType(); :}
-  | DL_NOTHING                {: return new BottomRoleType(); :}
+  | DL_TOP                    {: return new TopRoleType(); :}
+  | DL_BOTTOM                 {: return new BottomRoleType(); :}
   | LBRACK role_type.r RBRACK {: return new ParRoleishType(r); :}
   ;
 
