@@ -1,6 +1,8 @@
 Expr primary_no_new_array =
     dl_projection
+  | dl_dynamic_projection
   ;
+
 
 Expr dl_projection =
     name.n    DOT projection_role.r {: return new DlProjectionExpr(n, r); :}
@@ -19,4 +21,12 @@ RoleishType projection_inversion =
 RoleishType projection_primary_role =
     DL_LITERAL.l                    {: return new RoleType(l); :}
   | LBRACK projection_role.r RBRACK {: return new ParRoleishType(r); :}
+  ;
+
+
+Expr dl_dynamic_projection =
+    name.n    DOT LPAREN expression.e RPAREN
+        {: return new DlDynamicProjectionExpr(n, e); :}
+  | primary.p DOT LPAREN expression.e RPAREN
+        {: return new DlDynamicProjectionExpr(p, e); :}
   ;

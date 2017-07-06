@@ -1,7 +1,6 @@
 aspect Projection {
-  eq DlProjectionExpr.type() {
+  syn TypeDecl DlProjectionish.getProjectionType(Roleish r) {
     TypeDecl   et = getExpr().type();
-    Roleish    r  = getRole().toModel();
     Conceptual c;
 
     if (et.isSemanticTypeDecl()) {
@@ -15,8 +14,9 @@ aspect Projection {
     String               path  = lookupKnows();
 
     if (path != null) {
-      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
-      param.add(ind.semanticTypeDecl(path, new Existence(new Inversion(r), c)));
+      ClassDecl  ind    = (ClassDecl) lookupType("semantics.model", "Individual");
+      Conceptual exists = new Existence(new Inversion(r), c).stripUnknown();
+      param.add(ind.semanticTypeDecl(path, exists));
     }
     else {
       param.add(unknownType());
@@ -26,27 +26,45 @@ aspect Projection {
     return set.lookupParTypeDecl(param);
   }
 
+  eq DlProjectionExpr       .type() = getProjectionType(getRole().toModel());
+  eq DlDynamicProjectionExpr.type() = getProjectionType(getRoleExpr().toRoleish());
 
-  protected boolean DlProjectionExpr.isIndividual(Expr e) {
+
+  protected boolean DlProjectionish.isIndividual(Expr e) {
     return e.type().instanceOf(lookupType("semantics.model", "Individual"));
   }
 
-  protected Problem DlProjectionExpr.errorNotIndividual(Expr e) {
+  protected Problem DlProjectionish.errorNotIndividual(Expr e) {
     return errorf("'%s' is not an individual", e.type().typeName());
   }
 
-  DlProjectionExpr contributes errorNotIndividual(getExpr())
+  DlProjectionish contributes errorNotIndividual(getExpr())
     when !isIndividual(getExpr())
+    to CompilationUnit.problems();
+
+  DlDynamicProjectionExpr contributes errorNotRoleOrString(getRoleExpr())
+    when !isRoleOrString(getRoleExpr())
+    to CompilationUnit.problems();
+
+
+  DlDynamicProjectionExpr contributes signatureWarning(getRoleExpr().toRoleish())
+    when !hasSignature(getRoleExpr().toRoleish(), "role")
     to CompilationUnit.problems();
 }
 
 
 aspect ProjectionBackend {
-  syn nta Expr DlProjectionExpr.getTransformed() =
-    getKnowBase().mkMethodAccess(
-        "project", getExpr().treeCopyNoTransform(), getRole().toExpr());
+  syn Expr DlProjectionish.getProjectExpr();
 
-  public void DlProjectionExpr.createBCode(CodeGeneration gen) {
+  eq DlProjectionExpr       .getProjectExpr() = getRole().toExpr();
+  eq DlDynamicProjectionExpr.getProjectExpr() = mkModel("Role", getRoleExpr());
+
+
+  syn nta Expr DlProjectionish.getTransformed() =
+    getKnowBase().mkMethodAccess(
+        "project", getExpr().treeCopyNoTransform(), getProjectExpr());
+
+  public void DlProjectionish.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);
   }
 }
