@@ -1,15 +1,11 @@
 import java.util.Set;
+import static semantics.Util.head;
 import static semantics.Util.sorted;
 
 
 public class Recommend knows "wine.rdf" {
   private static «:Wine» getWineFor(«:Winery» winery) {
-    try {
-      return («:Wine») sorted(winery.«:hasMaker»⁻).get(0);
-    }
-    catch (IndexOutOfBoundsException e) {
-      return null;
-    }
+    return («:Wine») head(sorted(winery.(":hasMaker"⁻)));
   }
 
   private static String recommendFor(«:Wine» wine) {

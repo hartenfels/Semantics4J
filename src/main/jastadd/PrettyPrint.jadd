@@ -32,8 +32,9 @@ aspect SemanticsPrettyPrint {
   }
   public void DlProjectionExpr.prettyPrint(PrettyPrinter out) {
     out.print(getExpr());
-    out.print(".");
-    out.print(getRole());
+    out.print(".(");
+    out.print(getRoleExpr());
+    out.print(")");
   }
   public void DlQuantifierExpr.prettyPrint(PrettyPrinter out) {
     out.print(printPrefix());

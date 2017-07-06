@@ -6,7 +6,7 @@ public class Influences knows "music.rdf" {
   private static String getInfluences(«:MusicArtist» artist) {
     switch-type (artist) {
       ∃«:influencedBy»·⊤ influenceable {
-        return String.join(", ", names(influenceable.«:influencedBy»));
+        return String.join(", ", names(influenceable.(":influencedBy")));
       }
       default {
         return "nobody";

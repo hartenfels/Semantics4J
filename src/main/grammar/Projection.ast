@@ -1,4 +1,1 @@
-abstract DlProjectionish : Expr ::= Expr;
-
-DlProjectionExpr        : DlProjectionish ::= Role:RoleishType;
-DlDynamicProjectionExpr : DlProjectionish ::= RoleExpr:Expr;
+DlProjectionExpr : Expr ::= Expr RoleExpr:Expr;
