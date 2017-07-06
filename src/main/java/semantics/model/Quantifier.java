@@ -36,11 +36,12 @@ public abstract class Quantifier extends Conceptual {
     return c.containsUnknown() || r.containsUnknown();
   }
 
+  protected abstract Roleish getUnknownRoleValue();
+
   @Override
   public Conceptual stripUnknown() {
-    return r.containsUnknown()
-         ? new Everything()
-         : construct(r, c.stripUnknown());
+    return construct(r.containsUnknown() ? getUnknownRoleValue() : r,
+                     c.stripUnknown());
   }
 
 

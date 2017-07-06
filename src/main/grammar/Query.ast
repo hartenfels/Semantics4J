@@ -2,6 +2,8 @@ abstract DlLiteralExpr : Literal;
 
 DlEverythingExpr : DlLiteralExpr;
 DlNothingExpr    : DlLiteralExpr;
+DlTopRoleExpr    : DlLiteralExpr;
+DlBottomRoleExpr : DlLiteralExpr;
 
 
 abstract DlQuantifierExpr : Binary;

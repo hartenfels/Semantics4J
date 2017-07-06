@@ -16,6 +16,11 @@ public class UnknownRole extends Roleish {
   }
 
   @Override
+  public Roleish stripUnknown() {
+    return new TopRole();
+  }
+
+  @Override
   public String toString() {
     return "?";
   }

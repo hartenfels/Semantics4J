@@ -1,4 +1,5 @@
 import semantics.KnowBase;
+import semantics.model.BottomRole;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.DescriptionLogic;
@@ -11,6 +12,7 @@ import semantics.model.Nothing;
 import semantics.model.One;
 import semantics.model.Role;
 import semantics.model.Roleish;
+import semantics.model.TopRole;
 import semantics.model.Union;
 import semantics.model.Universal;
 import semantics.model.UnknownConcept;
@@ -26,6 +28,8 @@ aspect SemanticType {
 
   eq EverythingType.toModel() = new Everything();
   eq NothingType   .toModel() = new Nothing();
+  eq TopRoleType   .toModel() = new TopRole();
+  eq BottomRoleType.toModel() = new BottomRole();
   eq ConceptType   .toModel() = new Concept(getIri());
   eq OneType       .toModel() = new One(getIri());
   eq RoleType      .toModel() = new Role(getIri());
@@ -178,6 +182,8 @@ aspect SemanticTypeBackend {
 
   eq EverythingType.toExpr() = cie("Everything");
   eq NothingType   .toExpr() = cie("Nothing");
+  eq TopRoleType   .toExpr() = cie("TopRole");
+  eq BottomRoleType.toExpr() = cie("BottomRole");
   eq ConceptType   .toExpr() = cie("Concept", new StringLiteral(getIri()));
   eq OneType       .toExpr() = cie("One",     new StringLiteral(getIri()));
   eq RoleType      .toExpr() = cie("Role",    new StringLiteral(getIri()));

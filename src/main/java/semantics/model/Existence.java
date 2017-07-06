@@ -22,6 +22,11 @@ public class Existence extends Quantifier {
   }
 
   @Override
+  protected Roleish getUnknownRoleValue() {
+    return new TopRole();
+  }
+
+  @Override
   public boolean equals(Object o) {
     return o instanceof Existence && super.equals(o);
   }

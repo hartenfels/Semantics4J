@@ -12,6 +12,8 @@ NothingType    : ConceptualType;
 ConceptType    : ConceptualType ::= <Iri:String>;
 OneType        : ConceptualType ::= <Iri:String>;
 
+TopRoleType    : RoleishType;
+BottomRoleType : RoleishType;
 RoleType       : RoleishType    ::= <Iri:String>;
 
 

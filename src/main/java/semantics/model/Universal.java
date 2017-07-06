@@ -22,6 +22,11 @@ public class Universal extends Quantifier {
   }
 
   @Override
+  protected Roleish getUnknownRoleValue() {
+    return new BottomRole();
+  }
+
+  @Override
   public boolean equals(Object o) {
     return o instanceof Universal && super.equals(o);
   }
