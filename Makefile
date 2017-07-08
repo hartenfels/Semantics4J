@@ -33,6 +33,9 @@ jastics.jar: src/main/jastadd/PrettyPrint.jadd $(SOURCE_FILES) build.gradle | ex
 
 extendj/build.gradle:
 	$(GIT) submodule update --init
+	$(MAKE) patch
+
+patch:
 	$(PATCH) -p0 <patches/java4.patch
 	$(PATCH) -p0 <patches/java5.patch
 
@@ -62,5 +65,5 @@ realclean: clean
 	rm -f jastics.jar
 
 
-.PHONY: all list-examples test clean realclean
+.PHONY: all list-examples test clean realclean patch
 .PRECIOUS: examples/%.class
