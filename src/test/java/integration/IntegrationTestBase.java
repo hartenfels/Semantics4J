@@ -66,11 +66,11 @@ public abstract class IntegrationTestBase {
       throws IOException, InterruptedException {
     ProcessResult res = new ProcessResult();
 
-    if (run(res, "java", "-jar", "jastics.jar", file, "-cp", "jastics.jar") != 0) {
+    if (run(res, "java", "-jar", "semantics.jar", file, "-cp", "semantics.jar") != 0) {
       return res;
     }
 
-    run(res, "java", "-cp", DIR + ":jastics.jar", name);
+    run(res, "java", "-cp", DIR + ":semantics.jar", name);
 
     return res;
   }

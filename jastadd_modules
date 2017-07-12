@@ -1,7 +1,7 @@
 include('extendj/jastadd_modules')
 
-module 'jastics', {
-  moduleName    'Jastics'
+module 'semantics', {
+  moduleName    'Semantics4J'
   moduleVariant 'backend'
   imports       'java8 backend'
 

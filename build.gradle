@@ -25,7 +25,7 @@ jastadd {
   configureModuleBuild()
   modules 'jastadd_modules'
 
-  module        = 'jastics'
+  module        = 'semantics'
   astPackage    = 'org.extendj.ast'
   genDir        = 'src/gen/java'
   buildInfoDir  = 'src/gen-res'
@@ -104,7 +104,7 @@ mainClassName       = 'semantics.JavaCompiler'
 
 
 jar {
-  archiveName    = 'jastics.jar'
+  archiveName    = 'semantics.jar'
   destinationDir = projectDir
   from {
     configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }

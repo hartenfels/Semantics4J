@@ -10,7 +10,7 @@ all: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	$(GRADLE) check >gradle.log
 	@echo
 	@echo
-	@echo -e "\e[32mjastics.jar built successfully!\e[0m"
+	@echo -e "\e[32msemantics.jar built successfully!\e[0m"
 	@echo
 	@echo -e 'You can try running some examples now:'
 	@$(MAKE) -s list-examples
@@ -28,7 +28,7 @@ list-examples:
 test: src/main/jastadd/PrettyPrint.jadd | extendj/build.gradle
 	$(GRADLE) cleanTest check
 
-jastics.jar: src/main/jastadd/PrettyPrint.jadd $(SOURCE_FILES) build.gradle | extendj/build.gradle
+semantics.jar: src/main/jastadd/PrettyPrint.jadd $(SOURCE_FILES) build.gradle | extendj/build.gradle
 	$(GRADLE) jar
 
 extendj/build.gradle:
@@ -40,11 +40,11 @@ patch:
 	$(PATCH) -p0 <patches/java5.patch
 
 
-%.example: examples/%.class jastics.jar
-	$(JAVA) -cp examples:jastics.jar $*
+%.example: examples/%.class semantics.jar
+	$(JAVA) -cp examples:semantics.jar $*
 
-examples/%.class: examples/%.java jastics.jar
-	$(JAVA) -jar jastics.jar $< -cp jastics.jar
+examples/%.class: examples/%.java semantics.jar
+	$(JAVA) -jar semantics.jar $< -cp semantics.jar
 
 
 src/main/jastadd/PrettyPrint.jadd: src/main/pretty-print/SemanticsPrettyPrint.tt | aspectgen/aspectgen.jar
@@ -62,7 +62,7 @@ clean:
 	rm -f examples/*.class src/test/resources/integration/*.class gradle.log
 
 realclean: clean
-	rm -f jastics.jar
+	rm -f semantics.jar
 
 
 .PHONY: all list-examples test clean realclean patch
