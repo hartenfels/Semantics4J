@@ -2,7 +2,7 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import semantics.KnowBase;
-import semantics.Util;
+import static semantics.KnowBase.toTaggedArray;
 
 
 public abstract class Quantifier extends Base implements Conceptual {
@@ -27,7 +27,7 @@ public abstract class Quantifier extends Base implements Conceptual {
 
   @Override
   public JsonElement toJson() {
-    return Util.toTaggedArray(getTag(), r.toJson(), c.toJson());
+    return toTaggedArray(getTag(), r.toJson(), c.toJson());
   }
 
 

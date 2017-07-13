@@ -3,7 +3,7 @@ package semantics.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import semantics.KnowBase;
-import semantics.Util;
+import static semantics.KnowBase.toTaggedArray;
 
 
 public class One extends Base implements Conceptual {
@@ -25,7 +25,7 @@ public class One extends Base implements Conceptual {
 
   @Override
   public JsonElement toJson() {
-    return Util.toTaggedArray("O", new JsonPrimitive(iri));
+    return toTaggedArray("O", new JsonPrimitive(iri));
   }
 
   @Override

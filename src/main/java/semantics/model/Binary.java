@@ -3,7 +3,9 @@ package semantics.model;
 import com.google.gson.JsonElement;
 import java.util.Arrays;
 import semantics.KnowBase;
-import semantics.Util;
+import static semantics.KnowBase.allToJson;
+import static semantics.KnowBase.join;
+import static semantics.KnowBase.toTaggedArray;
 
 
 public abstract class Binary extends Base implements Conceptual {
@@ -27,7 +29,7 @@ public abstract class Binary extends Base implements Conceptual {
 
   @Override
   public JsonElement toJson() {
-    return Util.toTaggedArray(getTag(), Util.allToJson(cs));
+    return toTaggedArray(getTag(), allToJson(cs));
   }
 
 
@@ -59,7 +61,7 @@ public abstract class Binary extends Base implements Conceptual {
 
   @Override
   public String toString() {
-    return String.format("[%s]", Util.join(" " + getOperator() + " ", cs));
+    return String.format("[%s]", join(" " + getOperator() + " ", cs));
   }
 
   @Override

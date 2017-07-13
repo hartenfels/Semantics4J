@@ -3,7 +3,7 @@ package semantics.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import semantics.KnowBase;
-import semantics.Util;
+import static semantics.KnowBase.toTaggedArray;
 
 
 public class Inversion extends Base implements Roleish {
@@ -20,7 +20,7 @@ public class Inversion extends Base implements Roleish {
 
   @Override
   public JsonElement toJson() {
-    return Util.toTaggedArray("i", r.toJson());
+    return toTaggedArray("i", r.toJson());
   }
 
   @Override

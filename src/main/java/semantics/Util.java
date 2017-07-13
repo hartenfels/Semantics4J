@@ -23,9 +23,7 @@ import semantics.model.Role;
  * projection results, and give you a way to construct concept and role atoms
  * without meddling with Semantics4J's internal model (which you shouldn't do).
  *
- * You should import the functions you need statically. Undocumented functions
- * are internal-ish, you shouldn't use them, but you shouldn't ever need them
- * either.
+ * You should import the functions you need statically.
  */
 public class Util {
   /**
@@ -149,44 +147,5 @@ public class Util {
    */
   public static <T> T head(Collection<T> c) {
     return head(c, null);
-  }
-
-
-  public static JsonElement toTaggedArray(String tag, JsonElement... es) {
-    JsonArray arr = new JsonArray();
-    arr.add(tag);
-
-    for (JsonElement e : es) {
-      arr.add(e);
-    }
-
-    return arr;
-  }
-
-  public static JsonElement allToJson(DescriptionLogic... elems) {
-    JsonArray arr = new JsonArray();
-
-    for (DescriptionLogic e : elems) {
-      arr.add(e.toJson());
-    }
-
-    return arr;
-  }
-
-  /**
-   * Joins the stringification of the given objects by the given separator.
-   *
-   * Basically this is <code>String.join(sep, objects)</code>, with
-   * <code>toString()</code> called on each of the objects because Java can't
-   * figure that out on its own.
-   */
-  public static <T> String join(String sep, T[] objects) {
-    String[] strings = new String[objects.length];
-
-    for (int i = 0; i < objects.length; ++i) {
-      strings[i] = objects[i].toString();
-    }
-
-    return String.join(sep, strings);
   }
 }

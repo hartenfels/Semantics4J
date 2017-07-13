@@ -20,6 +20,7 @@ import semantics.err.IncompatibleIndividualException;
 import semantics.err.MessageException;
 import semantics.err.SemanticCastException;
 import semantics.model.Conceptual;
+import semantics.model.DescriptionLogic;
 import semantics.model.Individual;
 import semantics.model.Roleish;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -131,7 +132,7 @@ public class KnowBase {
   }
 
   public boolean isSubtype(Conceptual sub, Conceptual sup) {
-    return msg("subtype", Util.allToJson(sub, sup)).getAsBoolean();
+    return msg("subtype", allToJson(sub, sup)).getAsBoolean();
   }
 
   public boolean isMember(Conceptual c, Individual i) {
@@ -208,5 +209,37 @@ public class KnowBase {
   @Override
   public int hashCode() {
     return path.hashCode();
+  }
+
+
+  public static JsonElement toTaggedArray(String tag, JsonElement... es) {
+    JsonArray arr = new JsonArray();
+    arr.add(tag);
+
+    for (JsonElement e : es) {
+      arr.add(e);
+    }
+
+    return arr;
+  }
+
+  public static JsonElement allToJson(DescriptionLogic... elems) {
+    JsonArray arr = new JsonArray();
+
+    for (DescriptionLogic e : elems) {
+      arr.add(e.toJson());
+    }
+
+    return arr;
+  }
+
+  public static <T> String join(String sep, T[] objects) {
+    String[] strings = new String[objects.length];
+
+    for (int i = 0; i < objects.length; ++i) {
+      strings[i] = objects[i].toString();
+    }
+
+    return String.join(sep, strings);
   }
 }
