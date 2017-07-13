@@ -9,6 +9,9 @@ import semantics.Util;
 public class Concept extends Base implements Conceptual {
   private final String iri;
 
+  /**
+   * Internal, use {@link semantics.Util#concept(String) semantics.Util.concept} instead.
+   */
   public Concept(String iri) {
     this.iri = iri;
   }

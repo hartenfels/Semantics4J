@@ -25,6 +25,18 @@ import semantics.model.Roleish;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
+/**
+ * Internal class, do not touch.
+ *
+ * This is used by Semantics4J to represent a knowledge base. This is purely
+ * internal, don't use this directly.
+ *
+ * You can, however, set environment variables to tell Semantics4J where to
+ * find Semserv. Use <code>SEMSERV_HOST</code> to specify the host (an IP
+ * address or a URL, default is localhost) and <code>SEMSERV_PORT</code> for
+ * the port (default is 53115). Set those before you start your process though,
+ * modifying them from within your program is undefined behavior.
+ */
 public class KnowBase {
   public static final String DEFAULT_HOST = "localhost";
   public static final int    DEFAULT_PORT = 53115;

@@ -8,6 +8,9 @@ import semantics.Util;
 public class Role extends Base implements Roleish {
   private final String iri;
 
+  /**
+   * Internal, use {@link semantics.Util#role(String) semantics.Util.role} instead.
+   */
   public Role(String iri) {
     this.iri = iri;
   }
