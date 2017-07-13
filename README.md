@@ -5,7 +5,22 @@ Semantics4J — semantic data language extension for the [Software Languages Tea
 
 # SYNOPSIS
 
-TBD
+[Semserv](https://github.com/hartenfels/Semserv) needs to be available to run
+the tests, use the compiler and run applications with semantic data, so build
+and run that first.
+
+Clone this repo *without submodules* and run `make` to build the compiler and
+run the tests:
+
+```sh
+$ git clone https://github.com/hartenfels/Semantics4J.git
+$ make
+```
+
+Then you can either try out some examples or use the compiler like a regular
+Java compiler via `java -jar semantics.jar`. Note that you need to add
+`semantics.jar` to your classpath too if you want to use semantic data in your
+program, as it contains some necessary classes.
 
 
 # BUILDING
@@ -37,9 +52,51 @@ also run some of the examples at this point – see section
 
 # DESCRIPTION
 
-TBD
+The ideas from this work are based on the following papers, which may be worth
+reading if you want to use it:
+
+* [λ<sub>DL</sub>: Syntax and Semantics (Preliminary
+  Report)](https://arxiv.org/pdf/1610.07033) by Martin Leinberger, Prof. Dr.
+  Ralf Lämmel and Prof. Dr. Steffen Staab.
+
+* A yet to be submitted Master's Thesis by Carsten Hartenfels.
 
 ## Examples
+
+You can run these [examples](examples) by using `make Name.example`, where
+`Name` is the name of the example (except wineseλrch, that lives in a
+[different repository](https://github.com/hartenfels/winesearch)). You *must*
+have [Semserv](https://github.com/hartenfels/Semserv) available to compile and
+run these.
+
+* [Influences](examples/Influences.java)
+
+A simple example that lists musicians' influences, converted from [the
+λ<sub>DL</sub> paper](https://arxiv.org/pdf/1610.07033). Shows off semantic
+data types, querying, projecting and type casing.
+
+* [Recommend](examples/Recommend.java)
+
+A more involved example, recommending a kind of food for all wines in the [Wine
+Ontology](https://www.w3.org/TR/owl-guide/wine.rdf) (via Emoji). Involves
+types, querying, projecting, type casing, casting and several utility methods
+for sets of individuals.
+
+* [Wineries](examples/Wineries.java)
+
+Example for showing off various type-related things: wildcards, diamond,
+projection result types and subtyping of more interesting types.
+
+* [wineseλrch](https://github.com/hartenfels/winesearch)
+
+A full interactive application for wine searching. See its page for details.
+
+## Usage
+
+TBD
+
+
+# DEVELOPMENT
 
 TBD
 
@@ -53,10 +110,10 @@ Licensed under the [Apache License, Version 2](LICENSE).
 
 # SEE ALSO
 
+* [Semserv](https://github.com/hartenfels/Semserv)
+
 * [λ-DL](https://west.uni-koblenz.de/lambda-dl)
 
-* [LambdaDL](https://github.com/hartenfels/LambdaDL)
-
-* [Semserv](https://github.com/hartenfels/Semserv)
+* [OWL API](http://owlapi.sourceforge.net/)
 
 * [HermiT](http://www.hermit-reasoner.com/)
