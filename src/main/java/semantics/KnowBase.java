@@ -107,7 +107,7 @@ public class KnowBase {
   }
 
 
-  private Set<Individual> toUtil(JsonElement from) {
+  private Set<Individual> toIndividuals(JsonElement from) {
     Set<Individual> is = new HashSet<Individual>();
 
     for (JsonElement e : from.getAsJsonArray()) {
@@ -151,7 +151,7 @@ public class KnowBase {
 
   public Set<Individual> query(Conceptual c) {
     c.checkSignature(this);
-    return toUtil(msg("query", c.toJson()));
+    return toIndividuals(msg("query", c.toJson()));
   }
 
 
@@ -160,7 +160,7 @@ public class KnowBase {
     JsonArray arg = new JsonArray();
     arg.add(ensureCorrectSource(i).getIri());
     arg.add(r.toJson());
-    return toUtil(msg("project", arg));
+    return toIndividuals(msg("project", arg));
   }
 
 
