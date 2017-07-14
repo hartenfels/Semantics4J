@@ -95,6 +95,80 @@ A full interactive application for wine searching. See its page for details.
 
 TBD
 
+## API
+
+The main class you'll be interacting with is
+[semantics.model.Individual](src/main/java/semantics/model/Individual.java),
+which is the supertype of all semantic data types.  There are also several
+utility functions available in
+[semantics.Util](src/main/java/semantics/Util.java), intended for being
+imported statically. Their usage is described in the following.
+
+Note that everything else you can access from Java is **internal**, those are
+APIs used by the Semantics4J compiler itself. Don't mess with them directly,
+only use the documented APIs.
+
+### semantics.model.Individual
+
+An individual just knows its knowledge base and its IRI. You can retrieve them
+with `getKnowBase()` and `getIri()` respectively, but you shouldn't do anything
+with the knowledge base, since it's internal API.
+
+You can get the fragment part of the IRI by calling `getName()`, which is
+useful if you want to display an individual to the user. The `toString()`
+method is the same as calling `getIri()`.
+
+Indviduals support `equals`, `hashCode` and `compareTo` (by implementing
+Comparable), so you can compare them for equality, sort collections of them or
+use them as hash keys.
+
+### semantics.Util
+
+* `Concept concept(String iri)`
+* `Role    role   (String iri)`
+
+You can use these to construct a concept atom or role atom and get compile-time
+signature checking. The functions are special-cased in the compiler to give you
+a warning if you use an IRI that is not part of the current ontology's
+signature.
+
+You shouldn't need these unless you actually need a freestanding concept or
+role atom specifically, because all the semantic data operators will implicitly
+wrap strings in concepts or roles for you.
+
+* `Set <String> iris (Set <? extends Individual> is)`
+* `List<String> iris (List<? extends Individual> is)`
+* `Set <String> names(Set <? extends Individual> is)`
+* `List<String> names(List<? extends Individual> is)`
+
+This family of functions turns a list or set of individuals into a matching
+list or set of names or IRIs by calling `getName()` or `getIri()` on each of
+them. This is just to save you from manually mapping or looping over them.
+
+* `List<T> sorted(Collection<T> c)`
+
+Sorts a collection of some comparable type and returns it in a list. You can
+use this to sort the sets you get from queries and projections without having
+to deal with Java's weird interface that makes you store the result in a
+variable first.
+
+For example: `sorted(query-for(":Wine"))`, or even
+`sorted(names(query-for(":Wine")))`.
+
+* `T head(Collection<T> c, T otherwise)`
+* `T head(Collection<T> c)`
+
+Gets the first element of the collection, or the given `otherwise` value if the
+collection was empty. If you don't pass any value, it'll use `null`.
+
+The collection must support calling `iterator()` on it. If it's a collection
+with no specific order (like a Set), you'll get whatever element the iterator
+decides is the first one.
+
+This function makes sense to use if you expect a query to only return one
+result, and you want to get that single result. For example,
+`head(query-for(":Wine" ⊓ ⎨":TaylorPort"⎬))`.
+
 
 # DEVELOPMENT
 
