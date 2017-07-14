@@ -36,15 +36,6 @@ public final class Individual implements Comparable<Individual> {
   }
 
 
-  public Set<Individual> project(Roleish r) {
-    return kb.project(this, r);
-  }
-
-  public Set<Individual> project(String iri) {
-    return project(new Role(iri));
-  }
-
-
   @Override
   public String toString() {
     return getIri();

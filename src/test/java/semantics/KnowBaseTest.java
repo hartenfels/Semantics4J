@@ -109,7 +109,7 @@ public class KnowBaseTest {
 
 
   private static void projectIs(Individual i, Roleish r, String... abbreviated) {
-    assertEquals(unabbreviate(abbreviated), iris(i.project(r)));
+    assertEquals(unabbreviate(abbreviated), iris(i.getKnowBase().project(i, r)));
   }
 
   @Test
