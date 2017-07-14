@@ -32,7 +32,9 @@ any Java 8 installation.
 
 First, `git clone https://github.com/hartenfels/Semantics4J.git`. Do **not**
 use recursive cloning to pull in the submodules, they require some patches that
-won't be applied if you clone them yourself.
+won't be applied if you clone them yourself. If you did accidentaly clone
+recursively, run `make patch` to manually apply them before doing anything
+else.
 
 A knowledge base server must be available to compile and run programs, as well
 as run the tests. For that, see <https://github.com/hartenfels/Semserv>.
@@ -171,6 +173,79 @@ result, and you want to get that single result. For example,
 
 
 # DEVELOPMENT
+
+This repository is structured as follows:
+
+* [build.gradle](build.gradle), [jastadd\_modules](jastadd_modules),
+  [Makefile](Makefile) - build files for Gradle, the JastAdd Gradle plugin and
+  make.
+
+* [examples](examples) - the examples. They should have one top-level .java
+  file so that they'll automatically get picked up by `make list-examples` and
+  `make %.example`. The expected output for the examples should also be part of
+  the integration tests.
+
+* [extendj](extendj) - ExtendJ as a submodule.
+
+* [README.md](README.md) - this file. And until it gets way too long, the
+  primary source of documentation.
+
+* [patches](patches) - some patches to the ExtendJ parser, see section
+  [Patches](#patches).
+
+* [LICENSE](LICENSE) - the Apache License, Version 2.
+
+* [src/main](src/main) - the actual source code.
+
+  * [grammar](src/main/grammar) - JastAdd AST grammar definitions.
+
+  * [jastadd](src/main/jastadd) - JastAdd aspect files, the meat of the
+    compiler extension.
+
+  * [java](src/main/java) - the library part of Semantics4J, with the
+    description logic model, knowledge base interface and utility functions.
+
+  * [parser](src/main/parser) - parsing definition files for Beaver.
+
+  * [pretty-print](src/main/pretty-print) - pretty print template for
+    [aspectgen](https://bitbucket.org/joqvist/aspectgen). This generates
+    [PrettyPrint.jadd](src/main/jastadd/PrettyPrint.jadd).
+
+  * [scanner](src/main/scanner) - JLex definitions for scanner tokens.
+
+* [src/test](src/test) - code for tests, see section [Tests](#tests) for
+  details.
+
+## Patches
+
+ExtendJ's parser is built by just concatenating a bunch of parser specification
+files. That's not modular enough for Semantics4J's use case though, because we
+need to change operator precedence. The solution to this are some small
+[patches](patches).
+
+These are automatically applied by using `make patch`, check the
+[Makefile](Makefile) for what commands this actually runs. This also means that
+git will always say that the ExtendJ submodule has been modified, which you can
+disregard.
+
+If you need to update the patches, make the appropriate changes in the ExtendJ
+parser files and run the following:
+
+```sh
+# copy the final parser files
+cp extendj/java4/parser/Java1.4.parser extendj/java5/parser/java14fix.parser patches
+# reset ExtendJ
+git -C extendj reset --hard
+# make the patches
+diff -u extendj/java4/parser/Java1.4.parser patches/Java1.4.parser > patches/java4.patch
+diff -u extendj/java5/parser/java14fix.parser patches/java14fix.parser > patches/java5.patch
+# remove the copied parser files
+rm -f patches/Java1.4.parser patches/java14fix.java
+```
+
+Then you can re-apply your patches with `make patch` to see if they work.
+
+## Tests
 
 TBD
 
