@@ -37,6 +37,8 @@ BottomType  [[⊥]]
 ConceptType [[«$Iri»]]
 OneType     [[⎨«$Iri»⎬]]
 
+TopRoleType    [[⊤]]
+BottomRoleType [[⊥]]
 RoleType       [[«$Iri»]]
 
 NegationType  [[¬$Operand]]

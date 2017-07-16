@@ -6,6 +6,9 @@ aspect SemanticsPrettyPrint {
     out.print(" ");
     out.print(getRight());
   }
+  public void BottomRoleType.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A5");
+  }
   public void BottomType.prettyPrint(PrettyPrinter out) {
     out.print("\u22A5");
   }
@@ -154,6 +157,9 @@ aspect SemanticsPrettyPrint {
   }
   public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
     out.print(getConcept());
+  }
+  public void TopRoleType.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A4");
   }
   public void TopType.prettyPrint(PrettyPrinter out) {
     out.print("\u22A4");
