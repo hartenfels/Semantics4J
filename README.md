@@ -247,7 +247,41 @@ Then you can re-apply your patches with `make patch` to see if they work.
 
 ## Tests
 
-TBD
+There are three kinds of tests set up currently: regular unit tests, syntax
+tests and integration tests.
+
+Unit tests are just testing the Java side of things, and are regular JUnit
+tests. You can find them in [src/test/java/semantics](src/test/java/semantics).
+Packages in that folder should reflect the packages of what the classes are
+testing.
+
+Syntax tests are intended to test the parsing and static checking of the
+Semantics4J compiler. Tests consist of pairs of `.java` and `.expected` files
+in [src/test/resources/syntax](src/test/resources/syntax): an input file with
+the code to parse and a file representing the expected structured
+pretty-printed output (which has a bunch of extra parentheses for ensuring
+correct operator precedence). The [JUnit test
+file](src/test/java/syntax/SyntaxTest.java) is generated automatically from
+these pairs of files during build time. The interesting parts on how the syntax
+tests are executed are found in
+[SyntaxTestBase](src/test/java/syntax/SyntaxTestBase.java).
+
+Finally, integration tests go the entire way: programs are compiled with
+`semantics4j.jar` and then executed. The tests ensure that the compilation and
+run phase output the expected things on stdout and stderr.
+
+Test files go in
+[src/test/resources/integration](src/test/resources/integration) as regular
+Java files, however, you must specify the expected output in a comment. The
+output must cover both the compilation and, if it's expected to get there, also
+the execution. Lines that start with ` *> ` are taken to be output on stdout,
+lines that start with ` *! ` are stderr output. See [the signatures
+test](src/test/resources/integration/Signatures.java) for an example.
+
+Once again, the [JUnit test
+file](src/test/java/integration/IntegrationTest.java) is auto-generated and the
+interesting parts about executing them are in
+[IntegrationTestBase](src/test/java/IntegrationTestBase.java).
 
 
 # LICENSE
