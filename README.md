@@ -9,8 +9,9 @@ Semantics4J — semantic data language extension for the [Software Languages Tea
 the tests, use the compiler and run applications with semantic data, so build
 and run that first.
 
-Clone this repo *without submodules* and run `make` to build the compiler and
-run the tests:
+Clone this repo *without submodules* and run `make` to build the
+[ExtendJ](https://bitbucket.org/extendj/extendj)-based compiler and run the
+tests:
 
 ```sh
 $ git clone https://github.com/hartenfels/Semantics4J.git
@@ -185,7 +186,8 @@ This repository is structured as follows:
   `make %.example`. The expected output for the examples should also be part of
   the integration tests.
 
-* [extendj](extendj) - ExtendJ as a submodule.
+* [extendj](extendj) - [ExtendJ](https://bitbucket.org/extendj/extendj) as a
+  submodule.
 
 * [README.md](README.md) - this file. And until it gets way too long, the
   primary source of documentation.
@@ -296,6 +298,8 @@ Licensed under the [Apache License, Version 2](LICENSE).
 * [Semserv](https://github.com/hartenfels/Semserv)
 
 * [λ-DL](https://west.uni-koblenz.de/lambda-dl)
+
+* [ExtendJ](https://bitbucket.org/extendj/extendj)
 
 * [OWL API](http://owlapi.sourceforge.net/)
 
