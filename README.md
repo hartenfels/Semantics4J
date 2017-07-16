@@ -193,7 +193,6 @@ of `semantics.model.Roleish`. You can use them like this:
 ```java
 import semantics.model.Conceptual;
 // ...
-
 Conceptual infl = ∃":influencedBy"⁻·⊤;
 // You can use all the features you'd use in any other expression.
 infl ⊓= ":Music" + "Artist";
@@ -208,7 +207,6 @@ import semantics.model.Roleish;
 import static semantics.Util.concept;
 import static semantics.Util.role;
 // ...
-
 Conceptual c    = concept(":MusicArtist");
 Roleish    r    = role(":influencedBy");
 Conceptual infl = ∃r⁻·⊤ ⊓ c;
@@ -226,7 +224,6 @@ You can use your description logic expressions to perform queries, using the
 ```java
 import java.util.Set;
 // ...
-
 Set<«:MusicArtist»>      artists    = query-for(":MusicArtist");
 Set<∃«:influencedBy»⁻·⊤> influenced = query-for(∃":influencedBy"⁻·⊤);
 ```
@@ -254,7 +251,6 @@ the expression's role type (or its upper bound if there's variables in it) and
 import java.util.Set;
 import static semantics.Util.head;
 // ...
-
 // Find Hendrix (knowledge base infers that he's a MusicArtist):
 «:MusicArtist» hendrix = head(query-for(⎨":hendrix"⎬));
 // And get his influences:
