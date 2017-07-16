@@ -209,7 +209,7 @@ import static semantics.Util.concept;
 import static semantics.Util.role;
 // ...
 
-Conceptual c    = concept(":MusicArtist);
+Conceptual c    = concept(":MusicArtist");
 Roleish    r    = role(":influencedBy");
 Conceptual infl = ∃r⁻·⊤ ⊓ c;
 ```
