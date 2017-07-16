@@ -147,19 +147,19 @@ has a normal, Unicodey version and a pure-ASCII [“Texas
 version”](https://docs.perl6.org/language/glossary#Texas_operator). Their
 semantics are identical.
 
-| Expression                 | Normal Version    | Texas Version         |
-| -------------------------- |------------------ | --------------------- |
-| Top Concept/Role           | `⊤`               | `#T`                  |
-| Bottom Concept/Role        | `⊥`               | `#F`                  |
-| Concept Atom               | `«:MusicArtist»`  | `<<<:MusicArtist>>>`  |
-| Role Atom                  | `«:influencedBy»` | `<<<:influencedBy>>>` |
-| Nominal Concept            | `⎨«:hendrix»⎬`    | `{|<<<:hendrix>>>|}`  |
-| Union                      | `C ⊔ D`           | `C ||| D`             |
-| Intersection               | `C ⊓ D`           | `C &&& D`             |
-| Negation                   | `¬C`              | `-.C`                 |
-| Inversion                  | `R⁻`              | `R^-`                 |
-| Existential Quantification | `∃R·C`            | `#E R...C`            |
-| Universal Quantification   | `∀R·C`            | `#A R...C`            |
+| Expression                 | Normal Version    | Texas Version          |
+| -------------------------- |------------------ | ---------------------- |
+| Top Concept/Role           | `⊤`               | `#T`                   |
+| Bottom Concept/Role        | `⊥`               | `#F`                   |
+| Concept Atom               | `«:MusicArtist»`  | `<<<:MusicArtist>>>`   |
+| Role Atom                  | `«:influencedBy»` | `<<<:influencedBy>>>`  |
+| Nominal Concept            | `⎨«:hendrix»⎬`    | `{\|<<<:hendrix>>>\|}` |
+| Union                      | `C ⊔ D`           | `C \|\|\| D`           |
+| Intersection               | `C ⊓ D`           | `C &&& D`              |
+| Negation                   | `¬C`              | `-.C`                  |
+| Inversion                  | `R⁻`              | `R^-`                  |
+| Existential Quantification | `∃R·C`            | `#E R...C`             |
+| Universal Quantification   | `∀R·C`            | `#A R...C`             |
 
 From this, you can build types like `«:MusicArtist»` or `∃«:influencedBy»·⊤`.
 Types must always resolve to a concept expression, you can't use a role as a
