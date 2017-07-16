@@ -281,7 +281,7 @@ test](src/test/resources/integration/Signatures.java) for an example.
 Once again, the [JUnit test
 file](src/test/java/integration/IntegrationTest.java) is auto-generated and the
 interesting parts about executing them are in
-[IntegrationTestBase](src/test/java/IntegrationTestBase.java).
+[IntegrationTestBase](src/test/java/integration/IntegrationTestBase.java).
 
 
 # LICENSE
