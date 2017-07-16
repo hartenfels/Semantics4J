@@ -15,9 +15,7 @@ public abstract class SyntaxTestBase {
   private static class Checker extends JavaChecker {
     private String runChecker(String file) throws IOException {
       int ret = run(new String[]{"-classpath", "build/classes/main", file});
-      if (!file.contains("UNCHECKED")) {
-        assertEquals(String.format("static checking of '%s'", file), 0, ret);
-      }
+      assertEquals(String.format("static checking of '%s'", file), 0, ret);
       return program.structuredPrettyPrint();
     }
   }

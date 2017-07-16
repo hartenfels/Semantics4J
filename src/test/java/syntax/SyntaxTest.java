@@ -19,10 +19,6 @@ public class SyntaxTest extends SyntaxTestBase {
     checkSyntax("ClassKnows");
   }
   @org.junit.Test
-  public void checkUNCHECKED() {
-    checkSyntax("UNCHECKED");
-  }
-  @org.junit.Test
   public void checkCast() {
     checkSyntax("Cast");
   }
