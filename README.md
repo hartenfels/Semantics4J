@@ -96,7 +96,219 @@ A full interactive application for wine searching. See its page for details.
 
 ## Usage
 
-TBD
+This section describes the various features of Semantics4J that you can use
+from your program. You can also use the Semantics4J compiler to compile regular
+Java code and it will work as if you'd compiled it with the regular ExtendJ
+Java compiler.
+
+### Data Source Specification
+
+To actually use any semantic data features in your class, you need to specify
+what ontology you want to use. This is done via the `knows` modifier on a
+class, followed by the path to the ontology:
+
+```java
+public class Influences knows "music.rdf" {
+  // ...
+}
+```
+
+All other features *require* a data source specification, and will fail to
+compile if you fail to provide one. The data source specification follows
+*after* any `extends` or `implements` specifications:
+
+```java
+public class Thing extends Object implements Stuffable knows "wine.rdf" {
+  // ...
+}
+```
+
+The path is given to [Semserv](https://github.com/hartenfels/Semserv). If it's
+not running or doesn't know the ontology, you'll get a crash. To specify a
+different IP address or port for Semserv, you can set the `SEMSERV_HOST` and
+`SEMSERV_PORT` environment variables.
+
+Data source specifications are *lexical*, like variables. They apply to the
+class you specify them on and all inner classes unless you shadow them with
+another data source specification. They do *not* participate in inheritance.
+
+### Semantic Data Types
+
+Semantics4J allows you to use semantic concepts as types, specified by a
+description logic syntax. You don't define any classes or a type hierarchy
+ahead of time, the types are checked by using the knowledge base whenever
+necessary. You can use them anywhere you could access a type otherwise: fields,
+variables, parameters, generics, wildcards, casts and instanceof checks. You
+can't use them in `extends` or `implements` though, because that'd be nonsense.
+
+The description logic syntax is summarized in the following table, where `C`
+and `D` are some concept expression, `R` is some role expression. Each operator
+has a normal, Unicodey version and a pure-ASCII [“Texas
+version”](https://docs.perl6.org/language/glossary#Texas_operator). Their
+semantics are identical.
+
+| Expression                 | Normal Version    | Texas Version         |
+| -------------------------- |------------------ | --------------------- |
+| Top Concept/Role           | `⊤`               | `#T`                  |
+| Bottom Concept/Role        | `⊥`               | `#F`                  |
+| Concept Atom               | `«:MusicArtist»`  | `<<<:MusicArtist>>>`  |
+| Role Atom                  | `«:influencedBy»` | `<<<:influencedBy>>>` |
+| Nominal Concept            | `⎨«:hendrix»⎬`    | `{|<<<:hendrix>>>|}`  |
+| Union                      | `C ⊔ D`           | `C ||| D`             |
+| Intersection               | `C ⊓ D`           | `C &&& D`             |
+| Negation                   | `¬C`              | `-.C`                 |
+| Inversion                  | `R⁻`              | `R^-`                 |
+| Existential Quantification | `∃R·C`            | `#E R...C`            |
+| Universal Quantification   | `∀R·C`            | `#A R...C`            |
+
+From this, you can build types like `«:MusicArtist»` or `∃«:influencedBy»·⊤`.
+Types must always resolve to a concept expression, you can't use a role as a
+type. Expressions may be grouped with square brackets: `«:A» ⊓ [«:B» ⊔ «:C»]`.
+
+Types are checked in the context of the ontology that the class `knows`. A
+concept type is a subtype of another subtype if that fact is known (or can be
+reasoned to be true). Two semantic data types are equal if they are subtypes of
+each other, even if you use different expressions to describe them.
+
+All semantic data types are actually subtypes of
+[semantics.model.Individual](src/main/java/semantics/model/Individual.java).
+They undergo type erasure during compilation, but opposed to generics,
+`instanceof` checks and type casts are supported regardless.
+
+All concept atoms, role atoms and nominal concepts are checked against the
+ontology's signature. If it does not exist in the ontology, you'll get a
+compile-time warning (not an error), because it usually means you made a typo.
+
+### Description Logic Expressions
+
+You can also use description logic expressions in regular code, the only
+difference being that you don't use the `«»` syntax to specify atoms, using
+Strings (not necessarily string literals, you can use anything that's an
+instance of `String`) in their place instead. You also use parentheses `()` for
+grouping, as with any other expression.
+
+Concepts are instances of `semantics.model.Conceptual` and roles are instances
+of `semantics.model.Roleish`. You can use them like this:
+
+```java
+import semantics.model.Conceptual;
+// ...
+
+Conceptual infl = ∃":influencedBy"⁻·⊤;
+// You can use all the features you'd use in any other expression.
+infl ⊓= ":Music" + "Artist";
+```
+
+If you want, you can also be explicit about your role and concept atoms, rather
+than having Strings be wrapped for you:
+
+```java
+import semantics.model.Conceptual;
+import semantics.model.Roleish;
+import static semantics.Util.concept;
+import static semantics.Util.role;
+// ...
+
+Conceptual c    = concept(":MusicArtist);
+Roleish    r    = role(":influencedBy");
+Conceptual infl = ∃r⁻·⊤ ⊓ c;
+```
+
+Where possible, you'll also get signature warnings at compile-time, as with
+types. If you're using variables as parameters, then there won't be any warning
+until you actually use your expression in a query or projection.
+
+### Queries
+
+You can use your description logic expressions to perform queries, using the
+`query-for` keyword:
+
+```java
+import java.util.Set;
+// ...
+
+Set<«:MusicArtist»>      artists    = query-for(":MusicArtist");
+Set<∃«:influencedBy»⁻·⊤> influenced = query-for(∃":influencedBy"⁻·⊤);
+```
+
+Queries return a `java.util.Set` of the appropriate type for their expression.
+Only the constant parts of your query will be typed, if you use variables, the
+expression will be resolved to its upper bound.
+
+If a query is detected to be unsatisfiable at compile-time, compilation fails
+with a fatal error. At run-time, an unsatisfiable query is not an error, you'll
+just get an empty set as a result.
+
+When you execute a query, you'll get warnings about concept atoms, role atoms
+and nominal concepts that don't exist in the ontology's signature (using the
+default logger).
+
+### Projections
+
+Projections are executed on individuals using a role expression and also return
+a set of matching results. The type of the expression is `∃R⁻·C`, where `R` is
+the expression's role type (or its upper bound if there's variables in it) and
+`C` is the type of the individual:
+
+```
+import java.util.Set;
+import static semantics.Util.head;
+// ...
+
+// Find Hendrix (knowledge base infers that he's a MusicArtist):
+«:MusicArtist» hendrix = head(query-for(⎨":hendrix"⎬));
+// And get his influences:
+Set<∃«:influencedBy».«:MusicArtist»> influences = hendrix.(":influencedBy");
+```
+
+The method-call looking thing is the projection: `individualExpr.(roleExpr)`.
+As with queries, you'll get warnings about missing signature bits.
+
+### Type Casing
+
+If you need to switch on a semantic data type, you *could* use a bunch of
+instanceof checks and casts. However, Semantics4J gives you a type casing
+feature instead that's easier to write and has better static checking.
+
+The following `switch-type` type casing statement:
+
+```java
+switch-type (wine) {
+  «:RedWine»   red   { /* do something with a red wine    */ }
+  «:WhiteWine» white { /* do something with a white wine  */ }
+  «:RoseWine»  rose  { /* do something with a rosé wine   */ }
+  default            { /* none matched, do something else */ }
+}
+```
+
+Is *approximately* equal to this:
+
+```java
+if (wine instanceof «:RedWine) {
+  final «:RedWine» red = («:RedWine») wine;
+  /* do something with a red wine */
+}
+else if (wine instanceof «:WhiteWine») {
+  final «:WhiteWine» white = («:WhiteWine») wine;
+  /* do something with a red wine */
+}
+else if (wine instanceof «:RoseWine») {
+  final «:RoseWine» rose = («:RoseWine») wine;
+  /* do something with a rose wine */
+}
+else {
+  /* none matched, do something else */
+}
+```
+
+Except it saves you a lot of typing and error-prone repetition. Semantics4J
+also makes sure that you don't put your types in the wrong order (with earlier
+types subsuming later ones). The `default` case is required, so you can't
+forget that one either.
+
+You can't use types equivalent to `⊤`, because they'd subsume the `default`
+case. You also can't use unsatisfiable types, because they'd never match
+anything, and that'd be useless.
 
 ## API
 
