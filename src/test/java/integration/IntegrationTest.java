@@ -3,6 +3,10 @@ package integration;
 
 public class IntegrationTest extends IntegrationTestBase {
   @org.junit.Test
+  public void checkSubtypes() {
+    checkIntegration("Subtypes");
+  }
+  @org.junit.Test
   public void checkUnsatisfiable() {
     checkIntegration("Unsatisfiable");
   }
