@@ -3,7 +3,7 @@ import static semantics.Util.head;
 import static semantics.Util.sorted;
 
 
-public class Recommend knows "wine.rdf" {
+public class Recommend from "wine.rdf" {
   private static «:Wine» getWineFor(«:Winery» winery) {
     return («:Wine») head(sorted(winery.(":hasMaker"⁻)));
   }

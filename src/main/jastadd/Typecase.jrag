@@ -108,10 +108,10 @@ aspect Typecase {
   syn Collection<Problem> DlTypecaseStmt.subsumationProblems() {
     Collection<Problem>           problems = new LinkedList<Problem>();
     java.util.List<DlTypecaseish> cases    = getTypecases();
-    String                        knows    = lookupKnows();
+    String                        path     = lookupDataSource();
 
-    if (!cases.isEmpty() && knows != null) {
-      KnowBase   kb  = KnowBase.of(knows);
+    if (!cases.isEmpty() && path != null) {
+      KnowBase   kb  = KnowBase.of(path);
       Everything top = new Everything();
 
       for (DlTypecaseish c : cases) {

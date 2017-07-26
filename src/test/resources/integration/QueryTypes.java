@@ -2,7 +2,7 @@ import java.util.Set;
 import java.util.Random;
 
 
-public class QueryTypes knows "wine.rdf" {
+public class QueryTypes from "wine.rdf" {
   private static String getRandomWineName() {
     String[] names = {":RoseDAnjou", ":TaylorPort"};
     return names[new Random().nextInt(names.length)];

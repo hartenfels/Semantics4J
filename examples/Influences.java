@@ -2,7 +2,7 @@ import java.util.Set;
 import static semantics.Util.names;
 
 
-public class Influences knows "music.rdf" {
+public class Influences from "music.rdf" {
   private static String getInfluences(«:MusicArtist» artist) {
     switch-type (artist) {
       ∃«:influencedBy»·⊤ influenceable {

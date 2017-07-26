@@ -2,7 +2,7 @@ import java.util.Set;
 import semantics.model.Individual;
 
 
-public class Unsatisfiable knows "music.rdf" {
+public class Unsatisfiable from "music.rdf" {
   public static void main(String[] args) {
     Set<? extends Individual> set1 = query-for(⊥);
     Set<? extends Individual> set2 = query-for((⊥));

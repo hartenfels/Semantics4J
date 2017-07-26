@@ -4,7 +4,7 @@ import static semantics.Util.concept;
 import static semantics.Util.role;
 
 
-public class Signatures knows "music.rdf" {
+public class Signatures from "music.rdf" {
   private static void typeSignature(∃«roleless»⁻·⎨«noOne»⎬ arg) {}
 
   public static void main(String[] args) {

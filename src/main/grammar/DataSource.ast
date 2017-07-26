@@ -1,0 +1,3 @@
+SemanticsClassDecl : ClassDecl ::=
+    Modifiers <ID:String> [SuperClass:Access] Implements:Access*
+    <DataSource:StringLiteral> BodyDecl*;

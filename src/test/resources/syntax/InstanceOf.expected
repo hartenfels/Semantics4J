@@ -1,6 +1,6 @@
 import semantics.model.Individual;
 
-public class Sample knows "music.rdf" {
+public class Sample from "music.rdf" {
   public static void test() {
     Individual ind = null;
     boolean a = (ind instanceof «:MusicArtist»);

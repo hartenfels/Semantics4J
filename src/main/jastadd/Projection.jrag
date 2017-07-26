@@ -12,7 +12,7 @@ aspect Projection {
     }
 
     Collection<TypeDecl> param = new LinkedList<>();
-    String               path  = lookupKnows();
+    String               path  = lookupDataSource();
 
     if (path != null) {
       ClassDecl  ind    = (ClassDecl) lookupType("semantics.model", "Individual");

@@ -91,46 +91,6 @@ aspect SemanticsPrettyPrint {
     out.print(getOperand());
     out.print("\u207B");
   }
-  public void KnowsClassDecl.prettyPrint(PrettyPrinter out) {
-    if (hasDocComment()) {
-      out.print(docComment());
-    }
-    if (!out.isNewLine()) {
-      out.println();
-    }
-    out.print(getModifiers());
-    out.print("class ");
-    out.print(getID());
-    if (hasSuperClass()) {
-      out.print(" extends ");
-      out.print(getSuperClass());
-    }
-    if (hasImplements()) {
-      out.print(" implements ");
-      out.join(getImplementss(), new PrettyPrinter.Joiner() {
-        @Override
-        public void printSeparator(PrettyPrinter out) {
-          out.print(", ");
-        }
-      });
-    }
-    out.print(" knows ");
-    out.print(getKnows());
-    out.print(" {");
-    out.println();
-    out.indent(1);
-    out.join(getBodyDecls(), new PrettyPrinter.Joiner() {
-      @Override
-      public void printSeparator(PrettyPrinter out) {
-        out.println();
-        out.println();
-      }
-    });
-    if (!out.isNewLine()) {
-      out.println();
-    }
-    out.print("}");
-  }
   public void NegationType.prettyPrint(PrettyPrinter out) {
     out.print("\u00AC");
     out.print(getOperand());
@@ -169,5 +129,45 @@ aspect SemanticsPrettyPrint {
   }
   public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
     out.print(getConcept());
+  }
+  public void SemanticsClassDecl.prettyPrint(PrettyPrinter out) {
+    if (hasDocComment()) {
+      out.print(docComment());
+    }
+    if (!out.isNewLine()) {
+      out.println();
+    }
+    out.print(getModifiers());
+    out.print("class ");
+    out.print(getID());
+    if (hasSuperClass()) {
+      out.print(" extends ");
+      out.print(getSuperClass());
+    }
+    if (hasImplements()) {
+      out.print(" implements ");
+      out.join(getImplementss(), new PrettyPrinter.Joiner() {
+        @Override
+        public void printSeparator(PrettyPrinter out) {
+          out.print(", ");
+        }
+      });
+    }
+    out.print(" from ");
+    out.print(getDataSource());
+    out.print(" {");
+    out.println();
+    out.indent(1);
+    out.join(getBodyDecls(), new PrettyPrinter.Joiner() {
+      @Override
+      public void printSeparator(PrettyPrinter out) {
+        out.println();
+        out.println();
+      }
+    });
+    if (!out.isNewLine()) {
+      out.println();
+    }
+    out.print("}");
   }
 }

@@ -1,7 +1,7 @@
 import semantics.model.Individual;
 import java.util.Set;
 
-public class Query knows "music.rdf" {
+public class Query from "music.rdf" {
   public static void query() {
     Set<? extends Individual> everything = (query-for(⊤));
     Set<«:MusicArtist»> artists = (query-for(":MusicArtist"));

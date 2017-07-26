@@ -4,7 +4,7 @@ import static semantics.Util.names;
 import static semantics.Util.sorted;
 
 
-public class Wineries knows "wine.rdf" {
+public class Wineries from "wine.rdf" {
   private static Set<«:Winery»> toMaker(Set<? extends «:Wine»> wines) {
     Set<«:Winery»> wineries = new HashSet<>();
 

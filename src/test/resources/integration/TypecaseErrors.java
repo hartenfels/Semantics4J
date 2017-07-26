@@ -1,4 +1,4 @@
-public class TypecaseErrors knows "wine.rdf" {
+public class TypecaseErrors from "wine.rdf" {
   public static void main(String[] args) {
     for («:Wine» wine : query-for(":Wine")) {
       switch-type (wine) {

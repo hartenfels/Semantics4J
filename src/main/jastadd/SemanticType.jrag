@@ -80,7 +80,7 @@ aspect SemanticType {
 
 
   eq SemanticTypeAccess.decl() {
-    String path = lookupKnows();
+    String path = lookupDataSource();
     if (path != null) {
       ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
       return ind.semanticTypeDecl(path, getConcept().toModel());
@@ -126,12 +126,13 @@ aspect SemanticType {
 
 
   protected Problem SemanticType.signatureWarning(String type, String iri) {
+    String path = lookupDataSource();
     return warning(
-        String.format("%s '%s' not in signature of '%s'", type, iri, lookupKnows()));
+        String.format("%s '%s' not in signature of '%s'", type, iri, path));
   }
 
   protected boolean SemanticType.hasSignature(String type, String iri) {
-    String path = lookupKnows();
+    String path = lookupDataSource();
     return path != null && KnowBase.of(path).hasSignature(type, iri);
   }
 

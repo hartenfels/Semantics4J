@@ -89,7 +89,7 @@ aspect Query {
 
 
   syn lazy TypeDecl DlQueryExpr.queryResultType() {
-    String     path = lookupKnows();
+    String     path = lookupDataSource();
     Conceptual c    = getOperand().toConceptual();
     ClassDecl  ind  = (ClassDecl) lookupType("semantics.model", "Individual");
 
@@ -166,7 +166,7 @@ aspect Query {
 
 
   syn lazy boolean DlQueryExpr.isGuaranteedUnsatisfiable() {
-    String     path = lookupKnows();
+    String     path = lookupDataSource();
     Conceptual c    = getOperand().toConceptual();
     return path != null && c != null && !c.isUnknown()
         && !KnowBase.of(path).isSatisfiable(c.stripUnknown());
@@ -181,13 +181,13 @@ aspect Query {
   protected Problem Expr.signatureWarning(DescriptionLogic dl) {
     String type = dl.getSignatureType();
     String iri  = dl.getSignatureIri();
-    String path = lookupKnows();
+    String path = lookupDataSource();
     return warning(
         String.format("%s '%s' not in signature of '%s'", type, iri, path));
   }
 
   protected boolean Expr.hasSignature(DescriptionLogic dl, String expectedType) {
-    String path = lookupKnows();
+    String path = lookupDataSource();
 
     if (dl == null || path == null) {
       return true;

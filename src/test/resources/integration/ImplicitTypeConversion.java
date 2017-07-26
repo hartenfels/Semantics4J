@@ -1,7 +1,7 @@
 import semantics.model.Individual;
 
 
-public class ImplicitTypeConversion knows "wine.rdf" {
+public class ImplicitTypeConversion from "wine.rdf" {
   public static void main(String[] args) {
     for («:RedWine» ⊓ «:DryWine» redAndDryWine : query-for(":RedWine" ⊓ ":DryWine")) {
       Individual individual = redAndDryWine;

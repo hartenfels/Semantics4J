@@ -15,16 +15,16 @@ public class SyntaxTest extends SyntaxTestBase {
     checkSyntax("ClassDecl");
   }
   @org.junit.Test
-  public void checkClassKnows() {
-    checkSyntax("ClassKnows");
+  public void checkDataSource() {
+    checkSyntax("DataSource");
+  }
+  @org.junit.Test
+  public void checkFromFrom() {
+    checkSyntax("FromFrom");
   }
   @org.junit.Test
   public void checkCast() {
     checkSyntax("Cast");
-  }
-  @org.junit.Test
-  public void checkKnowsKnows() {
-    checkSyntax("KnowsKnows");
   }
   @org.junit.Test
   public void checkQuery() {
