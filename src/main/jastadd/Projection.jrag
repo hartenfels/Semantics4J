@@ -52,8 +52,14 @@ aspect Projection {
     String     path = lookupDataSource();
     Roleish    r  = getRoleExpr().toRoleish();
     Conceptual c  = getExprConcept();
-    return path != null && c != null && !c.isUnknown()
-        && !KnowBase.of(path).isSatisfiable(getResultingConcept(r, c));
+
+    if (path == null || c == null || c.isUnknown()) {
+      return false;
+    }
+
+    KnowBase kb = KnowBase.of(path);
+    return !kb.isSatisfiable(getResultingConcept(r, c))
+        || !kb.isSubtype(c, new Existence(r, new Everything()).stripUnknown());
   }
 
   DlProjectionExpr contributes
