@@ -13,8 +13,8 @@ public class ConstructionTest {
 
   @Test
   public void simple() {
-    is("⊤",          new Top());
-    is("⊥",          new Bottom());
+    is("⊤",          new Everything());
+    is("⊥",          new Nothing());
     is("«Con:cept»", new Concept("Con:cept"));
     is("«Ro:le»",    new Role("Ro:le"));
     is("⎨«On:e»⎬",   new One("On:e"));
@@ -73,7 +73,7 @@ public class ConstructionTest {
               new Concept("c")
             )
           ),
-          new Bottom()
+          new Nothing()
         )
     );
   }

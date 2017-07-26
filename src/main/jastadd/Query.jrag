@@ -1,6 +1,6 @@
 aspect Query {
-  eq DlTopExpr         .type() = lookupType("semantics.model", "Top");
-  eq DlBottomExpr      .type() = lookupType("semantics.model", "Bottom");
+  eq DlEverythingExpr  .type() = lookupType("semantics.model", "Everything");
+  eq DlNothingExpr     .type() = lookupType("semantics.model", "Nothing");
   eq DlAnyExpr         .type() = lookupType("semantics.model", "Any");
   eq DlNoneExpr        .type() = lookupType("semantics.model", "None");
   eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
@@ -44,8 +44,8 @@ aspect Query {
 
   eq ParExpr.toConceptual() = getExpr().toConceptual();
 
-  eq DlTopExpr   .toConceptual() = new Top();
-  eq DlBottomExpr.toConceptual() = new Bottom();
+  eq DlEverythingExpr.toConceptual() = new Everything();
+  eq DlNothingExpr   .toConceptual() = new Nothing();
 
   eq DlBinaryExpr.toConceptual() {
     Conceptual c = getLeftOperand ().toConceptual();

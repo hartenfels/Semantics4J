@@ -9,9 +9,6 @@ aspect SemanticsPrettyPrint {
     out.print(" ");
     out.print(getRight());
   }
-  public void BottomType.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A5");
-  }
   public void ConceptType.prettyPrint(PrettyPrinter out) {
     out.print("\u00AB");
     out.print(getIri());
@@ -20,8 +17,8 @@ aspect SemanticsPrettyPrint {
   public void DlAnyExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u25BD");
   }
-  public void DlBottomExpr.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A5");
+  public void DlEverythingExpr.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A4");
   }
   public void DlInversionExpr.prettyPrint(PrettyPrinter out) {
     out.print(getOperand());
@@ -33,6 +30,9 @@ aspect SemanticsPrettyPrint {
   }
   public void DlNoneExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u25B3");
+  }
+  public void DlNothingExpr.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A5");
   }
   public void DlOneExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u23A8");
@@ -55,9 +55,6 @@ aspect SemanticsPrettyPrint {
     out.print("query-for(");
     out.print(getOperand());
     out.print(")");
-  }
-  public void DlTopExpr.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A4");
   }
   public void DlTypecase.prettyPrint(PrettyPrinter out) {
     out.print(getType());
@@ -86,6 +83,9 @@ aspect SemanticsPrettyPrint {
       out.println();
     }
     out.print("}");
+  }
+  public void EverythingType.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A4");
   }
   public void InversionType.prettyPrint(PrettyPrinter out) {
     out.print(getOperand());
@@ -138,6 +138,9 @@ aspect SemanticsPrettyPrint {
   public void NoneType.prettyPrint(PrettyPrinter out) {
     out.print("\u25B3");
   }
+  public void NothingType.prettyPrint(PrettyPrinter out) {
+    out.print("\u22A5");
+  }
   public void OneType.prettyPrint(PrettyPrinter out) {
     out.print("\u23A8\u00AB");
     out.print(getIri());
@@ -166,8 +169,5 @@ aspect SemanticsPrettyPrint {
   }
   public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
     out.print(getConcept());
-  }
-  public void TopType.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A4");
   }
 }

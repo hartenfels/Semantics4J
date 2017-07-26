@@ -4,19 +4,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 
-public class Top extends Conceptual {
+public class Nothing extends Conceptual {
   @Override
   public JsonElement toJson() {
-    return new JsonPrimitive(true);
+    return new JsonPrimitive(false);
   }
 
   @Override
   public String toString() {
-    return "⊤";
+    return "⊥";
   }
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof Top;
+    return o instanceof Nothing;
   }
 }

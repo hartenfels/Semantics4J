@@ -5,10 +5,10 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 }]]
 
 
-DlTopExpr    [[⊤]]
-DlBottomExpr [[⊥]]
-DlAnyExpr    [[▽]]
-DlNoneExpr   [[△]]
+DlEverythingExpr [[⊤]]
+DlNothingExpr    [[⊥]]
+DlAnyExpr        [[▽]]
+DlNoneExpr       [[△]]
 
 DlQuantifierExpr [[#printPrefix$LeftOperand#printOp$RightOperand]]
 
@@ -34,10 +34,10 @@ DlTypecaseDefault [[default $Block]]
 ParConceptualType [[[$Inner]]]
 ParRoleishType    [[[$Inner]]]
 
-TopType     [[⊤]]
-BottomType  [[⊥]]
-ConceptType [[«$Iri»]]
-OneType     [[⎨«$Iri»⎬]]
+EverythingType [[⊤]]
+NothingType    [[⊥]]
+ConceptType    [[«$Iri»]]
+OneType        [[⎨«$Iri»⎬]]
 
 AnyType  [[▽]]
 NoneType [[△]]

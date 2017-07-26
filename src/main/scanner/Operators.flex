@@ -8,11 +8,11 @@
   "⎬"  { return sym(Terminals.DL_RCURLY); }
   "|}" { return sym(Terminals.DL_RCURLY); }
 
-  "⊤"  { return sym(Terminals.DL_TOP); }
-  "#T" { return sym(Terminals.DL_TOP); }
+  "⊤"  { return sym(Terminals.DL_EVERYTHING); }
+  "#T" { return sym(Terminals.DL_EVERYTHING); }
 
-  "⊥"  { return sym(Terminals.DL_BOTTOM); }
-  "#F" { return sym(Terminals.DL_BOTTOM); }
+  "⊥"  { return sym(Terminals.DL_NOTHING); }
+  "#F" { return sym(Terminals.DL_NOTHING); }
 
   "▽"  { return sym(Terminals.DL_ANY); }
   "#t" { return sym(Terminals.DL_ANY); }

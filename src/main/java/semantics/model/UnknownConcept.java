@@ -17,7 +17,7 @@ public class UnknownConcept extends Conceptual {
 
   @Override
   public Conceptual stripUnknown() {
-    return new Top();
+    return new Everything();
   }
 
   @Override

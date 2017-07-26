@@ -17,6 +17,6 @@ public class None extends Roleish {
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof Bottom;
+    return o instanceof None;
   }
 }

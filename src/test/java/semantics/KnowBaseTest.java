@@ -54,7 +54,7 @@ public class KnowBaseTest {
     isMember(true, new Concept(":MusicArtist"), ":beatles");
     isMember(true, new Concept(":MusicArtist"), ":hendrix");
 
-    Conceptual inf = new Existence(new Role(":influencedBy"), new Top());
+    Conceptual inf = new Existence(new Role(":influencedBy"), new Everything());
     isMember(false, inf, ":beatles");
     isMember(true,  inf, ":hendrix");
   }
@@ -86,7 +86,7 @@ public class KnowBaseTest {
 
   @Test
   public void everythingQuery() {
-    queryIs(new Top(), ":beatles", ":coolFm", ":hendrix", ":machineGun");
+    queryIs(new Everything(), ":beatles", ":coolFm", ":hendrix", ":machineGun");
   }
 
   @Test
@@ -96,13 +96,13 @@ public class KnowBaseTest {
 
   @Test
   public void nestedQuery() {
-    Conceptual inf = new Existence(new Role(":influencedBy"), new Top());
+    Conceptual inf = new Existence(new Role(":influencedBy"), new Everything());
     queryIs(inf, ":hendrix");
   }
 
   @Test
   public void unsatisfiableQuery() {
-    Conceptual bottom = new Bottom();
+    Conceptual bottom = new Nothing();
     assertFalse(kb.isSatisfiable(bottom));
     assertTrue(kb.query(bottom).isEmpty());
   }
