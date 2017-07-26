@@ -1,23 +1,26 @@
 aspect Projection {
-  eq DlProjectionExpr.type() {
-    TypeDecl   et = getExpr().type();
-    Roleish    r  = getRoleExpr().toRoleish();
-    Conceptual c;
+  syn Conceptual DlProjectionExpr.getExprConcept() {
+    TypeDecl et = getExpr().type();
+    return et.isSemanticTypeDecl()
+         ? ((SemanticTypeDecl) et).getConcept()
+         : new Everything();
+  }
 
-    if (et.isSemanticTypeDecl()) {
-      c = ((SemanticTypeDecl) et).getConcept();
-    }
-    else {
-      c = new Everything();
-    }
+  protected Conceptual DlProjectionExpr.getResultingConcept(Roleish r, Conceptual c) {
+    return new Existence(new Inversion(r), c).stripUnknown();
+  }
+
+
+  eq DlProjectionExpr.type() {
+    Roleish    r  = getRoleExpr().toRoleish();
+    Conceptual c  = getExprConcept();
 
     Collection<TypeDecl> param = new LinkedList<>();
     String               path  = lookupDataSource();
 
     if (path != null) {
-      ClassDecl  ind    = (ClassDecl) lookupType("semantics.model", "Individual");
-      Conceptual exists = new Existence(new Inversion(r), c).stripUnknown();
-      param.add(ind.semanticTypeDecl(path, exists));
+      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
+      param.add(ind.semanticTypeDecl(path, getResultingConcept(r, c)));
     }
     else {
       param.add(unknownType());
@@ -43,6 +46,22 @@ aspect Projection {
   DlProjectionExpr contributes errorNotRoleable(getRoleExpr())
     when !isRoleable(getRoleExpr())
     to CompilationUnit.problems();
+
+
+  syn lazy boolean DlProjectionExpr.isGuaranteedUnsatisfiable() {
+    String     path = lookupDataSource();
+    Roleish    r  = getRoleExpr().toRoleish();
+    Conceptual c  = getExprConcept();
+    return path != null && c != null && !c.isUnknown()
+        && !KnowBase.of(path).isSatisfiable(getResultingConcept(r, c));
+  }
+
+  DlProjectionExpr contributes
+      errorf("projection of %s on %s is unsatisfiable",
+             getRoleExpr().toRoleish(), getExprConcept())
+    when isGuaranteedUnsatisfiable()
+    to CompilationUnit.problems();
+
 
   DlProjectionExpr contributes signatureWarning(getRoleExpr().toRoleish())
     when !hasSignature(getRoleExpr().toRoleish(), "role")
