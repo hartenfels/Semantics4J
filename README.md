@@ -149,8 +149,10 @@ semantics are identical.
 
 | Expression                 | Normal Version    | Texas Version          |
 | -------------------------- |------------------ | ---------------------- |
-| Top Concept/Role           | `⊤`               | `#T`                   |
-| Bottom Concept/Role        | `⊥`               | `#F`                   |
+| Everything (Top Concept)   | `⊤`               | `#T`                   |
+| Nothing (Bottom Concept)   | `⊥`               | `#F`                   |
+| Any (Top Role)             | `▽`               | `#t`                   |
+| None (Bottom Role)         | `△`               | `#f`                   |
 | Concept Atom               | `«:MusicArtist»`  | `<<<:MusicArtist>>>`   |
 | Role Atom                  | `«:influencedBy»` | `<<<:influencedBy>>>`  |
 | Nominal Concept            | `⎨«:hendrix»⎬`    | `{\|<<<:hendrix>>>\|}` |
