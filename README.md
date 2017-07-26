@@ -104,11 +104,11 @@ Java compiler.
 ### Data Source Specification
 
 To actually use any semantic data features in your class, you need to specify
-what ontology you want to use. This is done via the `knows` modifier on a
-class, followed by the path to the ontology:
+what ontology you want to use. This is done via the `from` modifier on a class,
+followed by the path to the ontology:
 
 ```java
-public class Influences knows "music.rdf" {
+public class Influences from "music.rdf" {
   // ...
 }
 ```
@@ -118,7 +118,7 @@ compile if you fail to provide one. The data source specification follows
 *after* any `extends` or `implements` specifications:
 
 ```java
-public class Thing extends Object implements Stuffable knows "wine.rdf" {
+public class Thing extends Object implements Stuffable from "wine.rdf" {
   // ...
 }
 ```
@@ -167,10 +167,11 @@ From this, you can build types like `«:MusicArtist»` or `∃«:influencedBy»�
 Types must always resolve to a concept expression, you can't use a role as a
 type. Expressions may be grouped with square brackets: `«:A» ⊓ [«:B» ⊔ «:C»]`.
 
-Types are checked in the context of the ontology that the class `knows`. A
-concept type is a subtype of another subtype if that fact is known (or can be
-reasoned to be true). Two semantic data types are equal if they are subtypes of
-each other, even if you use different expressions to describe them.
+Types are checked in the context of the enclosing class' data source (the one
+specified by `from`). A concept type is a subtype of another subtype if that
+fact is known (or can be reasoned to be true). Two semantic data types are
+equal if they are subtypes of each other, even if you use different expressions
+to describe them.
 
 All semantic data types are actually subtypes of
 [semantics.model.Individual](src/main/java/semantics/model/Individual.java).
