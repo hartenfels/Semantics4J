@@ -40,8 +40,8 @@ aspect Projection {
     when !isIndividual(getExpr())
     to CompilationUnit.problems();
 
-  DlProjectionExpr contributes errorNotRoleOrString(getRoleExpr())
-    when !isRoleOrString(getRoleExpr())
+  DlProjectionExpr contributes errorNotRoleable(getRoleExpr())
+    when !isRoleable(getRoleExpr())
     to CompilationUnit.problems();
 
   DlProjectionExpr contributes signatureWarning(getRoleExpr().toRoleish())

@@ -111,57 +111,58 @@ aspect Query {
   eq DlQueryExpr.isConstant() = getOperand().isConstant();
 
 
-  protected boolean Expr.isConceptOrString(Expr e) {
+  protected boolean Expr.isConceptable(Expr e) {
     TypeDecl conceptual = lookupType("semantics.model", "Conceptual");
+    TypeDecl individual = lookupType("semantics.model", "Individual");
     TypeDecl td         = e.type();
-    return td.isString() || td.instanceOf(conceptual);
+    return td.isString() || td.instanceOf(conceptual) || td.instanceOf(individual);
   }
 
-  protected boolean Expr.isRoleOrString(Expr e) {
+  protected boolean Expr.isRoleable(Expr e) {
     TypeDecl roleish = lookupType("semantics.model", "Roleish");
     TypeDecl td      = e.type();
     return td.isString() || td.instanceOf(roleish);
   }
 
-  protected Problem Expr.errorNotConceptOrString(Expr e) {
-    return errorf("'%s' is neither concept nor string", e.type().typeName());
+  protected Problem Expr.errorNotConceptable(Expr e) {
+    return errorf("'%s' cannot be converted to a concept", e.type().typeName());
   }
 
-  protected Problem Expr.errorNotRoleOrString(Expr e) {
-    return errorf("'%s' is neither role nor string", e.type().typeName());
+  protected Problem Expr.errorNotRoleable(Expr e) {
+    return errorf("'%s' cannot be converted to a role", e.type().typeName());
   }
 
 
-  DlBinaryExpr contributes errorNotConceptOrString(getLeftOperand())
-    when !isConceptOrString(getLeftOperand())
+  DlBinaryExpr contributes errorNotConceptable(getLeftOperand())
+    when !isConceptable(getLeftOperand())
     to CompilationUnit.problems();
 
-  DlBinaryExpr contributes errorNotConceptOrString(getRightOperand())
-    when !isConceptOrString(getRightOperand())
+  DlBinaryExpr contributes errorNotConceptable(getRightOperand())
+    when !isConceptable(getRightOperand())
     to CompilationUnit.problems();
 
-  DlQuantifierExpr contributes errorNotRoleOrString(getLeftOperand())
-    when !isRoleOrString(getLeftOperand())
+  DlQuantifierExpr contributes errorNotRoleable(getLeftOperand())
+    when !isRoleable(getLeftOperand())
     to CompilationUnit.problems();
 
-  DlQuantifierExpr contributes errorNotConceptOrString(getRightOperand())
-    when !isConceptOrString(getRightOperand())
+  DlQuantifierExpr contributes errorNotConceptable(getRightOperand())
+    when !isConceptable(getRightOperand())
     to CompilationUnit.problems();
 
-  DlNegationExpr contributes errorNotConceptOrString(getOperand())
-    when !isConceptOrString(getOperand())
+  DlNegationExpr contributes errorNotConceptable(getOperand())
+    when !isConceptable(getOperand())
     to CompilationUnit.problems();
 
-  DlInversionExpr contributes errorNotRoleOrString(getOperand())
-    when !isRoleOrString(getOperand())
+  DlInversionExpr contributes errorNotRoleable(getOperand())
+    when !isRoleable(getOperand())
     to CompilationUnit.problems();
 
   DlOneExpr contributes errorf("'%s' is not a string", getOperand().type().typeName())
     when !getOperand().type().isString()
     to CompilationUnit.problems();
 
-  DlQueryExpr contributes errorNotConceptOrString(getOperand())
-    when !isConceptOrString(getOperand())
+  DlQueryExpr contributes errorNotConceptable(getOperand())
+    when !isConceptable(getOperand())
     to CompilationUnit.problems();
 
 
@@ -258,10 +259,22 @@ aspect Query {
 
 aspect QueryBackend {
   protected Expr Expr.mkModel(String name, Expr e) {
-    if (e.type().isString()) {
+    TypeDecl td = e.type();
+    if (td.isString()) {
       return new ClassInstanceExpr(
         lookupType("semantics.model", name).createQualifiedAccess(),
         new List<Expr>(e.treeCopyNoTransform())
+      );
+    }
+    else if (td.instanceOf(lookupType("semantics.model", "Individual"))) {
+      return new ClassInstanceExpr(
+        lookupType("semantics.model", "One").createQualifiedAccess(),
+        new List<Expr>(
+          new Dot(
+            e.treeCopyNoTransform(),
+            new MethodAccess("getIri", new List<Expr>())
+          )
+        )
       );
     }
     else {
