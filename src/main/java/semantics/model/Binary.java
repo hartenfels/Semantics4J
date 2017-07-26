@@ -8,7 +8,7 @@ import static semantics.KnowBase.join;
 import static semantics.KnowBase.toTaggedArray;
 
 
-public abstract class Binary extends Base implements Conceptual {
+public abstract class Binary extends Conceptual {
   private final Conceptual[] cs;
 
   public Binary(Conceptual[] cs) {
@@ -44,7 +44,7 @@ public abstract class Binary extends Base implements Conceptual {
   }
 
   @Override
-  public Conceptual stripUnknownConcept() {
+  public Conceptual stripUnknown() {
     if (!containsUnknown()) {
       return this;
     }
@@ -52,7 +52,7 @@ public abstract class Binary extends Base implements Conceptual {
     Conceptual[] stripped = new Conceptual[cs.length];
 
     for (int i = 0; i < cs.length; ++i) {
-      stripped[i] = cs[i].stripUnknownConcept();
+      stripped[i] = cs[i].stripUnknown();
     }
 
     return construct(stripped);

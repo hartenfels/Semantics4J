@@ -16,7 +16,7 @@ aspect Projection {
 
     if (path != null) {
       ClassDecl  ind    = (ClassDecl) lookupType("semantics.model", "Individual");
-      Conceptual exists = new Existence(new Inversion(r), c).stripUnknownConcept();
+      Conceptual exists = new Existence(new Inversion(r), c).stripUnknown();
       param.add(ind.semanticTypeDecl(path, exists));
     }
     else {

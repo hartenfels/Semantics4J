@@ -1,8 +1,8 @@
 package semantics.model;
 
 
-public interface Roleish extends DescriptionLogic {
-  default Roleish stripUnknownRole() {
+public abstract class Roleish extends DescriptionLogic {
+  public Roleish stripUnknown() {
     return this;
   }
 }

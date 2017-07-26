@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 
-public class Top extends Conceptual {
+public class Any extends Roleish {
   @Override
   public JsonElement toJson() {
     return new JsonPrimitive(true);
@@ -12,11 +12,11 @@ public class Top extends Conceptual {
 
   @Override
   public String toString() {
-    return "⊤";
+    return "▽";
   }
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof Top;
+    return o instanceof Any;
   }
 }

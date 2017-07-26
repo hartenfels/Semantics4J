@@ -23,7 +23,7 @@ public class Existence extends Quantifier {
 
   @Override
   protected Roleish getUnknownRoleValue() {
-    return new Top();
+    return new Any();
   }
 
   @Override

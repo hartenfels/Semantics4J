@@ -41,8 +41,8 @@ RoleishType inversion_type =
 
 RoleishType primary_role_type =
     DL_LITERAL.l              {: return new RoleType(l); :}
-  | DL_TOP                    {: return new TopRoleType(); :}
-  | DL_BOTTOM                 {: return new BottomRoleType(); :}
+  | DL_ANY                    {: return new AnyType(); :}
+  | DL_NONE                   {: return new NoneType(); :}
   | LBRACK role_type.r RBRACK {: return new ParRoleishType(r); :}
   ;
 

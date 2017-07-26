@@ -1,13 +1,13 @@
 aspect SemanticsPrettyPrint {
+  public void AnyType.prettyPrint(PrettyPrinter out) {
+    out.print("\u25BD");
+  }
   public void BinaryType.prettyPrint(PrettyPrinter out) {
     out.print(getLeft());
     out.print(" ");
     out.print(printOp());
     out.print(" ");
     out.print(getRight());
-  }
-  public void BottomRoleType.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A5");
   }
   public void BottomType.prettyPrint(PrettyPrinter out) {
     out.print("\u22A5");
@@ -16,6 +16,9 @@ aspect SemanticsPrettyPrint {
     out.print("\u00AB");
     out.print(getIri());
     out.print("\u00BB");
+  }
+  public void DlAnyExpr.prettyPrint(PrettyPrinter out) {
+    out.print("\u25BD");
   }
   public void DlBottomExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u22A5");
@@ -27,6 +30,9 @@ aspect SemanticsPrettyPrint {
   public void DlNegationExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u00AC");
     out.print(getOperand());
+  }
+  public void DlNoneExpr.prettyPrint(PrettyPrinter out) {
+    out.print("\u25B3");
   }
   public void DlOneExpr.prettyPrint(PrettyPrinter out) {
     out.print("\u23A8");
@@ -129,6 +135,9 @@ aspect SemanticsPrettyPrint {
     out.print("\u00AC");
     out.print(getOperand());
   }
+  public void NoneType.prettyPrint(PrettyPrinter out) {
+    out.print("\u25B3");
+  }
   public void OneType.prettyPrint(PrettyPrinter out) {
     out.print("\u23A8\u00AB");
     out.print(getIri());
@@ -157,9 +166,6 @@ aspect SemanticsPrettyPrint {
   }
   public void SemanticTypeAccess.prettyPrint(PrettyPrinter out) {
     out.print(getConcept());
-  }
-  public void TopRoleType.prettyPrint(PrettyPrinter out) {
-    out.print("\u22A4");
   }
   public void TopType.prettyPrint(PrettyPrinter out) {
     out.print("\u22A4");

@@ -7,6 +7,8 @@ $(Modifiers)class $ID$if(hasSuperClass) extends $SuperClass$endif$if(hasImplemen
 
 DlTopExpr    [[⊤]]
 DlBottomExpr [[⊥]]
+DlAnyExpr    [[▽]]
+DlNoneExpr   [[△]]
 
 DlQuantifierExpr [[#printPrefix$LeftOperand#printOp$RightOperand]]
 
@@ -37,9 +39,9 @@ BottomType  [[⊥]]
 ConceptType [[«$Iri»]]
 OneType     [[⎨«$Iri»⎬]]
 
-TopRoleType    [[⊤]]
-BottomRoleType [[⊥]]
-RoleType       [[«$Iri»]]
+AnyType  [[▽]]
+NoneType [[△]]
+RoleType [[«$Iri»]]
 
 NegationType  [[¬$Operand]]
 InversionType [[$Operand⁻]]

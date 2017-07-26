@@ -6,7 +6,7 @@ import semantics.KnowBase;
 import static semantics.KnowBase.toTaggedArray;
 
 
-public class One extends Base implements Conceptual {
+public class One extends Conceptual {
   private final String iri;
 
   public One(String iri) {

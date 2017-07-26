@@ -57,14 +57,14 @@ public class QueryTypes knows "wine.rdf" {
  *! src/test/resources/integration/QueryTypes.java:27: error: can not assign variable j of type int a value of type java.util.Set<∃«:hasColor»·⊤>
  *! src/test/resources/integration/QueryTypes.java:28: error: can not assign variable k of type int a value of type java.util.Set<∀«:hasColor»·⎨«:Red»⎬>
  *! src/test/resources/integration/QueryTypes.java:29: error: can not assign variable l of type int a value of type java.util.Set<∀«:hasColor»·⊤>
- *! src/test/resources/integration/QueryTypes.java:30: error: can not assign variable m of type int a value of type java.util.Set<∃⊤·⎨«:Red»⎬>
- *! src/test/resources/integration/QueryTypes.java:31: error: can not assign variable n of type int a value of type java.util.Set<∀⊥·⎨«:Red»⎬>
+ *! src/test/resources/integration/QueryTypes.java:30: error: can not assign variable m of type int a value of type java.util.Set<∃▽·⎨«:Red»⎬>
+ *! src/test/resources/integration/QueryTypes.java:31: error: can not assign variable n of type int a value of type java.util.Set<∀△·⎨«:Red»⎬>
  *! src/test/resources/integration/QueryTypes.java:32: error: can not assign variable o of type int a value of type java.util.Set<∃«:hasColor»⁻·⎨«:TaylorPort»⎬>
  *! src/test/resources/integration/QueryTypes.java:33: error: can not assign variable p of type int a value of type java.util.Set<∃«:hasColor»⁻·⊤>
  *! src/test/resources/integration/QueryTypes.java:34: error: can not assign variable q of type int a value of type java.util.Set<∀«:hasColor»⁻·⎨«:TaylorPort»⎬>
  *! src/test/resources/integration/QueryTypes.java:35: error: can not assign variable r of type int a value of type java.util.Set<∀«:hasColor»⁻·⊤>
- *! src/test/resources/integration/QueryTypes.java:36: error: can not assign variable s of type int a value of type java.util.Set<∃⊤·⎨«:TaylorPort»⎬>
- *! src/test/resources/integration/QueryTypes.java:37: error: can not assign variable t of type int a value of type java.util.Set<∀⊥·⎨«:TaylorPort»⎬>
+ *! src/test/resources/integration/QueryTypes.java:36: error: can not assign variable s of type int a value of type java.util.Set<∃▽·⎨«:TaylorPort»⎬>
+ *! src/test/resources/integration/QueryTypes.java:37: error: can not assign variable t of type int a value of type java.util.Set<∀△·⎨«:TaylorPort»⎬>
  *! src/test/resources/integration/QueryTypes.java:38: error: can not assign variable u of type int a value of type java.util.Set<¬«:Wine»>
  *! src/test/resources/integration/QueryTypes.java:39: error: can not assign variable v of type int a value of type java.util.Set<⊤>
  *! src/test/resources/integration/QueryTypes.java:40: error: can not assign variable w of type int a value of type java.util.Set<¬[«:Wine» ⊓ ⎨«:TaylorPort»⎬]>

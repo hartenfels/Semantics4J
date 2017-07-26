@@ -1,8 +1,8 @@
 package semantics.model;
 
 
-public interface Conceptual extends DescriptionLogic {
-  default Conceptual stripUnknownConcept() {
+public abstract class Conceptual extends DescriptionLogic {
+  public Conceptual stripUnknown() {
     return this;
   }
 }

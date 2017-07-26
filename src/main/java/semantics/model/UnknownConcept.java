@@ -3,7 +3,7 @@ package semantics.model;
 import com.google.gson.JsonElement;
 
 
-public class UnknownConcept extends Base implements Conceptual {
+public class UnknownConcept extends Conceptual {
   @Override
   public JsonElement toJson() {
     throw new UnsupportedOperationException(
@@ -16,7 +16,7 @@ public class UnknownConcept extends Base implements Conceptual {
   }
 
   @Override
-  public Conceptual stripUnknownConcept() {
+  public Conceptual stripUnknown() {
     return new Top();
   }
 

@@ -5,7 +5,7 @@ import semantics.KnowBase;
 import static semantics.KnowBase.toTaggedArray;
 
 
-public class Negation extends Base implements Conceptual {
+public class Negation extends Conceptual {
   private final Conceptual c;
 
   public Negation(Conceptual c) {
@@ -28,7 +28,7 @@ public class Negation extends Base implements Conceptual {
   }
 
   @Override
-  public Conceptual stripUnknownConcept() {
+  public Conceptual stripUnknown() {
     return containsUnknown() ? new Top() : this;
   }
 

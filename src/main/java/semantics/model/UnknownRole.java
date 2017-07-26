@@ -3,7 +3,7 @@ package semantics.model;
 import com.google.gson.JsonElement;
 
 
-public class UnknownRole extends Base implements Roleish {
+public class UnknownRole extends Roleish {
   @Override
   public JsonElement toJson() {
     throw new UnsupportedOperationException(
@@ -16,8 +16,8 @@ public class UnknownRole extends Base implements Roleish {
   }
 
   @Override
-  public Roleish stripUnknownRole() {
-    return new Top();
+  public Roleish stripUnknown() {
+    return new Any();
   }
 
   @Override

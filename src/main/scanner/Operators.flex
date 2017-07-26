@@ -14,6 +14,12 @@
   "⊥"  { return sym(Terminals.DL_BOTTOM); }
   "#F" { return sym(Terminals.DL_BOTTOM); }
 
+  "▽"  { return sym(Terminals.DL_ANY); }
+  "#t" { return sym(Terminals.DL_ANY); }
+
+  "△"  { return sym(Terminals.DL_NONE); }
+  "#f" { return sym(Terminals.DL_NONE); }
+
   "¬"  { return sym(Terminals.DL_NEGATION); }
   "-." { return sym(Terminals.DL_NEGATION); }
 

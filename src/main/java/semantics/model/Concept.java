@@ -2,11 +2,10 @@ package semantics.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import semantics.KnowBase;
 import static semantics.KnowBase.toTaggedArray;
 
 
-public class Concept extends Base implements Conceptual {
+public class Concept extends Conceptual {
   private final String iri;
 
   /**

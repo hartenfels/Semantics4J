@@ -5,7 +5,7 @@ import com.google.gson.JsonPrimitive;
 import static semantics.KnowBase.toTaggedArray;
 
 
-public class Role extends Base implements Roleish {
+public class Role extends Roleish {
   private final String iri;
 
   /**

@@ -1,6 +1,8 @@
 aspect Query {
   eq DlTopExpr         .type() = lookupType("semantics.model", "Top");
   eq DlBottomExpr      .type() = lookupType("semantics.model", "Bottom");
+  eq DlAnyExpr         .type() = lookupType("semantics.model", "Any");
+  eq DlNoneExpr        .type() = lookupType("semantics.model", "None");
   eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
   eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
   eq DlExistenceExpr   .type() = lookupType("semantics.model", "Existence");
@@ -77,8 +79,8 @@ aspect Query {
 
   eq ParExpr.toRoleish() = getExpr().toRoleish();
 
-  eq DlTopExpr   .toRoleish() = new Top();
-  eq DlBottomExpr.toRoleish() = new Bottom();
+  eq DlAnyExpr .toRoleish() = new Any();
+  eq DlNoneExpr.toRoleish() = new None();
 
   eq DlInversionExpr.toRoleish() {
     Roleish r = getOperand().toRoleish();
@@ -97,7 +99,7 @@ aspect Query {
       param.add(ind);
     }
     else {
-      param.add(ind.semanticTypeDecl(path, c.stripUnknownConcept()));
+      param.add(ind.semanticTypeDecl(path, c.stripUnknown()));
     }
 
     GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
@@ -167,7 +169,7 @@ aspect Query {
     String     path = lookupKnows();
     Conceptual c    = getOperand().toConceptual();
     return path != null && c != null && !c.isUnknown()
-        && !KnowBase.of(path).isSatisfiable(c.stripUnknownConcept());
+        && !KnowBase.of(path).isSatisfiable(c.stripUnknown());
   }
 
   DlQueryExpr contributes

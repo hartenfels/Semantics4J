@@ -79,6 +79,8 @@ Expr dl_one_expression =
 Expr literal =
     DL_TOP    @CAST {: return new DlTopExpr   (DL_TOP   ); :}
   | DL_BOTTOM @CAST {: return new DlBottomExpr(DL_BOTTOM); :}
+  | DL_ANY    @CAST {: return new DlAnyExpr   (DL_ANY   ); :}
+  | DL_NONE   @CAST {: return new DlNoneExpr  (DL_NONE  ); :}
   ;
 
 

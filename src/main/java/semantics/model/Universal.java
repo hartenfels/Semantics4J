@@ -23,7 +23,7 @@ public class Universal extends Quantifier {
 
   @Override
   protected Roleish getUnknownRoleValue() {
-    return new Bottom();
+    return new None();
   }
 
   @Override
