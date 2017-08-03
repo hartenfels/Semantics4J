@@ -1,3 +1,4 @@
+%state NEVER
 %state DLLIT
 
 %{

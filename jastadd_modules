@@ -26,5 +26,7 @@ module 'semantics', {
   parser {
     basedir 'src/main/parser'
     include '**/*.parser'
+
+    excludeFrom "java4 frontend", "parser/Header.parser"
   }
 }

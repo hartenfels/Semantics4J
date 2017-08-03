@@ -1,0 +1,8 @@
+%header {:
+package org.extendj.parser;
+
+import org.extendj.ast.*;
+import org.extendj.scanner.Unicode;
+
+import semantics.JavaScanner;
+:};

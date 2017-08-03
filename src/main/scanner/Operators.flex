@@ -51,6 +51,12 @@
 }
 
 
+<NEVER> {
+  "∃" { return sym(Terminals.DL_TYPE_EXISTENCE); }
+  "∀" { return sym(Terminals.DL_TYPE_UNIVERSAL); }
+}
+
+
 <DLLIT> {
   [^\r\n\u2028\u2029\u000B\u000C\u0085] {
     dllit_buf += str();
