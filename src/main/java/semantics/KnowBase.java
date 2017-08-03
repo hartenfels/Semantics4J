@@ -112,7 +112,7 @@ public class KnowBase {
     Set<Individual> is = new HashSet<Individual>();
 
     for (JsonElement e : from.getAsJsonArray()) {
-      is.add(new Individual(this, e.getAsString()));
+      is.add(new Individual(path, e.getAsString()));
     }
 
     return is;
@@ -120,7 +120,7 @@ public class KnowBase {
 
 
   private Individual ensureCorrectSource(Individual i) {
-    if (!equals(i.getKnowBase())) {
+    if (!path.equals(i.getSource())) {
       throw new IncompatibleIndividualException(this, i);
     }
     return i;
@@ -146,7 +146,7 @@ public class KnowBase {
   public Individual nominal(String iri) {
     checkSignature("individual", iri);
     String actualIri = msg("individual", new JsonPrimitive(iri)).getAsString();
-    return new Individual(this, actualIri);
+    return new Individual(path, actualIri);
   }
 
 

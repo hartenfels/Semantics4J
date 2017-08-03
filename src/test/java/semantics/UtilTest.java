@@ -22,8 +22,8 @@ public class UtilTest {
   @BeforeClass
   public static void setUpClass() {
     kb      = KnowBase.of("music.rdf");
-    beatles = new Individual(kb, "http://example.org/music#beatles");
-    hendrix = new Individual(kb, "http://example.org/music#hendrix");
+    beatles = new Individual("music.rdf", "http://example.org/music#beatles");
+    hendrix = new Individual("music.rdf", "http://example.org/music#hendrix");
   }
 
 
