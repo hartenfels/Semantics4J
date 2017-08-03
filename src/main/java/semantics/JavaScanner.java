@@ -23,9 +23,9 @@ public class JavaScanner extends org.extendj.scanner.JavaScanner {
   protected Symbol handle(Symbol token) throws Exception, IOException {
     switch (token.getId()) {
       case DL_EXISTENCE:
-        return new Symbol(intuitQuantifier(DL_EXISTENCE, DL_TYPE_EXISTENCE));
+        return new Symbol(intuitQuantifier(DL_EXISTENCE, DLT_EXISTENCE));
       case DL_UNIVERSAL:
-        return new Symbol(intuitQuantifier(DL_UNIVERSAL, DL_TYPE_UNIVERSAL));
+        return new Symbol(intuitQuantifier(DL_UNIVERSAL, DLT_UNIVERSAL));
       default:
         return token;
     }
@@ -84,8 +84,8 @@ public class JavaScanner extends org.extendj.scanner.JavaScanner {
         case DL_LCURLY:
           continue;
 
-        case DL_TYPE_EXISTENCE:
-        case DL_TYPE_UNIVERSAL:
+        case DLT_EXISTENCE:
+        case DLT_UNIVERSAL:
         case DL_LITERAL:
         case LBRACK:
           return typeId;

@@ -52,8 +52,8 @@
 
 
 <NEVER> {
-  "∃" { return sym(Terminals.DL_TYPE_EXISTENCE); }
-  "∀" { return sym(Terminals.DL_TYPE_UNIVERSAL); }
+  "∃" { return sym(Terminals.DLT_EXISTENCE); }
+  "∀" { return sym(Terminals.DLT_UNIVERSAL); }
 }
 
 
