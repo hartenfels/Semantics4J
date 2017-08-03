@@ -52,8 +52,10 @@
 
 
 <NEVER> {
-  "∃" { return sym(Terminals.DLT_EXISTENCE); }
-  "∀" { return sym(Terminals.DLT_UNIVERSAL); }
+  "⊤" { return sym(Terminals.DLT_EVERYTHING); }
+  "⊥" { return sym(Terminals.DLT_NOTHING   ); }
+  "∃" { return sym(Terminals.DLT_EXISTENCE ); }
+  "∀" { return sym(Terminals.DLT_UNIVERSAL ); }
 }
 
 
