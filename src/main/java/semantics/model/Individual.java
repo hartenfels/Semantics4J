@@ -1,9 +1,9 @@
 package semantics.model;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
-import semantics.KnowBase;
 
 
 /**
@@ -13,29 +13,29 @@ import semantics.KnowBase;
  * identity built from a knowledge base and an IRI string. But don't mess with
  * the knowledge base part directly.
  */
-public final class Individual implements Comparable<Individual> {
-  private final KnowBase kb;
-  private final String   iri;
+public final class Individual implements Comparable<Individual>, Serializable {
+  private final String source;
+  private final String iri;
 
   /**
    * Internal, don't use.
    *
    * Get your individuals by querying, don't construct them yourself.
    */
-  public Individual(KnowBase kb, String iri) {
-    this.kb  = kb;
-    this.iri = iri;
+  public Individual(String source, String iri) {
+    this.source = source;
+    this.iri    = iri;
   }
 
 
   /**
-   * This individual's knowledge base, for identity.
+   * This individual's data source.
    *
-   * But don't use it for anything other than checking the identity of the
-   * knowledge base, all the knowledge base functions are internal-only.
+   * This is usually the path that was given in the <code>from</code>
+   * specification in the class that you queried it from.
    */
-  public KnowBase getKnowBase() {
-    return kb;
+  public String getSource() {
+    return source;
   }
 
   /**
@@ -74,14 +74,14 @@ public final class Individual implements Comparable<Individual> {
   public boolean equals(Object other) {
     if (other instanceof Individual) {
       Individual i = (Individual) other;
-      return kb.equals(i.kb) && iri.equals(i.iri);
+      return source.equals(i.source) && iri.equals(i.iri);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return (kb + "\0" + iri).hashCode();
+    return (source + "\0" + iri).hashCode();
   }
 
   @Override
