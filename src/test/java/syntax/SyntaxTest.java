@@ -11,6 +11,10 @@ public class SyntaxTest extends SyntaxTestBase {
     checkSyntax("ClassExtendsImplements");
   }
   @org.junit.Test
+  public void checkIntuit() {
+    checkSyntax("Intuit");
+  }
+  @org.junit.Test
   public void checkClassDecl() {
     checkSyntax("ClassDecl");
   }

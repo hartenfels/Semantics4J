@@ -1,0 +1,35 @@
+public class Intuit from "music.rdf" {
+  public static void test() {
+    ⊤ top;
+    ⊥ bot;
+    ¬⊤ nt;
+    ¬¬⊤ nnt;
+    ⊤ ⊔ ⊥ tub;
+    ⊤ ⊓ ⊥ tnb;
+    ∃△·«:MusicArtist» e1;
+    ∀▽·⎨«:hendrix»⎬ a1;
+    ∃▽·⊤ e2;
+    ∀△⁻·¬¬⊥ a2;
+    ∃▽·⊤ ⊔ «:MusicArtist» e3;
+    ∃▽·⊤ ⊔ ⊤ ⊔ ⊤ ⊓ ⊥ e4;
+    ⊤ ⊔ ⊥ ⊔ ∃▽·⎨«:beatles»⎬ e5;
+    ⊤ ⊔ ⊤ ⊓ ⊥ ⊔ ∃▽·⊤ ⊓ ⊥ e6;
+  }
+
+  public static void testTexas() {
+    ⊤ top;
+    ⊥ bot;
+    ¬⊤ nt;
+    ¬¬⊤ nnt;
+    ⊤ ⊔ ⊥ tub;
+    ⊤ ⊓ ⊥ tnb;
+    ∃△·«:MusicArtist» e1;
+    ∀▽·⎨«:hendrix»⎬ a1;
+    ∃▽·⊤ e2;
+    ∀△⁻·¬¬⊥ a2;
+    ∃▽·⊤ ⊔ «:MusicArtist» e3;
+    ∃▽·⊤ ⊔ ⊤ ⊔ ⊤ ⊓ ⊥ e4;
+    ⊤ ⊔ ⊥ ⊔ ∃▽·⎨«:beatles»⎬ e5;
+    ⊤ ⊔ ⊤ ⊓ ⊥ ⊔ ∃▽·⊤ ⊓ ⊥ e6;
+  }
+}
