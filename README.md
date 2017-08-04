@@ -324,9 +324,9 @@ only use the documented APIs.
 
 ### semantics.model.Individual
 
-An individual just knows its knowledge base and its IRI. You can retrieve them
-with `getKnowBase()` and `getIri()` respectively, but you shouldn't do anything
-with the knowledge base, since it's internal API.
+An individual just knows its data source (the one you specified with `from`)
+and its IRI. You can retrieve them with `getSource()` and `getIri()`
+respectively.
 
 You can get the fragment part of the IRI by calling `getName()`, which is
 useful if you want to display an individual to the user. The `toString()`
@@ -334,7 +334,7 @@ method is the same as calling `getIri()`.
 
 Indviduals support `equals`, `hashCode` and `compareTo` (by implementing
 Comparable), so you can compare them for equality, sort collections of them or
-use them as hash keys.
+use them as hash keys. They are also `Serializable` and effectively immutable.
 
 ### semantics.Util
 
