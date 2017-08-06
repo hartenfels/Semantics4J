@@ -187,8 +187,9 @@ compile-time warning (not an error), because it usually means you made a typo.
 You can also use description logic expressions in regular code, the only
 difference being that you don't use the `«»` syntax to specify atoms, using
 Strings (not necessarily string literals, you can use anything that's an
-instance of `String`) in their place instead. You also use parentheses `()` for
-grouping, as with any other expression.
+instance of `String`) in their place instead. `Individual`s are turned into
+nominal concepts for you. You also use parentheses `()` for grouping, as with
+any other expression.
 
 Concepts are instances of `semantics.model.Conceptual` and roles are instances
 of `semantics.model.Roleish`. You can use them like this:
@@ -250,7 +251,7 @@ a set of matching results. The type of the expression is `∃R⁻·C`, where `R`
 the expression's role type (or its upper bound if there's variables in it) and
 `C` is the type of the individual:
 
-```
+```java
 import java.util.Set;
 import static semantics.Util.head;
 // ...
@@ -262,6 +263,26 @@ Set<∃«:influencedBy».«:MusicArtist»> influences = hendrix.(":influencedBy"
 
 The method-call looking thing is the projection: `individualExpr.(roleExpr)`.
 As with queries, you'll get warnings about missing signature bits.
+
+Projections are also checked for satisfiability at compile-time and cause an
+error if they're not. A projection of the form `i.(R)`, where `i` is an
+indvidual of some concept type `C` and `R` is some role expression, is
+considered satisfiable if `∃R⁻·C` is satisfiable (even if your ontology
+probably doesn't define that) *and* `C` is a subtype of `∃R·⊤`. If the latter
+condition is too restrictive for your purposes, you can work around it by using
+an equivalent query of the form `∃R·i` instead:
+
+```java
+import java.util.Set;
+import semantics.model.Individual;
+// ...
+private static Set<? extends Individual> getWinesFor(«:Winery» winery) {
+  // Can't use this, as it's considered unsatisfiable:
+  // return winery.(":hasMaker"⁻);
+  // Use an equivalent query instead as a workaround:
+  return query-for(∃":hasMaker"·winery);
+}
+```
 
 ### Type Casing
 
