@@ -437,7 +437,8 @@ This repository is structured as follows:
     compiler extension.
 
   * [java](src/main/java) - the library part of Semantics4J, with the
-    description logic model, knowledge base interface and utility functions.
+    description logic model, knowledge base interface, utility functions and
+    the lexer wrapper for token disambiguation.
 
   * [parser](src/main/parser) - parsing definition files for Beaver.
 
