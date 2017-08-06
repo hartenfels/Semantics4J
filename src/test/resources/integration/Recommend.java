@@ -5,7 +5,7 @@ import static semantics.Util.sorted;
 
 public class Recommend from "wine.rdf" {
   private static «:Wine» getWineFor(«:Winery» winery) {
-    return («:Wine») head(sorted(winery.(":hasMaker"⁻)));
+    return head(sorted(query-for(":Wine" ⊓ ∃":hasMaker"·winery)));
   }
 
   private static String recommendFor(«:Wine» wine) {
