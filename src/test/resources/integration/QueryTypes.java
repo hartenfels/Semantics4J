@@ -44,7 +44,7 @@ public class QueryTypes from "wine.rdf" {
 
 
 /*
- *! src/test/resources/integration/QueryTypes.java:15: error: query-for [⊥ ⊓ ?] is unsatisfiable
+ *! src/test/resources/integration/QueryTypes.java:15: error: query-for [⊥ ⊓ (unknown concept)] is unsatisfiable
  *! src/test/resources/integration/QueryTypes.java:18: error: can not assign variable a of type int a value of type java.util.Set<«:Wine»>
  *! src/test/resources/integration/QueryTypes.java:19: error: can not assign variable b of type int a value of type java.util.Set<⊤>
  *! src/test/resources/integration/QueryTypes.java:20: error: can not assign variable c of type int a value of type java.util.Set<⎨«:TaylorPort»⎬>

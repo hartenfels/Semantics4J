@@ -22,7 +22,7 @@ public class UnknownConcept extends Conceptual {
 
   @Override
   public String toString() {
-    return "?";
+    return "(unknown concept)";
   }
 
   @Override

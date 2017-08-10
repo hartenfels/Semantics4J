@@ -22,7 +22,7 @@ public class UnknownRole extends Roleish {
 
   @Override
   public String toString() {
-    return "?";
+    return "(unknown role)";
   }
 
   @Override
