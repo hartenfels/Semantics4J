@@ -3,24 +3,28 @@ aspect Projection {
     TypeDecl et = getExpr().type();
     return et.isSemanticTypeDecl()
          ? ((SemanticTypeDecl) et).getConcept()
-         : new Everything();
+         : new UnknownConcept();
   }
 
-  protected Conceptual DlProjectionExpr.getResultingConcept(Roleish r, Conceptual c) {
+  protected Conceptual DlProjectionExpr.getResultingConcept() {
+    Roleish    r = getRoleExpr().toRoleish();
+    Conceptual c = getExprConcept();
     return new Existence(new Inversion(r), c).stripUnknown();
+  }
+
+  protected Conceptual DlProjectionExpr.getProjectionSubtype() {
+    Roleish r = getRoleExpr().toRoleish();
+    return new Existence(r, new Everything()).stripUnknown();
   }
 
 
   eq DlProjectionExpr.type() {
-    Roleish    r  = getRoleExpr().toRoleish();
-    Conceptual c  = getExprConcept();
-
     Collection<TypeDecl> param = new LinkedList<>();
     String               path  = lookupDataSource();
 
     if (path != null) {
-      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
-      param.add(ind.semanticTypeDecl(path, getResultingConcept(r, c)));
+      ClassDecl  ind = (ClassDecl) lookupType("semantics.model", "Individual");
+      param.add(ind.semanticTypeDecl(path, getResultingConcept()));
     }
     else {
       param.add(unknownType());
@@ -31,16 +35,24 @@ aspect Projection {
   }
 
 
-  protected boolean DlProjectionExpr.isIndividual(Expr e) {
-    return e.type().instanceOf(lookupType("semantics.model", "Individual"));
+  syn lazy boolean DlProjectionExpr.isProjectable() {
+    String     path = lookupDataSource();
+    Conceptual c    = getExprConcept();
+
+    if (path == null || c == null || c.isUnknown()) {
+      return false;
+    }
+
+    return KnowBase.of(path).isSubtype(c, getProjectionSubtype());
   }
 
-  protected Problem DlProjectionExpr.errorNotIndividual(Expr e) {
-    return errorf("'%s' is not an individual", e.type().typeName());
+  protected Problem DlProjectionExpr.errorNotProjectable(Expr e) {
+    return errorf("'%s' is not a subtype of '%s'",
+                  getExprConcept(), getProjectionSubtype());
   }
 
-  DlProjectionExpr contributes errorNotIndividual(getExpr())
-    when !isIndividual(getExpr())
+  DlProjectionExpr contributes errorNotProjectable(getExpr())
+    when !isProjectable()
     to CompilationUnit.problems();
 
   DlProjectionExpr contributes errorNotRoleable(getRoleExpr())
@@ -50,20 +62,17 @@ aspect Projection {
 
   syn lazy boolean DlProjectionExpr.isGuaranteedUnsatisfiable() {
     String     path = lookupDataSource();
-    Roleish    r  = getRoleExpr().toRoleish();
-    Conceptual c  = getExprConcept();
+    Conceptual c    = getExprConcept();
 
     if (path == null || c == null || c.isUnknown()) {
       return false;
     }
 
-    KnowBase kb = KnowBase.of(path);
-    return !kb.isSatisfiable(getResultingConcept(r, c))
-        || !kb.isSubtype(c, new Existence(r, new Everything()).stripUnknown());
+    return !KnowBase.of(path).isSatisfiable(getResultingConcept());
   }
 
   DlProjectionExpr contributes
-      errorf("projection of %s on %s is unsatisfiable",
+      errorf("projection of '%s' on '%s' is unsatisfiable",
              getRoleExpr().toRoleish(), getExprConcept())
     when isGuaranteedUnsatisfiable()
     to CompilationUnit.problems();
