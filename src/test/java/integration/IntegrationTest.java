@@ -15,6 +15,10 @@ public class IntegrationTest extends IntegrationTestBase {
     checkIntegration("Influences");
   }
   @org.junit.Test
+  public void checkProjection() {
+    checkIntegration("Projection");
+  }
+  @org.junit.Test
   public void checkQueryTypes() {
     checkIntegration("QueryTypes");
   }
