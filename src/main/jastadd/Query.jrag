@@ -91,15 +91,15 @@ aspect Query {
   syn lazy TypeDecl DlQueryExpr.queryResultType() {
     String     path = lookupDataSource();
     Conceptual c    = getOperand().toConceptual();
-    ClassDecl  ind  = (ClassDecl) lookupType("semantics.model", "Individual");
 
     Collection<TypeDecl> param = new LinkedList<>();
 
-    if (path == null || c == null) {
-      param.add(ind);
+    if (path != null && c != null) {
+      ClassDecl ind = (ClassDecl) lookupType("semantics.model", "Individual");
+      param.add(ind.semanticTypeDecl(path, c.stripUnknown()));
     }
     else {
-      param.add(ind.semanticTypeDecl(path, c.stripUnknown()));
+      param.add(unknownType());
     }
 
     GenericInterfaceDecl set = (GenericInterfaceDecl) lookupType("java.util", "Set");
