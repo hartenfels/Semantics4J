@@ -1,11 +1,23 @@
+/** Dummy state to define artificial terminal symbols with. */
 %state NEVER
+
+/** State for recognizing DL literals enclosed in «» or <<<>>>. */
 %state DLLIT
 
 %{
+  /** The starting delimiter, <code>«</code> or <code>&lt;&lt;&lt;</code>. */
   String dllit_from;
+  /** The expected ending delimiter, <code>»</code> or <code>&gt;&gt;&gt;</code>. */
   String dllit_until;
+  /** Buffer for storing potential multi-character ending delimiters. */
   String dllit_buf;
 
+  /**
+   * Parse a DL literal until a certain end marker.
+   *
+   * @param until The sequence marking the end of the token. This will either
+   *              be <code>"»"</code> or <code>"&gt;&gt;&gt;"</code>.
+   */
   void dllit_begin(String until) {
     yybegin(DLLIT);
     dllit_from          = str();

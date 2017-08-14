@@ -1,3 +1,10 @@
+/**
+ * The regular set of Semantics4J tokens.
+ *
+ * Most of the operators have a normal, Unicode variant and a pure-ASCII,
+ * “Texas” variant. They both always result in the same terminal symbols being
+ * emitted.
+ */
 <YYINITIAL> {
   "«"   { dllit_begin( "»" ); }
   "<<<" { dllit_begin(">>>"); }
@@ -39,6 +46,8 @@
   "#A" { return sym(Terminals.DL_UNIVERSAL); }
 
   "·"  { return sym(Terminals.DL_DOT); }
+  /* The Texas variant for this token is “...”, which is already lexed as the
+   * ELLIPSIS terminal. The parser handles the difference between these. */
 
   "⊔="   { return sym(Terminals.DL_UNIONEQ); }
   "|||=" { return sym(Terminals.DL_UNIONEQ); }
@@ -51,6 +60,12 @@
 }
 
 
+/**
+ * Artifical tokens for disambiguating semantic types.
+ *
+ * The NEVER state is never entered, these tokens are only defined here so that
+ * they exist as terminals.
+ */
 <NEVER> {
   "⊤" { return sym(Terminals.DLT_EVERYTHING); }
   "⊥" { return sym(Terminals.DLT_NOTHING   ); }
@@ -59,7 +74,9 @@
 }
 
 
+/** Recognition of DL literals. */
 <DLLIT> {
+  /* Everything except a Java line terminator. */
   [^\r\n\u2028\u2029\u000B\u000C\u0085] {
     dllit_buf += str();
 
@@ -74,5 +91,6 @@
     }
   }
 
+  /* Bail out when no closing delimiter is found. */
   {LineTerminator} { error(String.format("unterminated '%s'", dllit_from)); }
 }
