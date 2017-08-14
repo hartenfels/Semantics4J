@@ -1,3 +1,9 @@
+/**
+ * Transforms ⊓= and ⊔= operators into separate = and ⊓/⊔ expressions
+ * immediately after parsing. This works around issues with bytecode generation
+ * for new assignment operators in ExtendJ, which makes the JVM bail out with a
+ * stack mismatch error.
+ */
 Expr assignment =
     postfix_expression.dest DL_INTERSECTIONEQ assignment_expression.source
         {: return new AssignSimpleExpr(dest, new DlIntersectionExpr(dest, source)); :}
