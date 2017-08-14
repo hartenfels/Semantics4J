@@ -1,8 +1,14 @@
+/**
+ * This header replaces ExtendJ's parser header so that we can replace the
+ * scanner interface with our own. If imports start breaking after an update to
+ * ExtendJ, this might be the cause for it.
+ */
 %header {:
 package org.extendj.parser;
 
 import org.extendj.ast.*;
 import org.extendj.scanner.Unicode;
 
+/* Use the Semantics4J scanner helper, instead of ExtendJ's. */
 import semantics.JavaScanner;
 :};

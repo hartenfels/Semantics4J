@@ -3,13 +3,14 @@ ClassDecl class_declaration =
       {: return new SemanticsClassDecl(new Modifiers(m), IDENTIFIER, s, i, d, b); :}
   ;
 
-// We want `class Thing from "some.rdf"` to be valid syntax. However, turning
-// `from` into a keyword would break existing Java code that happens to use it
-// as an identifier anywhere. So instead, we just parse it as an identifier and
-// manually throw a syntax error if it's not the string "from". Since Java
-// doesn't allow an identifier just hanging around in that spot, this won't
-// cause any breakage.
-
+/**
+ * We want <code>class Thing from "some.rdf"</code> to be valid syntax.
+ * However, turning <code>from</code> into a keyword would break existing Java
+ * code that happens to use it an identifier anywhere. So instead, we just
+ * parse it as an identifier and throw a syntax error if it's not the string
+ * <code>"from"</code>. Since Java doesn't allow an identifier just hanging
+ * around in that spot, this won't cause any breakage.
+ */
 StringLiteral data_source =
     IDENTIFIER STRING_LITERAL {:
         if (!IDENTIFIER.value.equals("from")) {

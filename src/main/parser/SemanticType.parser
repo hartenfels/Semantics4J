@@ -10,6 +10,14 @@ ConceptualType intersection_type =
   | quantifier_type
   ;
 
+/**
+ * Quantifiers in semantic types can come in a <code>DL_</code> (normal token)
+ * and <code>DLT_</code> (type-only token) variant, to tell apart semantic
+ * types from regular DL expressions in some ambiguous cases. Additionally, the
+ * separator between role and concept can either be a <code>·</code> or a
+ * <code>...</code>. This is why this rule needs to handle all combinations of
+ * these cases.
+ */
 ConceptualType quantifier_type =
     DL_EXISTENCE  role_type.r DL_DOT   concept_type.c {: return new ExistenceType(r, c); :}
   | DL_UNIVERSAL  role_type.r DL_DOT   concept_type.c {: return new UniversalType(r, c); :}
@@ -27,6 +35,10 @@ ConceptualType negation_type =
   | primary_concept_type
   ;
 
+/**
+ * <code>⊤</code> and <code>⊥</code> also come in a <code>DLT_</code> type-only
+ * token variant. This parser rule takes care of those cases.
+ */
 ConceptualType primary_concept_type =
     DL_LITERAL.l                       {: return new ConceptType(l); :}
   | DL_EVERYTHING                      {: return new EverythingType(); :}

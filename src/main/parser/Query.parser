@@ -50,6 +50,11 @@ Expr unary_expression_not_plus_minus    = dl_unary_expression;
 Expr unary_expression_not_plus_minus_nn = dl_unary_expression;
 
 
+/**
+ * Quantifiers use either a <code>·</code> or a <code>...</code> as a separator
+ * between their role and concept parts. Since those are different tokens, the
+ * parser needs to handle both of those cases here.
+ */
 Expr dl_quantifier_expression =
     DL_EXISTENCE expression.e1 DL_DOT expression.e2
         {: return new DlExistenceExpr(e1, e2); :}
@@ -82,7 +87,6 @@ Expr literal =
   | DL_ANY        @CAST {: return new DlAnyExpr       (DL_ANY       ); :}
   | DL_NONE       @CAST {: return new DlNoneExpr      (DL_NONE      ); :}
   ;
-
 
 
 Expr primary_no_new_array =
