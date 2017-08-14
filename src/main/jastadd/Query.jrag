@@ -1,4 +1,6 @@
+/** Frontend extension for queries and DL expressions. */
 aspect Query {
+  // Model classes for DL expressions.
   eq DlEverythingExpr  .type() = lookupType("semantics.model", "Everything");
   eq DlNothingExpr     .type() = lookupType("semantics.model", "Nothing");
   eq DlAnyExpr         .type() = lookupType("semantics.model", "Any");
@@ -12,6 +14,9 @@ aspect Query {
   eq DlOneExpr         .type() = lookupType("semantics.model", "One");
 
 
+  // DL expressions are constant if their constituents are constant. Literals
+  // are the base case and the other operators simply check their arguments.
+
   eq DlLiteralExpr.isConstant() = true;
 
   eq DlQuantifierExpr.isConstant() =
@@ -24,6 +29,10 @@ aspect Query {
   eq DlInversionExpr.isConstant() = getOperand().isConstant();
   eq DlOneExpr      .isConstant() = getOperand().isConstant();
 
+
+  // Conversion of DL expressions to concept models. Constant expressions can
+  // be folded into instances of the equivalent model classes. Variables and
+  // other non-constant parts are turned into instances of UnknownConcept.
 
   syn Conceptual DlBinaryExpr.setop(Conceptual c, Conceptual d);
 
@@ -72,6 +81,8 @@ aspect Query {
   }
 
 
+  // Conversion of DL expressions to role models, analogous to concepts above.
+
   syn lazy Roleish Expr.toRoleish() =
     isConstant() && type().isString()
       ? new Role(constant().stringValue())
@@ -88,6 +99,14 @@ aspect Query {
   }
 
 
+  /**
+   * Figures out the resulting type of a <code>query-for</code> operation.
+   *
+   * The argument is turned into its equivalent model using
+   * <code>toConceptual</code> on the expression. This is then turned into a
+   * semantic type by stripping unknown concepts and roles. The return type
+   * will then be a <code>java.util.Set</code> of that semantic type.
+   */
   syn lazy TypeDecl DlQueryExpr.queryResultType() {
     String     path = lookupDataSource();
     Conceptual c    = getOperand().toConceptual();
@@ -106,11 +125,17 @@ aspect Query {
     return set.lookupParTypeDecl(param);
   }
 
-
   eq DlQueryExpr.type()       = queryResultType();
   eq DlQueryExpr.isConstant() = getOperand().isConstant();
 
 
+  /**
+   * Checks if an expression can be converted to a concept.
+   *
+   * Types that extend from <code>semantics.model.Conceptual</code> are
+   * trivially convertible. Strings are convertible by wrapping them into
+   * concept atoms and Individuals can be wrapped into nominal concepts.
+   */
   protected boolean Expr.isConceptable(Expr e) {
     TypeDecl conceptual = lookupType("semantics.model", "Conceptual");
     TypeDecl individual = lookupType("semantics.model", "Individual");
@@ -118,11 +143,20 @@ aspect Query {
     return td.isString() || td.instanceOf(conceptual) || td.instanceOf(individual);
   }
 
+  /**
+   * Checks if an expression can be converted to a role.
+   *
+   * Types that extend from <code>semantics.model.Role</code> are trivially
+   * convertible. Strings are convertible by wrapping them into role.
+   */
   protected boolean Expr.isRoleable(Expr e) {
     TypeDecl roleish = lookupType("semantics.model", "Roleish");
     TypeDecl td      = e.type();
     return td.isString() || td.instanceOf(roleish);
   }
+
+
+  // Errors for incorrect types for DL and query operands.
 
   protected Problem Expr.errorNotConceptable(Expr e) {
     return errorf("'%s' cannot be converted to a concept", e.type().typeName());
@@ -131,7 +165,6 @@ aspect Query {
   protected Problem Expr.errorNotRoleable(Expr e) {
     return errorf("'%s' cannot be converted to a role", e.type().typeName());
   }
-
 
   DlBinaryExpr contributes errorNotConceptable(getLeftOperand())
     when !isConceptable(getLeftOperand())
@@ -166,6 +199,17 @@ aspect Query {
     to CompilationUnit.problems();
 
 
+  /**
+   * Checks if a query operation is definitely unsatisfiable.
+   *
+   * The query operand is turned into a model using <code>toConceptual</code>
+   * and stripped from concepts and roles. The result is thrown against the
+   * knowledge base, which checks if the expression is satisfiable.
+   *
+   * If a data source specification is missing or if the query argument is not
+   * a concept, this will return <code>false</code>. The compiler will bail out
+   * with an error later in that case.
+   */
   syn lazy boolean DlQueryExpr.isGuaranteedUnsatisfiable() {
     String     path = lookupDataSource();
     Conceptual c    = getOperand().toConceptual();
@@ -179,6 +223,7 @@ aspect Query {
     to CompilationUnit.problems();
 
 
+  /** Emits a warning about missing signature elements. */
   protected Problem Expr.signatureWarning(DescriptionLogic dl) {
     String type = dl.getSignatureType();
     String iri  = dl.getSignatureIri();
@@ -187,6 +232,28 @@ aspect Query {
         String.format("%s '%s' not in signature of '%s'", type, iri, path));
   }
 
+  /**
+   * Checks if a DL expression has missing signature elements.
+   *
+   * Asks the knowledge base if the given concept, role or nominal concept is
+   * part of the signature of the ontology. Other DL expressions are ignored.
+   *
+   * @param dl           The DL expression to check.
+   * @param expectedType The type of signature to check. This should either be
+   *                     <code>"concept"</code> for a concept atom,
+   *                     <code>"role"</code> for a role atom or
+   *                     <code>"individual</code> for a nominal concept. The
+   *                     signature will only be checked if the DL expression
+   *                     is actually of this type, so that incorrect types
+   *                     don't spew warnings on top of the errors they produce.
+   *
+   * @return If the signature exists in the ontology. If the given DL
+   *         expression is <code>null</code>, has no signature to check,
+   *         doesn't match the given expected type or there is no data source
+   *         specified in the current context, this also returns
+   *         <code>true</code>, since there's not actually a signature error in
+   *         those cases.
+   */
   protected boolean Expr.hasSignature(DescriptionLogic dl, String expectedType) {
     String path = lookupDataSource();
 
@@ -203,6 +270,10 @@ aspect Query {
 
     return KnowBase.of(path).hasSignature(type, iri);
   }
+
+  /* Warnings about missing signature elements. This covers all the DL
+   * operators, the query operator, as well as the utility functions
+   * semantics.Util.concept and semantics.Util.role. */
 
   DlQueryExpr contributes signatureWarning(getOperand().toConceptual())
     when getOperand().toConceptual() != null
@@ -257,7 +328,21 @@ aspect Query {
 }
 
 
+/** Backend extension for queries and DL expressions. */
 aspect QueryBackend {
+  /**
+   * Converts a DL argument to a concept or role.
+   *
+   * @param name The kind of expression. This must be either
+   *             <code>"Concept"</code> or <code>"Role"</code>.
+   * @param e    The expression to convert.
+   *
+   * @return The converted expression. If it was a String, it is wrapped in
+   *         <code>semantics.model.Concept</code> or
+   *         <code>semantics.model.Role</code> depending on the given
+   *         <code>name</code>. If it was an Individual, its IRI is wrapped
+   *         into a <code>semantics.model.One</code>.
+   */
   protected Expr Expr.mkModel(String name, Expr e) {
     TypeDecl td = e.type();
     if (td.isString()) {
@@ -282,6 +367,9 @@ aspect QueryBackend {
     }
   }
 
+
+  /* Transformations for DL and query expressions into regular Java code. This
+   * is used instead of manually generating bytecode for them. */
 
   syn nta Expr DlLiteralExpr.getTransformed() =
     new ClassInstanceExpr(type().createQualifiedAccess(), new List<Expr>());
@@ -322,6 +410,9 @@ aspect QueryBackend {
   syn nta Expr DlQueryExpr.getTransformed() =
     getKnowBase().mkMethodAccess("query", mkModel("Concept", getOperand()));
 
+
+  /* Bytecode generation for DL and query operators. Transforms the expressions
+   * with the methods above and then generates bytecode with them. */
 
   public void DlLiteralExpr.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);

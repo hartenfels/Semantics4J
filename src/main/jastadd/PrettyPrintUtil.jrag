@@ -1,3 +1,12 @@
+/**
+ * Additional definitions for the auto-generated pretty-printing code.
+ *
+ * The generated code is in <code>PrettyPrint.jrag</code> and its source is in
+ * <code>../pretty-print/SemanticsPrettyPrint.tt</code>. All pretty-printed
+ * code uses the Unicode variants of the operators, even if the input actually
+ * used the Texas variants, since those are the canonical way to write the
+ * operators.
+ */
 aspect PrettyPrintUtil {
   eq DlUnionExpr       .printOp() = "⊔";
   eq DlIntersectionExpr.printOp() = "⊓";

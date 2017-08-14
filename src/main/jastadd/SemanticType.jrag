@@ -19,7 +19,11 @@ import semantics.model.UnknownConcept;
 import semantics.model.UnknownRole;
 
 
+/** Frontend extension for semantic types. */
 aspect SemanticType {
+  // Attributes for turning semantic types into the equivalent
+  // semantics.model.* objects.
+
   syn lazy Conceptual ConceptualType.toModel();
   syn lazy Roleish    RoleishType   .toModel();
 
@@ -44,6 +48,20 @@ aspect SemanticType {
   eq UniversalType.toModel() = new Universal(getRole().toModel(), getConcept().toModel());
 
 
+  /**
+   * Creates a semantic type declaration.
+   *
+   * You <em>must</em> only call this on the
+   * <code>semantics.model.Individual</code> class, everything else is
+   * nonsense.
+   *
+   * @param path    The path to the knowledge base of the type.
+   * @param concept The underlying semantic concept.
+   *
+   * @return A new semantic type declaration with the given path and underlying
+   *         concept. It's attached to the class declaration you called this
+   *         method on.
+   */
   syn nta SemanticTypeDecl ClassDecl.semanticTypeDecl(String path, Conceptual concept) {
     String escapedPath = new StringLiteral(path).escapedLiteral();
 
@@ -61,6 +79,9 @@ aspect SemanticType {
   }
 
 
+  // Extensions to make semantic types work like other kinds of types. Semantic
+  // types have a pseudo-ID and type name and have no access restrictions.
+
   eq SemanticTypeDecl.typeName() = getConcept().toString();
   eq SemanticTypeDecl.fullName() = getID();
 
@@ -72,12 +93,19 @@ aspect SemanticType {
   eq SemanticTypeDecl.accessibleFromPackage(String   packageName) = true;
 
 
+  // Type erasure handling for semantic types. The underlying type is always
+  // semantics.model.Individual, which is what semantic types are erased to.
+
   syn TypeDecl SemanticTypeDecl.underlyingType() = ((TypeAccess) getSuperClass()).decl();
 
   eq SemanticTypeDecl.erasure() = underlyingType().erasure();
 
   eq SemanticTypeAccess.erasedCopy() = new TypeAccess("semantics.model", "Individual");
 
+
+  // Pseudo-lookup for semantic type declarations. Since semantic types aren't
+  // actually ever declared, accessing them simply conjures a declaration under
+  // semantics.model.Individual if it doesn't exist yet.
 
   eq SemanticTypeAccess.decl() {
     String path = lookupDataSource();
@@ -90,6 +118,10 @@ aspect SemanticType {
 
   eq SemanticTypeAccess.decls() = toSet(decl());
 
+
+  // Subtype checking for semantic types. This implements the double-dispatch
+  // mechanism that other ExtendJ types use. Semantic types use the knowledge
+  // base to check subtypes.
 
   eq SemanticTypeDecl.instanceOf(TypeDecl type) = type.isSupertypeOfSemanticTypeDecl(this);
   eq SemanticTypeDecl.subtype   (TypeDecl type) = type.isSupertypeOfSemanticTypeDecl(this);
@@ -108,6 +140,11 @@ aspect SemanticType {
   }
 
 
+  // Checks for identical semantic types. Two semantic types are structurally
+  // equal when they are subtypes of each other. This makes it possible to use
+  // nominally different but structurally equal types in generics for example,
+  // without having to use wildcard types.
+
   syn boolean SemanticTypeDecl.sameSemanticType(SemanticTypeDecl type) =
     type.isSupertypeOfSemanticTypeDecl(this)
       && isSupertypeOfSemanticTypeDecl(type);
@@ -124,6 +161,10 @@ aspect SemanticType {
   syn SemanticTypeAccess SemanticInstanceOfExpr.getSemanticTypeAccess() =
     (SemanticTypeAccess) getTypeAccess();
 
+
+  // Signature warnings for elements missing in the ontology's signature. This
+  // is equivalent to the signature checking for queries and DL expressions in
+  // Query.jrag.
 
   protected Problem SemanticType.signatureWarning(String type, String iri) {
     String path = lookupDataSource();
@@ -149,6 +190,11 @@ aspect SemanticType {
     to CompilationUnit.problems();
 
 
+  // Rewrite of instanceof checks that use semantic types into instances of
+  // SemanticInstanceOfExpr. The parser doesn't do this already since the
+  // existing rule form parsing the instanceof operator happens to already
+  // cover semantic types.
+
   rewrite InstanceOfExpr {
     when (!(this instanceof SemanticInstanceOfExpr)
         && getTypeAccess() instanceof SemanticTypeAccess)
@@ -161,20 +207,24 @@ aspect SemanticType {
 }
 
 
+/** Backend extension for semantic types. */
 aspect SemanticTypeBackend {
-  eq SemanticTypeDecl.typeDescriptor() = underlyingType().typeDescriptor();
-
+  // Type erasure handling, semantic types are actually their underlying type.
+  eq SemanticTypeDecl.typeDescriptor()   = underlyingType().typeDescriptor();
   eq SemanticTypeDecl.constantPoolName() = underlyingType().constantPoolName();
+  eq SemanticTypeDecl.uniqueIndex()      = underlyingType().uniqueIndex();
 
-  eq SemanticTypeDecl.uniqueIndex() = underlyingType().uniqueIndex();
 
-
+  /** Utility method to generate <code>new</code> trees for models. */
   protected static Expr SemanticType.cie(String cls, Expr... args) {
     return new ClassInstanceExpr(
       new TypeAccess("semantics.model", cls),
       new List<Expr>(args)
     );
   }
+
+  // Turns semantic type accesses to expression trees that construct the
+  // equivalent types, for cases where the types are needed at run-time.
 
   syn lazy Expr SemanticType.toExpr();
 
@@ -199,6 +249,9 @@ aspect SemanticTypeBackend {
   eq UniversalType.toExpr() = cie("Universal", getRole().toExpr(), getConcept().toExpr());
 
 
+  // Transformation of casts and instanceof checks to calls to the knowledge
+  // base. These transformed trees are then used for bytecode generation.
+
   syn nta Expr SemanticCastExpr.getTransformed() =
     getKnowBase().mkMethodAccess(
       "cast",
@@ -206,17 +259,16 @@ aspect SemanticTypeBackend {
       getExpr().treeCopyNoTransform()
     );
 
-  public void SemanticCastExpr.createBCode(CodeGeneration gen) {
-    getTransformed().createBCode(gen);
-  }
-
-
   syn nta Expr SemanticInstanceOfExpr.getTransformed() =
     getKnowBase().mkMethodAccess(
       "isInstanceOf",
       getSemanticTypeAccess().getConcept().toExpr(),
       getExpr().treeCopyNoTransform()
     );
+
+  public void SemanticCastExpr.createBCode(CodeGeneration gen) {
+    getTransformed().createBCode(gen);
+  }
 
   public void SemanticInstanceOfExpr.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);

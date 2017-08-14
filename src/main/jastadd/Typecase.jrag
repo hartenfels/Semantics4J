@@ -1,12 +1,23 @@
-import semantics.KnowBase;
-
-
+/** Frontend extension for type casing. */
 aspect Typecase {
+  /**
+   * Fetches the variable declaration of a type case.
+   *
+   * This will be <code>null</code> for the default case.
+   */
   syn lazy VariableDeclarator DlTypecaseish.caseVar();
 
   eq DlTypecase       .caseVar() = VarDeclStmt().getDeclarator(0);
   eq DlTypecaseDefault.caseVar() = null;
 
+  /**
+   * Variable declaration attribute for a type case.
+   *
+   * These variables are defined as <code>final</code> variable declarations of
+   * <code>semantics.model.Individual</code>. They pretend to be initialized
+   * with <code>null</code>, which is repalced with the actual value during
+   * code generation.
+   */
   syn nta VarDeclStmt DlTypecase.VarDeclStmt() =
     new VarDeclStmt(
       new Modifiers(new List<Modifier>(new Modifier("final"))),
@@ -21,15 +32,17 @@ aspect Typecase {
     );
 
 
+  // Various extensions for the type case variable declaration to properly
+  // handle lookup, final variable assignment and modification for
+  // effectively-final checks.
+
   eq DlTypecaseStmt.getCases(int i).lookupVariable(String name) {
     VariableDeclarator var = getCases(i).caseVar();
     return var != null && var.getID().equals(name) ? var : lookupVariable(name);
   }
 
-
   eq DlTypecaseStmt.getCases(int i).assignedBefore(Variable v) =
     v == getCases(i).caseVar() || assignedBefore(v);
-
 
   eq DlTypecaseStmt.modifiedInScope(Variable var) {
     for (DlTypecaseish c : getCasesList()) {
@@ -40,7 +53,8 @@ aspect Typecase {
     return false;
   }
 
-  syn boolean DlTypecaseish.modifiedInScope(Variable var) = getBlock().modifiedInScope(var);
+  syn boolean DlTypecaseish.modifiedInScope(Variable var) =
+    getBlock().modifiedInScope(var);
 
 
   syn boolean DlTypecaseish.isDefaultCase();
@@ -55,6 +69,9 @@ aspect Typecase {
   eq DlTypecaseDefault.type() = null;
 
 
+  // Type-checking for the switch-type topic. It must be an Individual, else
+  // the compiler bails out with an error.
+
   protected boolean DlTypecaseStmt.isIndividual(Expr e) {
     return e.type().instanceOf(lookupType("semantics.model", "Individual"));
   }
@@ -67,6 +84,9 @@ aspect Typecase {
     when !isIndividual(getExpr())
     to CompilationUnit.problems();
 
+
+  // Errors for default case issues. There must be exactly one default case and
+  // it must appear as the last one, otherwise there will be a compiler error.
 
   DlTypecaseStmt contributes each caseProblems() to CompilationUnit.problems();
 
@@ -91,8 +111,9 @@ aspect Typecase {
   }
 
 
+  /** Fetches all non-default cases from a type case statement. */
   public java.util.List<DlTypecaseish> DlTypecaseStmt.getTypecases() {
-    java.util.List<DlTypecaseish> cases = new LinkedList<DlTypecaseish>();
+    java.util.List<DlTypecaseish> cases = new LinkedList<>();
 
     for (DlTypecaseish c : getCasesList()) {
       if (!c.isDefaultCase()) {
@@ -102,6 +123,12 @@ aspect Typecase {
 
     return cases;
   }
+
+  // Errors for type case order and satisfiability. Later type cases can't be
+  // subtypes of earlier ones, since that would shadow the later ones and make
+  // them unreachable. Unsatisfiable types and types that are equivalent to ⊤
+  // are also not allowed, since they would never be executed or would
+  // effectively shadow the default case.
 
   DlTypecaseStmt contributes each subsumationProblems() to CompilationUnit.problems();
 
@@ -150,6 +177,12 @@ aspect Typecase {
   }
 
 
+  /**
+   * Checks if a type case statement can complete normally.
+   *
+   * This is the case if all of its blocks can complete normally. This is used
+   * e.g. for dead code analysis and ensuring that a method always returns.
+   */
   eq DlTypecaseStmt.canCompleteNormally() {
     for (DlTypecaseish c : getCasesList()) {
       if (!c.getBlock().canCompleteNormally()) {
@@ -161,7 +194,19 @@ aspect Typecase {
 }
 
 
+/** Backend extension for type casing. */
 aspect TypecaseBackend {
+  /**
+   * Makes a variable declaration tree for a final variable.
+   *
+   * @param pkg  The package for the type.
+   * @param cls  The class name for the type.
+   * @param name The identifier for the variable.
+   * @param init The initial expression to assign to the variable.
+   *
+   * @return The variable declaration tree. It will be a final variable of the
+   *         given type and identifier, intialized with the initial expression.
+   */
   public static VarDeclStmt DlTypecaseStmt.mkVarDecl(String pkg, String cls,
                                                      String name, Expr init) {
     return new VarDeclStmt(
@@ -174,6 +219,10 @@ aspect TypecaseBackend {
   }
 
 
+  // Transformation of type cases. Default cases are just blocks, while regular
+  // cases also have a variable declaration that they assign the type case
+  // statement's topic to.
+
   syn Stmt DlTypecaseish.getTransformed();
 
   eq DlTypecaseDefault.getTransformed() = getBlock().treeCopyNoTransform();
@@ -185,6 +234,14 @@ aspect TypecaseBackend {
   }
 
 
+  /**
+   * Transforms the cases of a type case statement to regular Java code.
+   *
+   * Turns them into a chain of if/else if/else statements. The topic and
+   * current knowledge base are stored in variables called <code>#topic</code>
+   * and <code>#kb</code> respectively, which, since they start with a pound
+   * sign, can never conflict with “real” identifiers.
+   */
   protected Stmt DlTypecaseStmt.getTransformedCases() {
       IfStmt first = null, prev = null;
 
@@ -219,6 +276,14 @@ aspect TypecaseBackend {
   }
 
 
+  /**
+   * Transforms a type case statement to regular Java code.
+   *
+   * This usually just dispatches to <code>getTransformedCases()</code>.
+   * However, if the type case statement consists of <em>only</em> a default
+   * case, it just builds the block for that, since an else statement can't
+   * stand on its own obviously.
+   */
   syn nta Stmt DlTypecaseStmt.getTransformed() {
     List<Stmt> stmts = new List<>(
       mkVarDecl("semantics.model", "Individual", "#topic",
@@ -237,6 +302,13 @@ aspect TypecaseBackend {
   }
 
 
+  /**
+   * Generates bytecode for type case statements.
+   *
+   * Uses the above transformation methods to turn type case statements into
+   * regular Java code and then generates the bytecode for that. This avoids
+   * manually generating the low-level code.
+   */
   public void DlTypecaseStmt.createBCode(CodeGeneration gen) {
     getTransformed().createBCode(gen);
   }

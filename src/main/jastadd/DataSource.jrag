@@ -1,4 +1,17 @@
+/** Frontend extension for data source specification. */
 aspect DataSource {
+  /**
+   * Finds the data source for the current lexical context.
+   *
+   * In case of inner classes, the innermost data source declaration found is
+   * returned. If there is not data source specified anywhere in the current
+   * context, <code>null</code> is returned.
+   *
+   * The frontend code should always consider the <code>null</code> case, since
+   * the compiler doesn't stop on the first error. Backend code doesn't need
+   * to, since by then the errors about a missing data source will have fired
+   * and aborted the compiler already.
+   */
   inh String Expr        .lookupDataSource();
   inh String Stmt        .lookupDataSource();
   inh String BodyDecl    .lookupDataSource();
@@ -10,6 +23,9 @@ aspect DataSource {
 
   eq Program.getChild().lookupDataSource() = null;
 
+
+  // Errors when queries, projections, type cases or semantic data types are
+  // used, but no data source is actually in scope.
 
   DlQueryExpr contributes error("class has no data source for querying")
     when lookupDataSource() == null
@@ -29,7 +45,20 @@ aspect DataSource {
 }
 
 
+/** Backend extension for data source specification. */
 aspect DataSourceBackend {
+  /**
+   * Finds the knowledge base class in the current lexical context.
+   *
+   * The <code>SemanticsClassDecl</code> class provides several helper
+   * functions for backend code generation. This method returns the appropriate
+   * instance thereof to call these helpers on.
+   *
+   * If there's no class in context, <code>null</code> is returned, but that
+   * should never happen since the compiler would bail out with an error
+   * beforehand. If it <em>does</em> happen, that's a bug in the frontend for
+   * not catching that case.
+   */
   inh SemanticsClassDecl Expr    .getKnowBase();
   inh SemanticsClassDecl Stmt    .getKnowBase();
   inh SemanticsClassDecl BodyDecl.getKnowBase();
@@ -39,6 +68,7 @@ aspect DataSourceBackend {
   eq Program           .getChild   ().getKnowBase() = null;
 
 
+  /** Builds an access expression tree for this knowledge base. */
   public Dot SemanticsClassDecl.mkAccess() {
     return new Dot(
       lookupType("semantics", "KnowBase").createQualifiedAccess(),
@@ -48,7 +78,15 @@ aspect DataSourceBackend {
     );
   }
 
-
+  /**
+   * Builds a method call tree on this knowledge base.
+   *
+   * @param id   The name of the method to call.
+   * @param args The parameters for the method call.
+   *
+   * @return The method call tree, which is some expression like
+   *         <code>KnowBase.of("some.rdf").id(arg1, arg2)</code>.
+   */
   public Dot SemanticsClassDecl.mkMethodAccess(String id, Expr... args) {
     List<Expr> argList = new List<>();
 
