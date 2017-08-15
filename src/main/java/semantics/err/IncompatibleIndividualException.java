@@ -14,12 +14,9 @@ import semantics.model.Individual;
  * expected data source and the same IRI.
  */
 public class IncompatibleIndividualException extends SemanticsException {
-  public IncompatibleIndividualException(String msg) {
-    super(msg);
-  }
-
   public IncompatibleIndividualException(KnowBase kb, Individual i) {
-    this(String.format("Data source mismatch for '%s': '%s' when '%s' expected",
-                       i, i.getSource(), kb));
+    super(String.format(
+          "Data source mismatch for '%s': '%s' when '%s' expected",
+          i, i.getSource(), kb));
   }
 }

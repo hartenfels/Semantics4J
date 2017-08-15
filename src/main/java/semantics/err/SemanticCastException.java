@@ -6,11 +6,7 @@ import semantics.model.Individual;
 
 /** Exception for when a cast with a semantic type fails. */
 public class SemanticCastException extends ClassCastException {
-  public SemanticCastException(String msg) {
-    super(msg);
-  }
-
   public SemanticCastException(Conceptual c, Individual i) {
-    this(String.format("'%s' is not a member of '%s'", i, c));
+    super(String.format("'%s' is not a member of '%s'", i, c));
   }
 }
