@@ -4,6 +4,7 @@ import semantics.model.Conceptual;
 import semantics.model.Individual;
 
 
+/** Exception for when a cast with a semantic type fails. */
 public class SemanticCastException extends ClassCastException {
   public SemanticCastException(String msg) {
     super(msg);
