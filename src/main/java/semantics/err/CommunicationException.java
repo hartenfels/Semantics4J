@@ -2,11 +2,7 @@ package semantics.err;
 
 
 public class CommunicationException extends SemanticsException {
-  public CommunicationException(String msg) {
-    super(msg);
-  }
-
   public CommunicationException(Exception e) {
-    super(e);
+    super("Can't communicate with knowledge base server (is it running?)", e);
   }
 }

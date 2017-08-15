@@ -10,7 +10,7 @@ public class IncompatibleIndividualException extends SemanticsException {
   }
 
   public IncompatibleIndividualException(KnowBase kb, Individual i) {
-    this(String.format("Incompatible KnowBase for <%s>: %s when %s expected",
+    this(String.format("Data source mismatch for '%s': '%s' when '%s' expected",
                        i, i.getSource(), kb));
   }
 }

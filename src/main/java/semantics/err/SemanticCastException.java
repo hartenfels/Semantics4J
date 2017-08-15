@@ -10,6 +10,6 @@ public class SemanticCastException extends ClassCastException {
   }
 
   public SemanticCastException(Conceptual c, Individual i) {
-    this(String.format("<%s> is not a member of %s", i, c));
+    this(String.format("'%s' is not a member of '%s'", i, c));
   }
 }
