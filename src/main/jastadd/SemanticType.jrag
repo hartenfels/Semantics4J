@@ -1,14 +1,14 @@
 import semantics.KnowBase;
-import semantics.model.Any;
 import semantics.model.Concept;
 import semantics.model.Conceptual;
 import semantics.model.DescriptionLogic;
+import semantics.model.Empty;
 import semantics.model.Everything;
 import semantics.model.Existence;
+import semantics.model.Full;
 import semantics.model.Intersection;
 import semantics.model.Inversion;
 import semantics.model.Negation;
-import semantics.model.None;
 import semantics.model.Nothing;
 import semantics.model.One;
 import semantics.model.Role;
@@ -32,8 +32,8 @@ aspect SemanticType {
 
   eq EverythingType.toModel() = new Everything();
   eq NothingType   .toModel() = new Nothing();
-  eq AnyType       .toModel() = new Any();
-  eq NoneType      .toModel() = new None();
+  eq FullRoleType  .toModel() = new Full();
+  eq EmptyRoleType .toModel() = new Empty();
   eq ConceptType   .toModel() = new Concept(getIri());
   eq OneType       .toModel() = new One(getIri());
   eq RoleType      .toModel() = new Role(getIri());
@@ -233,8 +233,8 @@ aspect SemanticTypeBackend {
 
   eq EverythingType.toExpr() = cie("Everything");
   eq NothingType   .toExpr() = cie("Nothing");
-  eq AnyType       .toExpr() = cie("Any");
-  eq NoneType      .toExpr() = cie("None");
+  eq FullRoleType  .toExpr() = cie("Full");
+  eq EmptyRoleType .toExpr() = cie("Empty");
   eq ConceptType   .toExpr() = cie("Concept", new StringLiteral(getIri()));
   eq OneType       .toExpr() = cie("One",     new StringLiteral(getIri()));
   eq RoleType      .toExpr() = cie("Role",    new StringLiteral(getIri()));

@@ -30,7 +30,7 @@ public class Inversion extends Roleish {
 
   @Override
   public Roleish stripUnknown() {
-    return containsUnknown() ? new Any() : this;
+    return containsUnknown() ? new Full() : this;
   }
 
   @Override

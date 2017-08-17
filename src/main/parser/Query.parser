@@ -90,8 +90,8 @@ Expr dl_one_expression =
 Expr literal =
     DL_EVERYTHING @CAST {: return new DlEverythingExpr(DL_EVERYTHING); :}
   | DL_NOTHING    @CAST {: return new DlNothingExpr   (DL_NOTHING   ); :}
-  | DL_ANY        @CAST {: return new DlAnyExpr       (DL_ANY       ); :}
-  | DL_NONE       @CAST {: return new DlNoneExpr      (DL_NONE      ); :}
+  | DL_FULL       @CAST {: return new DlFullExpr      (DL_FULL      ); :}
+  | DL_EMPTY      @CAST {: return new DlEmptyExpr     (DL_EMPTY     ); :}
   ;
 
 

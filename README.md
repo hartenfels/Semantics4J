@@ -151,8 +151,8 @@ semantics are identical.
 | -------------------------- |------------------ | ---------------------- |
 | Everything (Top Concept)   | `⊤`               | `#T`                   |
 | Nothing (Bottom Concept)   | `⊥`               | `#F`                   |
-| Any (Top Role)             | `▽`               | `#t`                   |
-| None (Bottom Role)         | `△`               | `#f`                   |
+| Full (Top Role)            | `▽`               | `#t`                   |
+| Empty (Bottom Role)        | `△`               | `#f`                   |
 | Concept Atom               | `«:MusicArtist»`  | `<<<:MusicArtist>>>`   |
 | Role Atom                  | `«:influencedBy»` | `<<<:influencedBy>>>`  |
 | Nominal Concept            | `⎨«:hendrix»⎬`    | `{\|<<<:hendrix>>>\|}` |

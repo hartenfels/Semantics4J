@@ -138,8 +138,8 @@ public class JavaScanner extends org.extendj.scanner.JavaScanner {
       case LBRACK:
         return true;
 
-      case DL_ANY:
-      case DL_NONE:
+      case DL_FULL:
+      case DL_EMPTY:
         return intuitDotType();
 
       default:

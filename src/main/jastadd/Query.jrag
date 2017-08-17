@@ -3,8 +3,8 @@ aspect Query {
   // Model classes for DL expressions.
   eq DlEverythingExpr  .type() = lookupType("semantics.model", "Everything");
   eq DlNothingExpr     .type() = lookupType("semantics.model", "Nothing");
-  eq DlAnyExpr         .type() = lookupType("semantics.model", "Any");
-  eq DlNoneExpr        .type() = lookupType("semantics.model", "None");
+  eq DlFullExpr        .type() = lookupType("semantics.model", "Full");
+  eq DlEmptyExpr       .type() = lookupType("semantics.model", "Empty");
   eq DlUnionExpr       .type() = lookupType("semantics.model", "Union");
   eq DlIntersectionExpr.type() = lookupType("semantics.model", "Intersection");
   eq DlExistenceExpr   .type() = lookupType("semantics.model", "Existence");
@@ -90,8 +90,8 @@ aspect Query {
 
   eq ParExpr.toRoleish() = getExpr().toRoleish();
 
-  eq DlAnyExpr .toRoleish() = new Any();
-  eq DlNoneExpr.toRoleish() = new None();
+  eq DlFullExpr .toRoleish() = new Full();
+  eq DlEmptyExpr.toRoleish() = new Empty();
 
   eq DlInversionExpr.toRoleish() {
     Roleish r = getOperand().toRoleish();

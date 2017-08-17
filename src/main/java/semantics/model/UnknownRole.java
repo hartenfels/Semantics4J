@@ -17,7 +17,7 @@ public class UnknownRole extends Roleish {
 
   @Override
   public Roleish stripUnknown() {
-    return new Any();
+    return new Full();
   }
 
   @Override

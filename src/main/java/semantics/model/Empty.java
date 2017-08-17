@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 
-public class None extends Roleish {
+public class Empty extends Roleish {
   @Override
   public JsonElement toJson() {
     return new JsonPrimitive(false);
@@ -17,6 +17,6 @@ public class None extends Roleish {
 
   @Override
   public boolean equals(Object o) {
-    return o instanceof None;
+    return o instanceof Empty;
   }
 }

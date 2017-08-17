@@ -21,11 +21,11 @@
   "⊥"  { return sym(Terminals.DL_NOTHING); }
   "#F" { return sym(Terminals.DL_NOTHING); }
 
-  "▽"  { return sym(Terminals.DL_ANY); }
-  "#t" { return sym(Terminals.DL_ANY); }
+  "▽"  { return sym(Terminals.DL_FULL); }
+  "#t" { return sym(Terminals.DL_FULL); }
 
-  "△"  { return sym(Terminals.DL_NONE); }
-  "#f" { return sym(Terminals.DL_NONE); }
+  "△"  { return sym(Terminals.DL_EMPTY); }
+  "#f" { return sym(Terminals.DL_EMPTY); }
 
   "¬"  { return sym(Terminals.DL_NEGATION); }
   "-." { return sym(Terminals.DL_NEGATION); }
