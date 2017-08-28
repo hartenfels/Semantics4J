@@ -35,6 +35,10 @@ public class IntegrationTest extends IntegrationTestBase {
     checkIntegration("Signatures");
   }
   @org.junit.Test
+  public void checkModel() {
+    checkIntegration("Model");
+  }
+  @org.junit.Test
   public void checkImplicitTypeConversion() {
     checkIntegration("ImplicitTypeConversion");
   }
