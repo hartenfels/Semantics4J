@@ -62,7 +62,9 @@ reading if you want to use it:
   Report)](https://arxiv.org/pdf/1610.07033) by Martin Leinberger, Prof. Dr.
   Ralf Lämmel and Prof. Dr. Steffen Staab.
 
-* A yet to be submitted Master's Thesis by Carsten Hartenfels.
+* [Semantics4J – Programming Language Integrated Semantic Queries and
+  Types](https://kola.opus.hbz-nrw.de/files/1484/hartenfels_thesis.pdf),
+  Master's thesis by Carsten Hartenfels.
 
 ## Examples
 
