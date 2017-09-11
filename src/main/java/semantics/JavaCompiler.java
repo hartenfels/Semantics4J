@@ -16,5 +16,8 @@ public class JavaCompiler extends org.extendj.JavaCompiler {
     // isn't javac though and doesn't have that bug, so just accept and ignore
     // it. Making Gradle not pass this option instead is very difficult.
     program.options().addKeyOption("-XDuseUnsharedTable=true");
+    // Newer Gradle versions also use this option, which has something to do
+    // with annotation processing. So that's ignored too for compatibility.
+    program.options().addKeyOption("-proc:none");
   }
 }
