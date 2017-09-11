@@ -3,6 +3,11 @@
 Semantics4J — semantic data language extension for the [Software Languages Team](http://softlang.wikidot.com/) and [Institute for Web Science](https://west.uni-koblenz.de/lambda-dl) of the [University of Koblenz-Landau](https://www.uni-koblenz-landau.de/en/university-of-koblenz-landau)
 
 
+# VERSION
+
+Version 1.0.0
+
+
 # SYNOPSIS
 
 [Semserv](https://github.com/hartenfels/Semserv) needs to be available to run
