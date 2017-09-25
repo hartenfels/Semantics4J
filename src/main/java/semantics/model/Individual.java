@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
+import semantics.KnowBase;
 
 
 /**
@@ -62,6 +63,46 @@ public final class Individual implements Comparable<Individual>, Serializable {
     catch (URISyntaxException e) {
       return iri;
     }
+  }
+
+
+  public boolean maybeInsert(Concept concept) {
+    return KnowBase.of(source).addIndividual(this, concept);
+  }
+
+  public Individual insert(Concept concept) {
+    if (!maybeInsert(concept)) {
+      throw new RuntimeException("insert failed");
+    }
+    return this;
+  }
+
+  public Individual insert(String concept) {
+    return insert(new Concept(concept));
+  }
+
+
+  public boolean maybeLearn(Role predicate, Individual object) {
+    return KnowBase.of(source).addTriple(this, predicate, object);
+  }
+
+  public Individual learn(Role predicate, Individual object) {
+    if (!maybeLearn(predicate, object)) {
+      throw new RuntimeException("learning failed");
+    }
+    return this;
+  }
+
+  public Individual learn(String predicate, Individual object) {
+    return learn(new Role(predicate), object);
+  }
+
+  public Individual learn(Role predicate, String object) {
+    return learn(predicate, new Individual(source, object));
+  }
+
+  public Individual learn(String predicate, String object) {
+    return learn(new Role(predicate), new Individual(source, object));
   }
 
 

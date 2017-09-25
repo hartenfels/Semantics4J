@@ -5,7 +5,9 @@ Semantics4J — semantic data language extension for the [Software Languages Tea
 
 # VERSION
 
-Version 1.0.0
+**UNSTABLE EXPLORATORY TESTING VERSION**
+
+This branch is for playing around with modifying ontologies and should not be used by anyone.
 
 
 # SYNOPSIS

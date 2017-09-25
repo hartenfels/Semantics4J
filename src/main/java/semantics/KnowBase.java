@@ -20,9 +20,11 @@ import semantics.err.IncompatibleIndividualException;
 import semantics.err.MessageException;
 import semantics.err.SemanticCastException;
 import semantics.model.Conceptual;
+import semantics.model.Concept;
 import semantics.model.DescriptionLogic;
 import semantics.model.Individual;
 import semantics.model.Roleish;
+import semantics.model.Role;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 
@@ -190,6 +192,22 @@ public class KnowBase {
       Logger.getGlobal().warning(
           String.format("%s '%s' not in signature of '%s'", type, iri, path));
     }
+  }
+
+
+  public boolean addIndividual(Individual i, Concept c) {
+    JsonArray arg = new JsonArray();
+    arg.add(ensureCorrectSource(i).getIri());
+    arg.add(c.toJson());
+    return msg("addIndividual!", arg).getAsBoolean();
+  }
+
+  public boolean addTriple(Individual subject, Role predicate, Individual object) {
+    JsonArray arg = new JsonArray();
+    arg.add(ensureCorrectSource(subject).getIri());
+    arg.add(predicate.toJson());
+    arg.add(ensureCorrectSource(object).getIri());
+    return msg("addTriple!", arg).getAsBoolean();
   }
 
 
