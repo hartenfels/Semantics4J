@@ -22,6 +22,7 @@ import semantics.err.SemanticCastException;
 import semantics.model.Conceptual;
 import semantics.model.DescriptionLogic;
 import semantics.model.Individual;
+import semantics.model.Property;
 import semantics.model.Roleish;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -162,6 +163,37 @@ public class KnowBase {
     arg.add(ensureCorrectSource(i).getIri());
     arg.add(r.toJson());
     return toIndividuals(msg("project", arg));
+  }
+
+
+  private static Set<Object> toSet(JsonElement from) {
+    Set<Object> os = new HashSet<Object>();
+
+    for (JsonElement e : from.getAsJsonArray()) {
+      JsonArray arr     = e.getAsJsonArray();
+      char      type    = arr.get(0).getAsCharacter();
+      JsonElement value = arr.get(1);
+      switch (type) {
+        case 'b': os.add(value.getAsBoolean()); break;
+        case 'i': os.add(value.getAsInt    ()); break;
+        case 'f': os.add(value.getAsFloat  ()); break;
+        case 'd': os.add(value.getAsDouble ()); break;
+        case 's': os.add(value.getAsString ()); break;
+        default:
+          throw new IllegalArgumentException(
+              String.format("Unknown property type '%c'", type));
+      }
+    }
+
+    return os;
+  }
+
+  public Set<Object> appropriate(Individual i, Property p) {
+    p.checkSignature(this);
+    JsonArray arg = new JsonArray();
+    arg.add(ensureCorrectSource(i).getIri());
+    arg.add(p.toJson());
+    return toSet(msg("appropriate", arg));
   }
 
 

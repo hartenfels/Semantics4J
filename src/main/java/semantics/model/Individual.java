@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Set;
+import semantics.KnowBase;
+import static semantics.Util.head;
 
 
 /**
@@ -62,6 +64,23 @@ public final class Individual implements Comparable<Individual>, Serializable {
     catch (URISyntaxException e) {
       return iri;
     }
+  }
+
+
+  public Set<Object> props(Property p) {
+    return KnowBase.of(source).appropriate(this, p);
+  }
+
+  public Set<Object> props(String p) {
+    return props(new Property(p));
+  }
+
+  public Object prop(Property p) {
+    return head(props(p));
+  }
+
+  public Object prop(String p) {
+    return head(props(p));
   }
 
 
