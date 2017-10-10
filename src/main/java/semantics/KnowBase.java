@@ -166,6 +166,11 @@ public class KnowBase {
   }
 
 
+  public String proptype(Property p) {
+    JsonElement type = msg("proptype", p.toJson());
+    return type.isJsonNull() ? null : type.getAsString();
+  }
+
   private static Set<Object> toSet(JsonElement from) {
     Set<Object> os = new HashSet<Object>();
 
